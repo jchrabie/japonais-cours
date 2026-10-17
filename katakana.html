@@ -24,7 +24,7 @@ const groups=[
 {name:'M',items:[['マ','ma'],['ミ','mi'],['ム','mu'],['メ','me'],['モ','mo']]},
 {name:'Y',items:[['ヤ','ya'],['ユ','yu'],['ヨ','yo']]},
 {name:'R',items:[['ラ','ra'],['リ','ri'],['ル','ru'],['レ','re'],['ロ','ro']]},
-{name:'W + N',items:[['ワ','wa'],['ヲ','o'],['ン','n']]},
+{name:'W + N',items:[['ワ','wa'],['ヲ','wo'],['ン','n']]},
 {name:'Dakuten K/G',items:[['ガ','ga'],['ギ','gi'],['グ','gu'],['ゲ','ge'],['ゴ','go']]},
 {name:'Dakuten S/Z',items:[['ザ','za'],['ジ','ji'],['ズ','zu'],['ゼ','ze'],['ゾ','zo']]},
 {name:'Dakuten T/D',items:[['ダ','da'],['ヂ','ji'],['ヅ','zu'],['デ','de'],['ド','do']]},
@@ -39,13 +39,32 @@ function updateTimer(){const display=document.getElementById('timerDisplay');con
 function startTimer(){stopTimer();if(difficulty==='easy'){timeLeft=0;updateTimer();return}timeLeft=timerDuration;updateTimer();let last=Date.now();timerInterval=setInterval(()=>{const now=Date.now();timeLeft-=((now-last)/1000);last=now;if(timeLeft<=0){timeLeft=0;updateTimer();stopTimer();timeExpired()}else updateTimer()},100)}
 function timeExpired(){if(!active||!current)return;const m=document.getElementById('message');timedOut[current.kana]=true;m.textContent=`Temps écoulé ! La réponse était « ${current.romaji} ».`;m.className='message bad';document.getElementById('romajiInput').disabled=true;document.querySelector('#answerForm button[type="submit"]').disabled=true;document.getElementById('skipBtn').disabled=true;setTimeout(()=>{if(active){index++;showCurrent()}},900)}
 const norm=s=>s.trim().toLowerCase().replace(/\s+/g,'');
+function isAcceptedAnswer(kana,value,expected){
+  if(value===expected)return true;
+  // Variantes de romanisation courantes (Hepburn / Kunrei-shiki).
+  const aliases={
+    'を':['wo','o'],'ヲ':['wo','o'],
+    'じ':['ji','zi'],'ジ':['ji','zi'],
+    'ぢ':['di','ji'],'ヂ':['di','ji'],
+    'ず':['zu','zu'],'ズ':['zu','zu'],
+    'づ':['du','zu'],'ヅ':['du','zu'],
+    'しゃ':['sha','sya'],'シュ':['shu','syu'],'しゅ':['shu','syu'],'しょ':['sho','syo'],'シャ':['sha','sya'],'ショ':['sho','syo'],
+    'ちゃ':['cha','tya','cya'],'ちゅ':['chu','tyu','cyu'],'ちょ':['cho','tyo','cyo'],
+    'チャ':['cha','tya','cya'],'チュ':['chu','tyu','cyu'],'チョ':['cho','tyo','cyo'],
+    'じゃ':['ja','zya'],'じゅ':['ju','zyu'],'じょ':['jo','zyo'],
+    'ジャ':['ja','zya'],'ジュ':['ju','zyu'],'ジョ':['jo','zyo'],
+    'ぢゃ':['dya','ja'],'ぢゅ':['dyu','ju'],'ぢょ':['dyo','jo'],
+    'ヂャ':['dya','ja'],'ヂュ':['dyu','ju'],'ヂョ':['dyo','jo']
+  };
+  return (aliases[kana]||[]).includes(value);
+}
 function setAll(value){document.querySelectorAll('.groupCheck').forEach(c=>c.checked=value)}
 function selectBasic(){document.querySelectorAll('.groupCheck').forEach((c,i)=>c.checked=i<10)}
 function startQuiz(){difficulty=document.querySelector('input[name="difficulty"]:checked').value;timerDuration=difficulty==='medium'?7:(difficulty==='hard'?4:0);const selected=[...document.querySelectorAll('.groupCheck:checked')].flatMap(c=>groups[+c.dataset.group].items);if(!selected.length){document.getElementById('selectionMsg').textContent='Sélectionne au moins un groupe de caractères.';return}originalDeck=shuffle(selected.map(([kana,romaji])=>({kana,romaji})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};firstTryCorrect=0;active=true;document.getElementById('selectionMsg').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent()}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function showCurrent(){if(index>=deck.length){finishQuiz();return}current=deck[index];document.getElementById('kanaPrompt').textContent=current.kana;document.getElementById('counter').textContent=`Caractère ${index+1}/${deck.length}`;document.getElementById('score').textContent=`Réussites au premier essai : ${firstTryCorrect}`;document.getElementById('progressBar').style.width=`${index/deck.length*100}%`;const m=document.getElementById('message');m.textContent='';m.className='message';const input=document.getElementById('romajiInput');input.value='';input.disabled=false;document.querySelector('#answerForm button[type="submit"]').disabled=false;document.getElementById('skipBtn').disabled=false;input.focus();startTimer()}
 document.getElementById('answerForm').addEventListener('submit',e=>{e.preventDefault();validateAnswer()});
-function validateAnswer(){if(!active||!current)return;const input=document.getElementById('romajiInput');const value=norm(input.value);const m=document.getElementById('message');if(!value){m.textContent='Écris la lecture en romaji avant de valider.';m.className='message bad';input.focus();return}attempts[current.kana]=(attempts[current.kana]||0)+1;if(value===current.romaji){stopTimer();if(!answeredFirst[current.kana]){if(attempts[current.kana]===1)firstTryCorrect++;answeredFirst[current.kana]=true}m.textContent=attempts[current.kana]===1?'Bien joué !':'Exact !';m.className='message good';input.disabled=true;document.querySelector('#answerForm button[type="submit"]').disabled=true;document.getElementById('skipBtn').disabled=true;setTimeout(()=>{index++;showCurrent()},550)}else{m.textContent='Pas encore — observe la forme et réessaie.';m.className='message bad';input.select()}}
+function validateAnswer(){if(!active||!current)return;const input=document.getElementById('romajiInput');const value=norm(input.value);const m=document.getElementById('message');if(!value){m.textContent='Écris la lecture en romaji avant de valider.';m.className='message bad';input.focus();return}attempts[current.kana]=(attempts[current.kana]||0)+1;if(isAcceptedAnswer(current.kana,value,current.romaji)){stopTimer();if(!answeredFirst[current.kana]){if(attempts[current.kana]===1)firstTryCorrect++;answeredFirst[current.kana]=true}m.textContent=attempts[current.kana]===1?'Bien joué !':'Exact !';m.className='message good';input.disabled=true;document.querySelector('#answerForm button[type="submit"]').disabled=true;document.getElementById('skipBtn').disabled=true;setTimeout(()=>{index++;showCurrent()},550)}else{m.textContent='Pas encore — observe la forme et réessaie.';m.className='message bad';input.select()}}
 document.getElementById('skipBtn').addEventListener('click',()=>{if(!active)return;stopTimer();const m=document.getElementById('message');m.textContent=`Mis de côté : ${current.kana} reviendra dans le bilan.`;m.className='message';index++;setTimeout(showCurrent,250)});
 function finishQuiz(){if(!active)return;stopTimer();active=false;document.getElementById('game').style.display='none';document.getElementById('results').style.display='block';const total=originalDeck.length;document.getElementById('summary').textContent=`Tu as travaillé ${total} caractères et obtenu ${firstTryCorrect} réussite(s) au premier essai. Les caractères avec plusieurs tentatives sont ceux à revoir.`;const box=document.getElementById('resultRows');box.innerHTML='';const sorted=originalDeck.map(k=>({...k,tries:attempts[k.kana]||0,gotIt:!!answeredFirst[k.kana],timedOut:!!timedOut[k.kana]})).sort((a,b)=>(b.tries-a.tries)||a.kana.localeCompare(b.kana));sorted.forEach(k=>{const row=document.createElement('div');row.className='result-row';const left=document.createElement('span');left.innerHTML=`<strong style="font-size:1.3rem">${k.kana}</strong> <span class="muted">${k.romaji}</span>`;const right=document.createElement('span');right.className='tag';right.textContent=k.timedOut?'Temps écoulé':(k.gotIt?`${k.tries} tentative(s)`:'Passé / non répondu');row.append(left,right);box.appendChild(row)});document.getElementById('progressBar').style.width='100%';document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'})}
 function restartSame(){stopTimer();document.getElementById('results').style.display='none';deck=shuffle([...originalDeck]);index=0;attempts={};answeredFirst={};timedOut={};firstTryCorrect=0;active=true;document.getElementById('game').style.display='block';showCurrent()}
