@@ -1,54 +1,38 @@
 <!doctype html>
-<html lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Glossaire japonais — Verbes</title>
-<style>
-:root{--ink:#242b35;--muted:#637083;--line:#e2e7ee;--paper:#fff;--bg:#f4f6f9;--accent:#315e75;--soft:#eaf2f5}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:linear-gradient(135deg,#23485b,#47788a);color:#fff;padding:36px 20px 28px}header .wrap,main{max-width:1050px;margin:auto}h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,2.6rem)}header p{margin:0;opacity:.9}
-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;align-items:flex-start}
-nav a,nav summary{color:#fff;text-decoration:none;border:1px solid #ffffff70;border-radius:999px;padding:8px 13px;font-size:.92rem;cursor:pointer;list-style:none;white-space:nowrap}
-nav summary::-webkit-details-marker{display:none}
-nav details{position:relative;border:0;padding:0;margin:0}
-nav details[open] summary{background:#ffffff20}
-nav .nav-menu{position:absolute;z-index:10;top:calc(100% + 7px);left:0;min-width:190px;padding:7px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 28px #10203025;display:grid;gap:3px}
-nav .nav-menu a{display:block;color:var(--ink);border:0;border-radius:7px;padding:9px 10px;white-space:normal}
-nav .nav-menu a:hover{background:var(--soft)}
-.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
-.game-link{display:flex;flex-direction:column;gap:6px;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:16px;color:var(--ink);background:#fff}
-.game-link:hover{border-color:#8caebb;transform:translateY(-1px)}.game-link strong{color:var(--accent)}.game-link span{font-size:.9rem;color:var(--muted)}
-@media(max-width:700px){.game-grid{grid-template-columns:1fr}nav{gap:7px}nav a,nav summary{padding:7px 10px}}
-main{padding:22px 16px 56px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;margin:0 0 18px;box-shadow:0 4px 16px #1b2b3a08}
-h2{margin:0 0 12px;font-size:1.45rem}h3{margin:20px 0 8px;font-size:1.08rem;color:var(--accent)}p{margin:8px 0}.note{background:var(--soft);padding:12px 14px;border-radius:10px}
-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.94rem}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f1f5f7}td.jp{font-size:1.08rem;font-weight:650}
-.example{border-left:3px solid #7da6b6;padding:8px 12px;margin:10px 0;background:#fafcfd;border-radius:0 8px 8px 0}.jp{font-weight:650}.romaji{color:var(--muted);font-style:italic}.translation{display:block}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.controls input,.controls select{font:inherit;padding:10px 12px;border:1px solid #ccd5df;border-radius:9px;background:#fff;min-width:190px;flex:1}
-.small{font-size:.9rem;color:var(--muted)}.pill{display:inline-block;border-radius:999px;background:#edf2f5;padding:3px 8px;font-size:.82rem}
-details{border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin:9px 0}summary{font-weight:650;cursor:pointer}
-footer{text-align:center;color:var(--muted);padding:10px 20px 30px}
-@media(max-width:650px){.card{padding:16px}table{font-size:.86rem}th,td{padding:7px 6px}}
-</style>
-</head><body><header><div class="wrap"><h1>🇯🇵 Glossaire japonais — Verbes</h1><p>Retrouve les verbes, leur lecture, leur sens et leur forme polie.</p><nav aria-label="Navigation principale"><a href="index.html">🏠 Accueil</a><details><summary>📘 Cours</summary><div class="nav-menu"><a href="index.html#cours1">Cours 1 — formes négatives</a><a href="index.html#cours2">Cours 2 — adjectifs et particules</a></div></details><details open=""><summary>📚 Glossaires</summary><div class="nav-menu"><a href="adjectifs.html">Adjectifs</a><a href="noms.html">Noms</a><a href="verbes.html">Verbes</a></div></details><details><summary>🎮 Mini-jeux</summary><div class="nav-menu"><a href="hiragana.html">Reconnaître les hiragana ↗</a><a href="katakana.html">Reconnaître les katakana ↗</a><a href="kanji.html">Kanji JLPT N5 et nombres ↗</a></div></details></nav></div></header><main><section class="card" id="verbes">
-<h2>Glossaire 3 — Verbes</h2>
-<div class="controls"><input id="verbSearch" oninput="filterTable('verbSearch','verbTable')" placeholder="Rechercher un verbe…"/></div>
-<div style="overflow-x:auto"><table id="verbTable"><thead><tr><th>Kanji</th><th>Kana</th><th>Romaji</th><th>Traduction</th><th>Forme polie</th></tr></thead><tbody>
-<tr><td class="jp">食べる</td><td>たべる</td><td>taberu</td><td>manger</td><td>食べます (tabemasu)</td></tr>
-<tr><td class="jp">飲む</td><td>のむ</td><td>nomu</td><td>boire</td><td>飲みます (nomimasu)</td></tr>
-<tr><td class="jp">読む</td><td>よむ</td><td>yomu</td><td>lire</td><td>読みます (yomimasu)</td></tr>
-<tr><td class="jp">見る</td><td>みる</td><td>miru</td><td>voir / regarder</td><td>見ます (mimasu)</td></tr>
-<tr><td class="jp">買う</td><td>かう</td><td>kau</td><td>acheter</td><td>買います (kaimasu)</td></tr>
-<tr><td class="jp">勉強する</td><td>べんきょうする</td><td>benkyou suru</td><td>étudier</td><td>勉強します (benkyou shimasu)</td></tr>
-</tbody></table></div>
-</section></main><footer>Fiche de révision personnelle — à compléter au fil des cours.</footer><script>function filterTable(inputId, tableId, selectId){
- const input=document.getElementById(inputId); if(!input) return;
- const q=(input.value||'').toLocaleLowerCase();
- const type=selectId?(document.getElementById(selectId).value||''):'';
- const rows=document.querySelectorAll('#'+tableId+' tbody tr');
- rows.forEach(row=>{
-   const text=row.innerText.toLocaleLowerCase();
-   const matchesText=text.includes(q);
-   const matchesType=!type || row.cells[row.cells.length-1].innerText.includes(type);
-   row.style.display=matchesText&&matchesType?'':'none';
- });
-}</script></body></html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/content.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/course-filters.css">
+  <title>Glossaire — Verbes</title>
+  <script src="assets/js/site-config.js" defer></script>
+  <script src="assets/js/navigation.js" defer></script>
+  <script src="assets/js/vocabulary-data.js" defer></script>
+  <script src="assets/js/vocabulary-exclusions.js" defer></script>
+  <script src="assets/js/course-catalog.js" defer></script>
+  <script src="assets/js/course-picker.js" defer></script>
+  <script src="assets/js/glossary.js" defer></script>
+</head>
+<body data-page="glossaire">
+  <main>
+    <section class="card" id="verbes">
+      <h2>Glossaire — Verbes</h2>
+      <p class="small">Recherche par japonais, kana, romaji ou traduction. Le tableau indique le premier cours où chaque mot a été appris.</p>
+      <div class="controls glossary-controls">
+        <label class="visually-hidden" for="verbSearch">Rechercher</label>
+        <input id="verbSearch" oninput="filterTable('verbSearch','verbTable')" placeholder="Rechercher un verbe…" />
+      </div>
+      <div style="overflow-x:auto">
+        <table id="verbTable">
+          <thead><tr><th>Japonais</th><th>Kana</th><th>Romaji</th><th>Traduction</th><th>Forme polie</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer></footer>
+</body>
+</html>

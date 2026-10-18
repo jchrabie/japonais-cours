@@ -1,0 +1,74 @@
+/* Présentation du jeu de vocabulaire. */
+.vocab-directions{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.vocab-prompt{font-size:clamp(2.5rem,9vw,5.8rem);font-weight:750;line-height:1.25;overflow-wrap:anywhere;margin:18px auto 22px}
+.vocab-prompt.is-translation{font-size:clamp(1.45rem,4vw,2.4rem);font-weight:650;max-width:760px}
+.vocab-meta{font-size:.9rem;color:var(--muted);margin-top:4px}
+.vocab-help{max-width:720px;margin:10px auto;color:var(--muted);font-size:.92rem}
+.vocab-answer-wrap{display:grid;gap:7px;justify-items:center;margin:14px 0}
+.vocab-answer-wrap label{font-weight:650}
+.controls select{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--ink)}
+.vocab-message{max-width:680px;margin:12px auto;min-height:28px;font-weight:650}
+.vocab-message.good{color:var(--good)}
+.vocab-message.bad{color:var(--bad)}
+.vocab-summary{font-weight:650;font-size:1.03rem;margin:6px 0 12px}
+.category-options{width:100%;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-top:8px}
+.category-options label{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px 12px;cursor:pointer}
+.glossary-game-cta a{display:inline-flex;align-items:center;gap:8px;padding:9px 13px;border-radius:10px;background:var(--soft);color:var(--accent-dark);text-decoration:none;font-weight:700}
+.glossary-game-cta a:hover{filter:brightness(.98);text-decoration:underline}
+@media(max-width:600px){.vocab-prompt{margin:14px auto}.vocab-answer-wrap .answer{width:100%}}
+
+
+/* Réponses en QCM pour limiter la frustration liée à l'orthographe. */
+.vocab-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 18px auto;
+  max-width: 860px;
+}
+.vocab-choice {
+  min-height: 58px;
+  padding: 13px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .15s ease, background .15s ease, transform .15s ease;
+  overflow-wrap: anywhere;
+}
+.vocab-choice:hover:not(:disabled) {
+  border-color: var(--accent);
+  background: var(--soft);
+  transform: translateY(-1px);
+}
+.vocab-choice.is-selected {
+  border-color: var(--accent);
+  background: var(--soft);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent), transparent 80%);
+}
+.vocab-choice.is-correct {
+  border-color: var(--good);
+  background: #e8f6ee;
+  color: #175c3a;
+}
+.vocab-choice.is-wrong {
+  border-color: var(--bad);
+  background: #fff0f0;
+  color: #8d2939;
+}
+.vocab-choice:disabled {
+  cursor: default;
+  opacity: .9;
+}
+@media (max-width: 600px) {
+  .vocab-choices {
+    grid-template-columns: 1fr;
+  }
+  .vocab-choice {
+    min-height: 48px;
+  }
+}
