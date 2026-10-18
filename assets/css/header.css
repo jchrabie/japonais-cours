@@ -1,0 +1,29 @@
+/* Accent violet spécifique aux jeux */
+body[data-page="game"] {
+  --accent: #8066bd;
+  --accent-dark: #5f4897;
+  --soft: #f0edfa;
+}
+
+/* Accent orange spécifique aux glossaires. */
+body[data-page="glossaire"] {
+  --accent: #f27b63;
+  --accent-dark: #c75d48;
+  --soft: #faf5ed;
+}
+
+/* Accent orange spécifique aux glossaires. */
+body[data-page="liens-utiles"] {
+  --accent: var(--muted);
+  --accent-dark: var(--ink);
+  --soft: #faf5ed;
+}
+
+header {
+  background: linear-gradient(
+    112deg,
+    #ffffff 30%,
+    var(--accent) 75%,
+    var(--accent-dark) 100%
+  );
+}

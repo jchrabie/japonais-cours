@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/game.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/vocabulary-game.css" />
+    <link rel="stylesheet" href="assets/css/course-filters.css" />
+    <title>Jeu de vocabulaire • Japonais</title>
+    <script src="assets/js/site-config.js" defer></script>
+    <script src="assets/js/navigation.js" defer></script>
+    <script src="assets/js/vocabulary-data.js" defer></script>
+    <script src="assets/js/course-catalog.js" defer></script>
+    <script src="assets/js/course-picker.js" defer></script>
+    <script src="assets/js/progress-tracker.js" defer></script>
+    <script src="assets/js/vocabulary-game.js" defer></script>
+  </head>
+  <body data-page="game">
+    <main>
+      <section class="card" id="setup">
+        <h2>Réviser les mots des glossaires</h2>
+        <p>
+          Ce jeu utilise exclusivement les mots déjà présents dans tes
+          glossaires d’adjectifs, de noms et de verbes. Aucun mot extérieur
+          n’est ajouté. Tu peux limiter la session à un ou plusieurs cours, ou
+          conserver tous les cours. Le niveau kanji ne propose que les entrées
+          dont l’écriture japonaise du glossaire contient des kanji.
+        </p>
+
+        <div class="difficulty">
+          <strong>1. Sens de l’exercice</strong>
+          <label
+            ><input type="radio" name="direction" value="ja-fr" checked />
+            Japonais → français <span>trouver la signification</span></label
+          >
+          <label
+            ><input type="radio" name="direction" value="fr-ja" /> Français →
+            japonais <span>retrouver le mot</span></label
+          >
+        </div>
+
+        <div class="difficulty">
+          <strong>2. Difficulté / écriture à utiliser</strong>
+          <label
+            ><input type="radio" name="difficulty" value="easy" checked />
+            Facile <span>romaji</span></label
+          >
+          <label
+            ><input type="radio" name="difficulty" value="medium" /> Moyen
+            <span>kana</span></label
+          >
+          <label
+            ><input type="radio" name="difficulty" value="hard" /> Dur
+            <span>kanji</span></label
+          >
+        </div>
+
+        <div class="difficulty">
+          <strong>3. Glossaires à réviser</strong>
+          <div class="category-options">
+            <label
+              ><input
+                type="checkbox"
+                class="category-check"
+                value="adj"
+                checked />
+              Adjectifs</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="category-check"
+                value="noms"
+                checked />
+              Noms</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="category-check"
+                value="verbes"
+                checked />
+              Verbes</label
+            >
+          </div>
+        </div>
+
+        <div class="course-picker-mount" id="vocabularyCoursePicker"></div>
+
+        <div class="controls">
+          <label for="questionCount"
+            >Nombre de mots
+            <select id="questionCount">
+              <option value="10" selected>10 mots</option>
+              <option value="20">20 mots</option>
+              <option value="all">Tous les mots sélectionnés</option>
+            </select>
+          </label>
+          <button class="btn" id="startButton" type="button">
+            Commencer →
+          </button>
+        </div>
+        <p
+          class="vocab-help"
+          id="setupMessage"
+          role="status"
+          aria-live="polite"></p>
+      </section>
+
+      <section
+        class="card progress-card"
+        id="progressPanel"
+        aria-labelledby="progressTitle">
+        <h2 id="progressTitle">Ma progression</h2>
+        <div id="progressSummary" class="progress-footnote"></div>
+        <div id="progressHistory"></div>
+        <div class="progress-actions">
+          <button class="btn secondary" type="button" id="clearProgressButton">
+            Effacer l’historique de vocabulaire
+          </button>
+        </div>
+      </section>
+
+      <section class="card game" id="game" aria-live="polite">
+        <div class="stats">
+          <span id="progressText">Mot 1 / 10</span
+          ><span id="scoreText">0 réussite au premier essai</span>
+        </div>
+        <div class="progress" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+        <div class="vocab-meta" id="promptMeta"></div>
+        <div class="vocab-prompt" id="promptText"></div>
+        <p class="vocab-help" id="answerHelp"></p>
+        <form id="answerForm">
+          <div class="vocab-answer-wrap">
+            <label for="answerInput" id="answerLabel">Ta réponse</label>
+            <input
+              class="answer"
+              id="answerInput"
+              type="text"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              required />
+          </div>
+          <div
+            class="vocab-message"
+            id="feedback"
+            role="status"
+            aria-live="polite"></div>
+          <div class="controls" style="justify-content: center">
+            <button class="btn" id="submitButton" type="submit">Valider</button>
+            <button class="btn secondary" id="nextButton" type="button" hidden>
+              Mot suivant →
+            </button>
+            <button class="btn secondary" id="skipButton" type="button">
+              Passer ce mot
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card results" id="results">
+        <h2>Résultats de la session</h2>
+        <p class="vocab-summary" id="summaryText"></p>
+        <div class="review-toolbar">
+          <label for="resultSort"
+            >Trier les résultats
+            <select id="resultSort">
+              <option value="errors">Erreurs d’abord</option>
+              <option value="attempts">Plus de tentatives</option>
+              <option value="success">Réussites d’abord</option>
+              <option value="original">Ordre de la session</option>
+            </select>
+          </label>
+        </div>
+        <div class="review-selection-count" id="selectionCount"></div>
+        <div id="resultRows"></div>
+        <div class="controls">
+          <button class="btn" type="button" id="replayMissedButton">
+            Rejouer les erreurs
+          </button>
+          <button class="btn secondary" type="button" id="replaySelectedButton">
+            Rejouer la sélection cochée
+          </button>
+          <button class="btn secondary" type="button" id="replayAllButton">
+            Rejouer toute la session
+          </button>
+          <button class="btn secondary" type="button" id="newSessionButton">
+            Nouvelle session
+          </button>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

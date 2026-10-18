@@ -1,109 +1,38 @@
 <!doctype html>
-<html lang="fr"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Glossaire japonais — Adjectifs</title>
-<style>
-:root{--ink:#242b35;--muted:#637083;--line:#e2e7ee;--paper:#fff;--bg:#f4f6f9;--accent:#315e75;--soft:#eaf2f5}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
-header{background:linear-gradient(135deg,#23485b,#47788a);color:#fff;padding:36px 20px 28px}header .wrap,main{max-width:1050px;margin:auto}h1{margin:0 0 8px;font-size:clamp(1.8rem,4vw,2.6rem)}header p{margin:0;opacity:.9}
-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;align-items:flex-start}
-nav a,nav summary{color:#fff;text-decoration:none;border:1px solid #ffffff70;border-radius:999px;padding:8px 13px;font-size:.92rem;cursor:pointer;list-style:none;white-space:nowrap}
-nav summary::-webkit-details-marker{display:none}
-nav details{position:relative;border:0;padding:0;margin:0}
-nav details[open] summary{background:#ffffff20}
-nav .nav-menu{position:absolute;z-index:10;top:calc(100% + 7px);left:0;min-width:190px;padding:7px;background:#fff;border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 28px #10203025;display:grid;gap:3px}
-nav .nav-menu a{display:block;color:var(--ink);border:0;border-radius:7px;padding:9px 10px;white-space:normal}
-nav .nav-menu a:hover{background:var(--soft)}
-.game-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
-.game-link{display:flex;flex-direction:column;gap:6px;text-decoration:none;border:1px solid var(--line);border-radius:12px;padding:16px;color:var(--ink);background:#fff}
-.game-link:hover{border-color:#8caebb;transform:translateY(-1px)}.game-link strong{color:var(--accent)}.game-link span{font-size:.9rem;color:var(--muted)}
-@media(max-width:700px){.game-grid{grid-template-columns:1fr}nav{gap:7px}nav a,nav summary{padding:7px 10px}}
-main{padding:22px 16px 56px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;margin:0 0 18px;box-shadow:0 4px 16px #1b2b3a08}
-h2{margin:0 0 12px;font-size:1.45rem}h3{margin:20px 0 8px;font-size:1.08rem;color:var(--accent)}p{margin:8px 0}.note{background:var(--soft);padding:12px 14px;border-radius:10px}
-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.94rem}th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f1f5f7}td.jp{font-size:1.08rem;font-weight:650}
-.example{border-left:3px solid #7da6b6;padding:8px 12px;margin:10px 0;background:#fafcfd;border-radius:0 8px 8px 0}.jp{font-weight:650}.romaji{color:var(--muted);font-style:italic}.translation{display:block}
-.controls{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.controls input,.controls select{font:inherit;padding:10px 12px;border:1px solid #ccd5df;border-radius:9px;background:#fff;min-width:190px;flex:1}
-.small{font-size:.9rem;color:var(--muted)}.pill{display:inline-block;border-radius:999px;background:#edf2f5;padding:3px 8px;font-size:.82rem}
-details{border:1px solid var(--line);border-radius:10px;padding:10px 13px;margin:9px 0}summary{font-weight:650;cursor:pointer}
-footer{text-align:center;color:var(--muted);padding:10px 20px 30px}
-@media(max-width:650px){.card{padding:16px}table{font-size:.86rem}th,td{padding:7px 6px}}
-</style>
-</head><body><header><div class="wrap"><h1>🇯🇵 Glossaire japonais — Adjectifs</h1><p>Retrouve les adjectifs par kanji, kana, romaji ou traduction, et filtre par type.</p><nav aria-label="Navigation principale"><a href="index.html">🏠 Accueil</a><details><summary>📘 Cours</summary><div class="nav-menu"><a href="index.html#cours1">Cours 1 — formes négatives</a><a href="index.html#cours2">Cours 2 — adjectifs et particules</a></div></details><details open=""><summary>📚 Glossaires</summary><div class="nav-menu"><a href="adjectifs.html">Adjectifs</a><a href="noms.html">Noms</a><a href="verbes.html">Verbes</a></div></details><details><summary>🎮 Mini-jeux</summary><div class="nav-menu"><a href="hiragana.html">Reconnaître les hiragana ↗</a><a href="katakana.html">Reconnaître les katakana ↗</a><a href="kanji.html">Kanji JLPT N5 et nombres ↗</a></div></details></nav></div></header><main><section class="card" id="adjectifs">
-<h2>Glossaire 1 — Adjectifs</h2>
-<p class="small">Recherche par japonais, romaji ou traduction. Les types な / い sont indiqués.</p>
-<div class="controls"><input id="adjSearch" oninput="filterTable('adjSearch','adjTable')" placeholder="Rechercher un adjectif…"/><select id="adjType" onchange="filterTable('adjSearch','adjTable','adjType')"><option value="">Tous les types</option><option value="い">Adjectifs en い</option><option value="な">Adjectifs en な</option></select></div>
-<div style="overflow-x:auto"><table id="adjTable"><thead><tr><th>Japonais</th><th>Kana</th><th>Romaji</th><th>Traduction</th><th>Type</th></tr></thead><tbody>
-<tr><td class="jp">上手</td><td>じょうず</td><td>jouzu</td><td>doué / habile</td><td>な</td></tr>
-<tr><td class="jp">下手</td><td>へた</td><td>heta</td><td>maladroit / pas doué</td><td>な</td></tr>
-<tr><td class="jp">便利</td><td>べんり</td><td>benri</td><td>pratique</td><td>な</td></tr>
-<tr><td class="jp">不便</td><td>ふべん</td><td>fuben</td><td>peu pratique</td><td>な</td></tr>
-<tr><td class="jp">変</td><td>へん</td><td>hen</td><td>bizarre / étrange</td><td>な</td></tr>
-<tr><td class="jp">有名</td><td>ゆうめい</td><td>yuumei</td><td>célèbre / connu</td><td>な</td></tr>
-<tr><td class="jp">大切</td><td>たいせつ</td><td>taisetsu</td><td>important / précieux</td><td>な</td></tr>
-<tr><td class="jp">元気</td><td>げんき</td><td>genki</td><td>en forme / énergique</td><td>な</td></tr>
-<tr><td class="jp">簡単</td><td>かんたん</td><td>kantan</td><td>simple / facile</td><td>な</td></tr>
-<tr><td class="jp">大変</td><td>たいへん</td><td>taihen</td><td>difficile / pénible</td><td>な</td></tr>
-<tr><td class="jp">静か</td><td>しずか</td><td>shizuka</td><td>calme / silencieux</td><td>な</td></tr>
-<tr><td class="jp">にぎやか</td><td>にぎやか</td><td>nigiyaka</td><td>animé</td><td>な</td></tr>
-<tr><td class="jp">きれい</td><td>きれい</td><td>kirei</td><td>beau / propre</td><td>な</td></tr>
-<tr><td class="jp">暇</td><td>ひま</td><td>hima</td><td>libre / disponible</td><td>な</td></tr>
-<tr><td class="jp">好き</td><td>すき</td><td>suki</td><td>aimer / apprécier</td><td>な</td></tr>
-<tr><td class="jp">嫌い</td><td>きらい</td><td>kirai</td><td>ne pas aimer / détester</td><td>な</td></tr>
-<tr><td class="jp">面白い</td><td>おもしろい</td><td>omoshiroi</td><td>drôle / intéressant</td><td>い</td></tr>
-<tr><td class="jp">寒い</td><td>さむい</td><td>samui</td><td>froid</td><td>い</td></tr>
-<tr><td class="jp">暑い</td><td>あつい</td><td>atsui</td><td>chaud</td><td>い</td></tr>
-<tr><td class="jp">難しい</td><td>むずかしい</td><td>muzukashii</td><td>difficile</td><td>い</td></tr>
-<tr><td class="jp">弱い</td><td>よわい</td><td>yowai</td><td>faible</td><td>い</td></tr>
-<tr><td class="jp">強い</td><td>つよい</td><td>tsuyoi</td><td>fort</td><td>い</td></tr>
-<tr><td class="jp">うまい</td><td>うまい</td><td>umai</td><td>bon / savoureux</td><td>い</td></tr>
-<tr><td class="jp">美味しい</td><td>おいしい</td><td>oishii</td><td>délicieux</td><td>い</td></tr>
-<tr><td class="jp">すごい</td><td>すごい</td><td>sugoi</td><td>incroyable / impressionnant</td><td>い</td></tr>
-<tr><td class="jp">甘い</td><td>あまい</td><td>amai</td><td>sucré / doux</td><td>い</td></tr>
-<tr><td class="jp">嬉しい</td><td>うれしい</td><td>ureshii</td><td>heureux / content</td><td>い</td></tr>
-<tr><td class="jp">重い</td><td>おもい</td><td>omoi</td><td>lourd</td><td>い</td></tr>
-<tr><td class="jp">悲しい</td><td>かなしい</td><td>kanashii</td><td>triste</td><td>い</td></tr>
-<tr><td class="jp">汚い</td><td>きたない</td><td>kitanai</td><td>sale</td><td>い</td></tr>
-<tr><td class="jp">怖い</td><td>こわい</td><td>kowai</td><td>effrayant</td><td>い</td></tr>
-<tr><td class="jp">高い</td><td>たかい</td><td>takai</td><td>haut / cher</td><td>い</td></tr>
-<tr><td class="jp">小さい</td><td>ちいさい</td><td>chiisai</td><td>petit</td><td>い</td></tr>
-<tr><td class="jp">大きい</td><td>おおきい</td><td>ookii</td><td>grand</td><td>い</td></tr>
-<tr><td class="jp">安い</td><td>やすい</td><td>yasui</td><td>bon marché</td><td>い</td></tr>
-<tr><td class="jp">新しい</td><td>あたらしい</td><td>atarashii</td><td>nouveau</td><td>い</td></tr>
-<tr><td class="jp">古い</td><td>ふるい</td><td>furui</td><td>vieux</td><td>い</td></tr>
-<tr><td class="jp">早い</td><td>はやい</td><td>hayai</td><td>tôt / rapide</td><td>い</td></tr>
-<tr><td class="jp">遅い</td><td>おそい</td><td>osoi</td><td>lent / tard</td><td>い</td></tr>
-<tr><td class="jp">悪い</td><td>わるい</td><td>warui</td><td>mauvais</td><td>い</td></tr>
-<tr><td class="jp">涼しい</td><td>すずしい</td><td>suzushii</td><td>frais</td><td>い</td></tr>
-<tr><td class="jp">暖かい</td><td>あたたかい</td><td>atatakai</td><td>agréablement chaud</td><td>い</td></tr>
-<tr><td class="jp">軽い</td><td>かるい</td><td>karui</td><td>léger</td><td>い</td></tr>
-<tr><td class="jp">優しい</td><td>やさしい</td><td>yasashii</td><td>gentil / facile selon le contexte</td><td>い</td></tr>
-<tr><td class="jp">楽しい</td><td>たのしい</td><td>tanoshii</td><td>amusant / agréable</td><td>い</td></tr>
-<tr><td class="jp">つまらない</td><td>つまらない</td><td>tsumaranai</td><td>ennuyeux</td><td>い</td></tr>
-<tr><td class="jp">忙しい</td><td>いそがしい</td><td>isogashii</td><td>occupé</td><td>い</td></tr>
-<tr><td class="jp">広い</td><td>ひろい</td><td>hiroi</td><td>large / spacieux</td><td>い</td></tr>
-<tr><td class="jp">いい</td><td>いい</td><td>ii</td><td>bon / bien (négatif : よくない)</td><td>い, irrégulier</td></tr>
-<tr><td class="jp">病気</td><td>びょうき</td><td>byouki</td><td>malade</td><td>な</td></tr>
-<tr><td class="jp">親切</td><td>しんせつ</td><td>shinsetsu</td><td>gentil / aimable</td><td>な</td></tr>
-<tr><td class="jp">得意</td><td>とくい</td><td>tokui</td><td>doué pour</td><td>な</td></tr>
-<tr><td class="jp">だめ</td><td>だめ</td><td>dame</td><td>pas bon / interdit</td><td>な</td></tr>
-<tr><td class="jp">楽</td><td>らく</td><td>raku</td><td>facile / confortable</td><td>な</td></tr>
-<tr><td class="jp">いろいろ</td><td>いろいろ</td><td>iroiro</td><td>varié / divers</td><td>な</td></tr>
-<tr><td class="jp">特別</td><td>とくべつ</td><td>tokubetsu</td><td>spécial</td><td>な</td></tr>
-<tr><td class="jp">普通</td><td>ふつう</td><td>futsuu</td><td>normal / ordinaire</td><td>な</td></tr>
-<tr><td class="jp">真面目</td><td>まじめ</td><td>majime</td><td>sérieux / appliqué</td><td>な</td></tr>
-<tr><td class="jp">複雑</td><td>ふくざつ</td><td>fukuzatsu</td><td>complexe</td><td>な</td></tr>
-<tr><td class="jp">丁寧</td><td>ていねい</td><td>teinei</td><td>poli / courtois</td><td>な</td></tr>
-</tbody></table></div>
-</section></main><footer>Fiche de révision personnelle — à compléter au fil des cours.</footer><script>function filterTable(inputId, tableId, selectId){
- const input=document.getElementById(inputId); if(!input) return;
- const q=(input.value||'').toLocaleLowerCase();
- const type=selectId?(document.getElementById(selectId).value||''):'';
- const rows=document.querySelectorAll('#'+tableId+' tbody tr');
- rows.forEach(row=>{
-   const text=row.innerText.toLocaleLowerCase();
-   const matchesText=text.includes(q);
-   const matchesType=!type || row.cells[row.cells.length-1].innerText.includes(type);
-   row.style.display=matchesText&&matchesType?'':'none';
- });
-}</script></body></html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/content.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/course-filters.css">
+  <title>Glossaire — Adjectifs</title>
+  <script src="assets/js/site-config.js" defer></script>
+  <script src="assets/js/navigation.js" defer></script>
+  <script src="assets/js/vocabulary-data.js" defer></script>
+  <script src="assets/js/course-catalog.js" defer></script>
+  <script src="assets/js/course-picker.js" defer></script>
+  <script src="assets/js/glossary.js" defer></script>
+</head>
+<body data-page="glossaire">
+  <main>
+    <section class="card" id="adjectifs">
+      <h2>Glossaire — Adjectifs</h2>
+      <p class="small">Recherche par japonais, kana, romaji ou traduction. Les types な / い et le premier cours d’apprentissage sont affichés.</p>
+      <div class="controls glossary-controls">
+        <label class="visually-hidden" for="adjSearch">Rechercher</label>
+        <input id="adjSearch" oninput="filterTable('adjSearch','adjTable')" placeholder="Rechercher un adjectif…" />
+        <label for="adjType" class="visually-hidden">Type d’adjectif</label><select id="adjType" onchange="filterTable('adjSearch','adjTable','adjType')"><option value="">Tous les types</option><option value="い">Adjectifs en い</option><option value="な">Adjectifs en な</option></select>
+      </div>
+      <div style="overflow-x:auto">
+        <table id="adjTable">
+          <thead><tr><th>Japonais</th><th>Kana</th><th>Romaji</th><th>Traduction</th><th>Type</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer></footer>
+</body>
+</html>

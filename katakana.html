@@ -2,17 +2,26 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mini-jeu Katakana — Japonais</title>
-<style>
-:root{--ink:#242b35;--muted:#637083;--line:#e2e7ee;--paper:#fff;--bg:#f4f6f9;--accent:#315e75;--soft:#eaf2f5;--good:#236b4a;--bad:#a04444}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}header{background:linear-gradient(135deg,#23485b,#47788a);color:#fff;padding:30px 20px}header .wrap,main{max-width:900px;margin:auto}h1{margin:0 0 6px;font-size:clamp(1.8rem,4vw,2.5rem)}header p{margin:0;opacity:.9}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}nav a{color:#fff;text-decoration:none;border:1px solid #ffffff70;border-radius:999px;padding:7px 12px;font-size:.92rem}main{padding:22px 16px 50px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 4px 16px #1b2b3a08}h2{margin:0 0 10px;font-size:1.35rem}.muted{color:var(--muted);font-size:.92rem}.columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:12px;margin-top:14px}.difficulty{display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fbfcfd}.difficulty>strong{width:100%}.difficulty label{display:flex;align-items:center;gap:6px;font-weight:650}.difficulty label span{font-size:.85rem;font-weight:400;color:var(--muted)}.group{border:1px solid var(--line);border-radius:12px;padding:12px}.group label{display:flex;align-items:center;gap:8px;font-weight:650}.group small{display:block;color:var(--muted);margin-left:25px}.btn{font:inherit;border:0;border-radius:10px;background:var(--accent);color:white;padding:11px 16px;cursor:pointer;font-weight:650}.btn.secondary{background:#eaf0f3;color:var(--ink);border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.game{display:none;text-align:center}.progress{height:8px;background:#e8edf1;border-radius:99px;overflow:hidden;margin:12px 0 20px}.progress span{display:block;height:100%;width:0;background:#47788a;transition:width .2s}.timer{font-weight:750;font-size:1.05rem;margin:8px 0 4px}.timer-track{height:7px;max-width:360px;margin:0 auto 12px;background:#e8edf1;border-radius:99px;overflow:hidden}.timer-track span{display:block;height:100%;width:100%;background:#47788a;transition:width .1s linear}.timer-track span.urgent{background:var(--bad)}.kana{font-size:clamp(5rem,18vw,9rem);line-height:1.2;font-weight:600;margin:8px 0 16px}.answer{font:inherit;padding:12px 14px;border:1px solid #cbd5df;border-radius:10px;width:min(100%,320px);text-align:center;font-size:1.15rem}.message{min-height:30px;margin:10px 0;font-weight:650}.message.good{color:var(--good)}.message.bad{color:var(--bad)}.stats{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--muted)}.results{display:none}.result-row{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px solid var(--line)}.tag{background:#edf2f5;border-radius:999px;padding:3px 9px;font-size:.85rem}.footer{text-align:center;color:var(--muted);font-size:.9rem;padding:10px 20px 30px}button:focus-visible,input:focus-visible{outline:3px solid #82b9d0;outline-offset:2px}@media(max-width:600px){.card{padding:16px}.controls .btn{flex:1}}
-</style></head>
-<body><header><div class="wrap"><h1>カタカナ — Mini-jeu Katakana</h1><p>Reconnais les katakana, écris leur lecture en romaji et repère ceux à retravailler.</p><nav><a href="index.html">← Retour aux cours & glossaires</a><a href="hiragana.html">Mini-jeu hiragana ↗</a><a href="#selection">Choisir les kana</a></nav></div></header>
+<link rel="stylesheet" href="assets/css/common.css">
+<link rel="stylesheet" href="assets/css/game.css">
+    <link rel="stylesheet" href="assets/css/header.css" />
+
+<title>Japonais — cours et exercices</title>
+<script src="assets/js/site-config.js" defer></script>
+<script src="assets/js/navigation.js" defer></script>
+</head>
+<body data-page="game">
 <main>
 <section class="card" id="selection"><h2>1. Choisis ce que tu veux réviser</h2><p class="muted">Commence par quelques colonnes, puis élargis la sélection. Le jeu fonctionne sans compte et sans connexion.</p><div class="difficulty"><strong>Difficulté</strong><label><input type="radio" name="difficulty" value="easy" checked> Facile <span>Sans chrono</span></label><label><input type="radio" name="difficulty" value="medium"> Moyen <span>7 secondes</span></label><label><input type="radio" name="difficulty" value="hard"> Difficile <span>4 secondes</span></label></div><div class="controls"><button class="btn secondary" type="button" onclick="setAll(true)">Tout sélectionner</button><button class="btn secondary" type="button" onclick="setAll(false)">Tout désélectionner</button><button class="btn secondary" type="button" onclick="selectBasic()">Katakana de base</button></div><div class="columns" id="kanaGroups"></div><div class="controls"><button class="btn" type="button" id="startBtn" onclick="startQuiz()">Commencer le quiz</button></div><p class="muted" id="selectionMsg" aria-live="polite"></p></section>
 <section class="card game" id="game" aria-live="polite"><div class="stats"><span id="counter">Caractère 1/1</span><span id="score">Réussites au premier essai : 0</span></div><div class="progress"><span id="progressBar"></span></div><div class="timer" id="timerDisplay" aria-live="polite">Temps restant : 5 s</div><div class="timer-track" aria-hidden="true"><span id="timerBar"></span></div><div class="kana" id="kanaPrompt">ア</div><form id="answerForm" novalidate><label for="romajiInput">Quelle est sa lecture en romaji ?</label><p><input class="answer" id="romajiInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Ex. : a"></p><div class="controls" style="justify-content:center"><button class="btn" type="submit">Valider</button><button class="btn secondary" type="button" id="skipBtn">Passer</button><button class="btn secondary" type="button" onclick="finishQuiz()">Terminer</button></div></form><p class="message" id="message" aria-live="polite"></p><p class="muted">En cas d’erreur, la réponse n’est pas révélée : réessaie ou passe ce caractère.</p></section>
-<section class="card results" id="results"><h2>Résultat de la session</h2><p id="summary"></p><div id="resultRows"></div><div class="controls"><button class="btn" onclick="restartSame()">Rejouer la même sélection</button><button class="btn secondary" onclick="backToSelection()">Modifier la sélection</button></div></section>
-</main><footer class="footer">Petit entraînement personnel pour mémoriser les katakana.</footer>
+<section class="card results" id="results">
+<h2>Résultat de la session</h2><p id="summary"></p>
+<div class="review-toolbar"><label for="resultSort">Trier les résultats
+<select id="resultSort" onchange="renderResults()"><option value="errors">Erreurs d’abord</option><option value="attempts">Plus de tentatives</option><option value="success">Réussites d’abord</option><option value="original">Ordre de la session</option></select></label></div>
+<div class="controls"><button class="btn" id="replayMissedBtn" type="button" onclick="replayMissed()">Rejouer les erreurs</button><button class="btn" id="replaySelectedBtn" type="button" onclick="replaySelected()">Rejouer la sélection cochée</button><button class="btn secondary" type="button" onclick="restartSame()">Rejouer toute cette session</button><button class="btn secondary" type="button" onclick="backToSelection()">Modifier la sélection</button></div>
+<p class="review-selection-count" id="reviewSelectionCount"></p><p class="muted" id="reviewSelectionMessage" aria-live="polite">Coche ou décoche les caractères pour personnaliser la prochaine session.</p>
+<div id="resultRows"></div></section>
+</main><footer></footer>
 <script>
 const groups=[
 {name:'Voyelles',items:[['ア','a'],['イ','i'],['ウ','u'],['エ','e'],['オ','o']]},
@@ -33,7 +42,7 @@ const groups=[
 ];
 const root=document.getElementById('kanaGroups');
 groups.forEach((g,i)=>{const d=document.createElement('div');d.className='group';d.innerHTML=`<label><input type="checkbox" class="groupCheck" data-group="${i}" checked> ${g.name}</label><small>${g.items.map(x=>x[0]).join(' ')}</small>`;root.appendChild(d)});
-let deck=[],originalDeck=[],index=0,current=null,attempts={},firstTryCorrect=0,answeredFirst={},timedOut={},active=false,timerInterval=null,timeLeft=0,timerDuration=0,difficulty="easy";
+let deck=[],originalDeck=[],index=0,current=null,attempts={},firstTryCorrect=0,answeredFirst={},timedOut={},skipped={},reviewSelection=new Set(),active=false,timerInterval=null,timeLeft=0,timerDuration=0,difficulty="easy";
 function stopTimer(){if(timerInterval!==null){clearInterval(timerInterval);timerInterval=null}}
 function updateTimer(){const display=document.getElementById('timerDisplay');const bar=document.getElementById('timerBar');if(difficulty==='easy'){display.textContent='Mode facile : pas de limite de temps';bar.style.width='100%';bar.classList.remove('urgent');return}display.textContent=`Temps restant : ${Math.max(0,Math.ceil(timeLeft))} s`;bar.style.width=`${Math.max(0,timeLeft/timerDuration*100)}%`;bar.classList.toggle('urgent',timeLeft<=2)}
 function startTimer(){stopTimer();if(difficulty==='easy'){timeLeft=0;updateTimer();return}timeLeft=timerDuration;updateTimer();let last=Date.now();timerInterval=setInterval(()=>{const now=Date.now();timeLeft-=((now-last)/1000);last=now;if(timeLeft<=0){timeLeft=0;updateTimer();stopTimer();timeExpired()}else updateTimer()},100)}
@@ -60,13 +69,76 @@ function isAcceptedAnswer(kana,value,expected){
 }
 function setAll(value){document.querySelectorAll('.groupCheck').forEach(c=>c.checked=value)}
 function selectBasic(){document.querySelectorAll('.groupCheck').forEach((c,i)=>c.checked=i<10)}
-function startQuiz(){difficulty=document.querySelector('input[name="difficulty"]:checked').value;timerDuration=difficulty==='medium'?7:(difficulty==='hard'?4:0);const selected=[...document.querySelectorAll('.groupCheck:checked')].flatMap(c=>groups[+c.dataset.group].items);if(!selected.length){document.getElementById('selectionMsg').textContent='Sélectionne au moins un groupe de caractères.';return}originalDeck=shuffle(selected.map(([kana,romaji])=>({kana,romaji})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};firstTryCorrect=0;active=true;document.getElementById('selectionMsg').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent()}
+function startQuiz(){difficulty=document.querySelector('input[name="difficulty"]:checked').value;timerDuration=difficulty==='medium'?7:(difficulty==='hard'?4:0);const selected=[...document.querySelectorAll('.groupCheck:checked')].flatMap(c=>groups[+c.dataset.group].items);if(!selected.length){document.getElementById('selectionMsg').textContent='Sélectionne au moins un groupe de caractères.';return}originalDeck=shuffle(selected.map(([kana,romaji])=>({kana,romaji})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};skipped={};reviewSelection=new Set();firstTryCorrect=0;active=true;document.getElementById('selectionMsg').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent()}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function showCurrent(){if(index>=deck.length){finishQuiz();return}current=deck[index];document.getElementById('kanaPrompt').textContent=current.kana;document.getElementById('counter').textContent=`Caractère ${index+1}/${deck.length}`;document.getElementById('score').textContent=`Réussites au premier essai : ${firstTryCorrect}`;document.getElementById('progressBar').style.width=`${index/deck.length*100}%`;const m=document.getElementById('message');m.textContent='';m.className='message';const input=document.getElementById('romajiInput');input.value='';input.disabled=false;document.querySelector('#answerForm button[type="submit"]').disabled=false;document.getElementById('skipBtn').disabled=false;input.focus();startTimer()}
 document.getElementById('answerForm').addEventListener('submit',e=>{e.preventDefault();validateAnswer()});
 function validateAnswer(){if(!active||!current)return;const input=document.getElementById('romajiInput');const value=norm(input.value);const m=document.getElementById('message');if(!value){m.textContent='Écris la lecture en romaji avant de valider.';m.className='message bad';input.focus();return}attempts[current.kana]=(attempts[current.kana]||0)+1;if(isAcceptedAnswer(current.kana,value,current.romaji)){stopTimer();if(!answeredFirst[current.kana]){if(attempts[current.kana]===1)firstTryCorrect++;answeredFirst[current.kana]=true}m.textContent=attempts[current.kana]===1?'Bien joué !':'Exact !';m.className='message good';input.disabled=true;document.querySelector('#answerForm button[type="submit"]').disabled=true;document.getElementById('skipBtn').disabled=true;setTimeout(()=>{index++;showCurrent()},550)}else{m.textContent='Pas encore — observe la forme et réessaie.';m.className='message bad';input.select()}}
-document.getElementById('skipBtn').addEventListener('click',()=>{if(!active)return;stopTimer();const m=document.getElementById('message');m.textContent=`Mis de côté : ${current.kana} reviendra dans le bilan.`;m.className='message';index++;setTimeout(showCurrent,250)});
-function finishQuiz(){if(!active)return;stopTimer();active=false;document.getElementById('game').style.display='none';document.getElementById('results').style.display='block';const total=originalDeck.length;document.getElementById('summary').textContent=`Tu as travaillé ${total} caractères et obtenu ${firstTryCorrect} réussite(s) au premier essai. Les caractères avec plusieurs tentatives sont ceux à revoir.`;const box=document.getElementById('resultRows');box.innerHTML='';const sorted=originalDeck.map(k=>({...k,tries:attempts[k.kana]||0,gotIt:!!answeredFirst[k.kana],timedOut:!!timedOut[k.kana]})).sort((a,b)=>(b.tries-a.tries)||a.kana.localeCompare(b.kana));sorted.forEach(k=>{const row=document.createElement('div');row.className='result-row';const left=document.createElement('span');left.innerHTML=`<strong style="font-size:1.3rem">${k.kana}</strong> <span class="muted">${k.romaji}</span>`;const right=document.createElement('span');right.className='tag';right.textContent=k.timedOut?'Temps écoulé':(k.gotIt?`${k.tries} tentative(s)`:'Passé / non répondu');row.append(left,right);box.appendChild(row)});document.getElementById('progressBar').style.width='100%';document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'})}
-function restartSame(){stopTimer();document.getElementById('results').style.display='none';deck=shuffle([...originalDeck]);index=0;attempts={};answeredFirst={};timedOut={};firstTryCorrect=0;active=true;document.getElementById('game').style.display='block';showCurrent()}
+document.getElementById('skipBtn').addEventListener('click',()=>{if(!active||!current)return;stopTimer();skipped[current.kana]=true;const m=document.getElementById('message');m.textContent=`Mis de côté : ${current.kana} reviendra dans le bilan.`;m.className='message';index++;setTimeout(showCurrent,250)});
+
+function getReviewEntries(){
+ return originalDeck.map((item,i)=>{
+  const tries=attempts[item.kana]||0;
+  const gotIt=!!answeredFirst[item.kana];
+  const wasTimedOut=!!timedOut[item.kana];
+  const wasSkipped=!!skipped[item.kana];
+  const needsReview=wasTimedOut||wasSkipped||!gotIt||tries>1;
+  return {item,key:`${item.kana}::${i}`,index:i,tries,gotIt,timedOut:wasTimedOut,skipped:wasSkipped,needsReview};
+ });
+}
+function reviewStatus(entry){
+ if(entry.timedOut)return {text:'Temps écoulé',bad:true};
+ if(entry.skipped)return {text:'Passé',bad:true};
+ if(!entry.gotIt)return {text:'Non répondu',bad:true};
+ if(entry.tries>1)return {text:`Réussi après ${entry.tries} tentatives`,bad:true};
+ return {text:'Réussi au 1er essai',bad:false};
+}
+function renderResults(){
+ const select=document.getElementById('resultSort');
+ const mode=select?select.value:'errors';
+ const entries=getReviewEntries();
+ if(mode==='errors') entries.sort((a,b)=>Number(b.needsReview)-Number(a.needsReview)||b.tries-a.tries||a.index-b.index);
+ else if(mode==='attempts') entries.sort((a,b)=>b.tries-a.tries||Number(b.needsReview)-Number(a.needsReview)||a.index-b.index);
+ else if(mode==='success') entries.sort((a,b)=>Number(a.needsReview)-Number(b.needsReview)||a.tries-b.tries||a.index-b.index);
+ else entries.sort((a,b)=>a.index-b.index);
+ const box=document.getElementById('resultRows');box.replaceChildren();
+ for(const entry of entries){
+  const row=document.createElement('div');row.className='result-row'+(entry.needsReview?' needs-review':'');
+  const label=document.createElement('label');label.className='result-pick';
+  const checkbox=document.createElement('input');checkbox.type='checkbox';checkbox.checked=reviewSelection.has(entry.key);checkbox.setAttribute('aria-label',`Sélectionner ${entry.item.kana} pour révision`);
+  checkbox.addEventListener('change',()=>{if(checkbox.checked)reviewSelection.add(entry.key);else reviewSelection.delete(entry.key);updateReviewSelectionControls()});
+  const word=document.createElement('span');word.className='result-word';
+  const glyph=document.createElement('strong');glyph.style.fontSize='1.3rem';glyph.textContent=entry.item.kana;
+  const reading=document.createElement('span');reading.className='muted';reading.textContent=entry.item.romaji;
+  word.append(glyph,reading);label.append(checkbox,word);
+  const status=document.createElement('span');status.className='tag '+(entry.needsReview?'review-bad':'review-good');status.textContent=reviewStatus(entry).text;
+  row.append(label,status);box.appendChild(row);
+ }
+ updateReviewSelectionControls();
+}
+function updateReviewSelectionControls(){
+ const entries=getReviewEntries();
+ const selected=entries.filter(e=>reviewSelection.has(e.key)).length;
+ const missed=entries.filter(e=>e.needsReview).length;
+ document.getElementById('reviewSelectionCount').textContent=`${missed} caractère(s) à revoir · ${selected} sélectionné(s) pour la prochaine session.`;
+ document.getElementById('replayMissedBtn').disabled=missed===0;
+ document.getElementById('replaySelectedBtn').disabled=selected===0;
+}
+function replayDeck(items){
+ if(!items.length){document.getElementById('reviewSelectionMessage').textContent='Aucun caractère ne correspond à cette sélection.';return}
+ stopTimer();originalDeck=shuffle(items.map(item=>({...item})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};skipped={};reviewSelection=new Set();firstTryCorrect=0;active=true;
+ document.getElementById('reviewSelectionMessage').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent();
+}
+function replayMissed(){replayDeck(getReviewEntries().filter(e=>e.needsReview).map(e=>e.item))}
+function replaySelected(){replayDeck(getReviewEntries().filter(e=>reviewSelection.has(e.key)).map(e=>e.item))}
+function selectAllResults(value){const entries=getReviewEntries();reviewSelection=new Set(value?entries.map(e=>e.key):[]);renderResults()}
+function restartSame(){replayDeck(originalDeck)}
+function finishQuiz(){
+ if(!active)return;stopTimer();active=false;document.getElementById('game').style.display='none';document.getElementById('results').style.display='block';
+ const entries=getReviewEntries();const missed=entries.filter(e=>e.needsReview).length;
+ document.getElementById('summary').textContent=`Tu as travaillé ${originalDeck.length} caractères et réussi ${firstTryCorrect} au premier essai. ${missed} caractère(s) sont à revoir : erreur, plusieurs tentatives, passage ou temps écoulé.`;
+ reviewSelection=new Set(entries.filter(e=>e.needsReview).map(e=>e.key));
+ const select=document.getElementById('resultSort');if(select)select.value='errors';renderResults();document.getElementById('progressBar').style.width='100%';document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
+}
 function backToSelection(){document.getElementById('results').style.display='none';document.getElementById('selection').scrollIntoView({behavior:'smooth',block:'start'})}
 </script></body></html>

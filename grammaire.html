@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/game.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/grammar-exercise.css" />
+    <link rel="stylesheet" href="assets/css/course-filters.css" />
+    <title>Grammaire japonaise et jeu des particules</title>
+    <script src="assets/js/site-config.js" defer></script>
+    <script src="assets/js/navigation.js" defer></script>
+    <script src="assets/js/vocabulary-data.js" defer></script>
+    <script src="assets/js/course-catalog.js" defer></script>
+    <script src="assets/js/course-picker.js" defer></script>
+    <script src="assets/js/progress-tracker.js" defer></script>
+    <script src="assets/js/grammar-exercise.js" defer></script>
+  </head>
+  <body data-page="game">
+    <main>
+      <section class="card" id="setup">
+        <h2>Grammaire japonaise : construire, comprendre et relier les noms</h2>
+        <p>
+          Entraîne-toi à traduire des phrases et à comprendre le japonais. Les
+          exercices réutilisent les mots des glossaires et couvrent les
+          adjectifs en い / な, 好き・嫌い, les formes négatives les questions
+          en か et la possession / appartenance avec の. Toutes les questions se
+          font en choix multiples pour éviter les erreurs de saisie. 好き
+          signifie « aimer » ; 好きじゃない, 好きじゃないです et
+          好きじゃありません expriment « ne pas aimer » ; 嫌い signifie «
+          détester », 大好き « adorer » et 大嫌い « détester vraiment ».
+        </p>
+        <div class="grammar-options">
+          <fieldset class="grammar-radio-group">
+            <legend>Type d’exercice</legend>
+            <label class="grammar-radio"
+              ><input
+                type="radio"
+                name="exerciseMode"
+                value="fr-ja"
+                checked /><span>Français → japonais</span></label
+            >
+            <label class="grammar-radio"
+              ><input type="radio" name="exerciseMode" value="ja-fr" /><span
+                >Japonais → français</span
+              ></label
+            >
+          </fieldset>
+          <fieldset class="grammar-radio-group">
+            <legend>Affichage du japonais</legend>
+            <label class="grammar-radio"
+              ><input
+                type="radio"
+                name="writingMode"
+                value="kana"
+                checked /><span>Kana (hiragana / katakana)</span></label
+            >
+            <label class="grammar-radio"
+              ><input type="radio" name="writingMode" value="kanji" /><span
+                >Écriture du glossaire (kanji et kana)</span
+              ></label
+            >
+          </fieldset>
+          <label for="questionCount"
+            >Nombre de questions
+            <select id="questionCount">
+              <option value="10" selected>10 questions</option>
+              <option value="15">15 questions</option>
+              <option value="all">Toutes les questions du jeu choisi</option>
+            </select>
+          </label>
+        </div>
+        <div class="grammar-course-filters">
+          <div id="grammarVocabularyCourses" class="course-picker-mount"></div>
+          <div id="grammarConceptCourses" class="course-picker-mount"></div>
+          <p class="course-filter-note">
+            La sélection de vocabulaire filtre tous les mots présents dans la
+            phrase ; la sélection de grammaire filtre les notions travaillées.
+            Les deux sélections sont indépendantes.
+          </p>
+        </div>
+        <div class="controls">
+          <button class="btn" id="startButton" type="button">
+            Commencer les exercices →
+          </button>
+        </div>
+        <p
+          id="setupMessage"
+          class="grammar-help"
+          role="status"
+          aria-live="polite"></p>
+      </section>
+
+      <section class="card particle-game-card" id="particleSetup">
+        <h2>🎮 Jeu des particules : は・が・を・か・の</h2>
+        <p>
+          Un jeu indépendant des exercices de traduction : complète des phrases
+          japonaises en choisissant la bonne particule. Chaque réponse est
+          suivie d’une explication, puis tu peux consulter ton bilan et rejouer
+          tes erreurs.
+        </p>
+        <p class="grammar-note">
+          Les particules entraînées sont <strong>は</strong> (thème),
+          <strong>が</strong> (notamment avec 好き・嫌い),
+          <strong>を</strong> (objet) et <strong>か</strong> (question) et
+          <strong>の</strong> (possession, appartenance, type et couleur).
+        </p>
+        <div class="grammar-course-filters particle-course-filters">
+          <div id="particleVocabularyCourses" class="course-picker-mount"></div>
+          <div id="particleConceptCourses" class="course-picker-mount"></div>
+          <p class="course-filter-note">
+            Les mots et les notions se filtrent indépendamment.
+          </p>
+        </div>
+        <p
+          id="particleSetupMessage"
+          class="grammar-help"
+          role="status"
+          aria-live="polite"></p>
+        <div class="controls">
+          <button class="btn secondary" id="particleGameButton" type="button">
+            Lancer le jeu des particules →
+          </button>
+        </div>
+      </section>
+
+      <section
+        class="card progress-card"
+        id="progressPanel"
+        aria-labelledby="progressTitle">
+        <h2 id="progressTitle">Ma progression</h2>
+        <div id="progressSummary" class="progress-footnote"></div>
+        <div id="progressHistory"></div>
+        <div class="progress-actions">
+          <button class="btn secondary" type="button" id="clearProgressButton">
+            Effacer l’historique de grammaire
+          </button>
+        </div>
+      </section>
+
+      <section class="card grammar-game" id="game" hidden aria-live="polite">
+        <div class="stats">
+          <span id="progressText">Question 1 / 10</span
+          ><span id="scoreText">0 bonne réponse</span>
+        </div>
+        <div class="progress" aria-hidden="true">
+          <span id="progressBar"></span>
+        </div>
+        <p class="grammar-meta" id="questionType"></p>
+        <h2 class="grammar-prompt" id="promptText"></h2>
+        <p id="promptHelp" class="grammar-help"></p>
+
+        <form id="answerForm">
+          <div
+            id="choiceArea"
+            class="grammar-choices"
+            role="group"
+            aria-label="Propositions de réponse"
+            hidden></div>
+          <div class="controls grammar-controls">
+            <button class="btn" id="choiceValidateButton" type="button" hidden>
+              Valider ma réponse
+            </button>
+          </div>
+          <div
+            id="feedback"
+            class="message"
+            role="status"
+            aria-live="polite"></div>
+          <div class="controls grammar-controls">
+            <button class="btn secondary" id="nextButton" type="button" hidden>
+              Question suivante →
+            </button>
+            <button class="btn secondary" id="skipButton" type="button">
+              Passer
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card grammar-results" id="results" hidden>
+        <h2>Résultats de la session</h2>
+        <p id="summaryText" class="vocab-summary"></p>
+        <label class="sort-label" for="resultSort"
+          >Trier les résultats
+          <select id="resultSort">
+            <option value="errors">Erreurs d’abord</option>
+            <option value="success">Réussites d’abord</option>
+            <option value="original">Ordre de la session</option>
+          </select>
+        </label>
+        <div id="resultRows" class="grammar-result-rows"></div>
+        <div class="controls">
+          <button class="btn" id="replayMissedButton" type="button">
+            Rejouer les erreurs
+          </button>
+          <button class="btn secondary" id="replayAllButton" type="button">
+            Rejouer toute la session
+          </button>
+          <button class="btn secondary" id="newSessionButton" type="button">
+            Nouvelle session
+          </button>
+        </div>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>
