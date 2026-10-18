@@ -1,77 +1,256 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mini-jeu Kanji JLPT N5 — Japonais</title>
-<style>
-:root{--ink:#242b35;--muted:#637083;--line:#e2e7ee;--paper:#fff;--bg:#f4f6f9;--accent:#6b5b95;--soft:#f0edf7;--good:#236b4a;--bad:#a04444}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}header{background:linear-gradient(135deg,#463a6b,#8575b0);color:#fff;padding:30px 20px}header .wrap,main{max-width:920px;margin:auto}h1{margin:0 0 6px;font-size:clamp(1.8rem,4vw,2.5rem)}header p{margin:0;opacity:.92}nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}nav a{color:#fff;text-decoration:none;border:1px solid #ffffff70;border-radius:999px;padding:7px 12px;font-size:.92rem}main{padding:22px 16px 50px}.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:22px;margin-bottom:18px;box-shadow:0 4px 16px #1b2b3a08}h2{margin:0 0 10px;font-size:1.35rem}.muted{color:var(--muted);font-size:.92rem}.columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-top:14px}.group{border:1px solid var(--line);border-radius:12px;padding:12px}.group label{display:flex;align-items:center;gap:8px;font-weight:650}.group small{display:block;color:var(--muted);margin-left:25px}.difficulty{display:flex;align-items:center;gap:10px 18px;flex-wrap:wrap;margin:16px 0;padding:14px;border:1px solid var(--line);border-radius:12px;background:#fbfcfd}.difficulty>strong{width:100%}.difficulty label{display:flex;align-items:center;gap:6px;font-weight:650}.difficulty label span{font-size:.85rem;font-weight:400;color:var(--muted)}.btn{font:inherit;border:0;border-radius:10px;background:var(--accent);color:white;padding:11px 16px;cursor:pointer;font-weight:650}.btn.secondary{background:#f0edf7;color:var(--ink);border:1px solid var(--line)}.btn:disabled{opacity:.45;cursor:not-allowed}.controls{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.game{display:none;text-align:center}.progress{height:8px;background:#e8edf1;border-radius:99px;overflow:hidden;margin:12px 0 20px}.progress span{display:block;height:100%;width:0;background:#8575b0;transition:width .2s}.timer{font-weight:750;font-size:1.05rem;margin:8px 0 4px}.timer-track{height:7px;max-width:360px;margin:0 auto 12px;background:#e8edf1;border-radius:99px;overflow:hidden}.timer-track span{display:block;height:100%;width:100%;background:#8575b0;transition:width .1s linear}.timer-track span.urgent{background:var(--bad)}.kanji{font-size:clamp(5rem,18vw,9rem);line-height:1.2;font-weight:600;margin:8px 0 8px}.hint{color:var(--muted);margin:0 0 16px}.answer{font:inherit;padding:12px 14px;border:1px solid #cbd5df;border-radius:10px;width:min(100%,360px);text-align:center;font-size:1.1rem}.message{min-height:30px;margin:10px 0;font-weight:650}.message.good{color:var(--good)}.message.bad{color:var(--bad)}.stats{display:flex;justify-content:center;gap:18px;flex-wrap:wrap;color:var(--muted)}.results{display:none}.result-row{display:flex;justify-content:space-between;gap:15px;padding:9px 0;border-bottom:1px solid var(--line)}.tag{background:#edf2f5;border-radius:999px;padding:3px 9px;font-size:.85rem}.footer{text-align:center;color:var(--muted);font-size:.9rem;padding:10px 20px 30px}button:focus-visible,input:focus-visible{outline:3px solid #b9a9e2;outline-offset:2px}@media(max-width:600px){.card{padding:16px}.controls .btn{flex:1}}
-</style></head>
-<body><header><div class="wrap"><h1>漢字 — Mini-jeu Kanji JLPT N5</h1><p>Reconnais les kanji débutants : écris leur sens en français, puis découvre des lectures courantes.</p><nav><a href="index.html">← Retour aux cours & glossaires</a><a href="hiragana.html">Jeu hiragana ↗</a><a href="katakana.html">Jeu katakana ↗</a><a href="#selection">Choisir les kanji</a></nav></div></header>
-<main>
-<section class="card" id="numberGame">
-<h2>Mini-jeu : les nombres japonais</h2>
-<p class="muted">Entraîne-toi à convertir les nombres dans les deux sens. Quand un nombre s’affiche en chiffres, réponds en kanji japonais ou en hiragana. Quand il s’affiche en kanji, réponds avec les chiffres arabes. Les nombres vont de 1 à 99 999.</p>
-<div class="difficulty"><strong>Difficulté</strong><label><input type="radio" name="numberDifficulty" value="easy" checked> Facile <span>Sans chrono</span></label><label><input type="radio" name="numberDifficulty" value="medium"> Moyen <span>7 secondes</span></label><label><input type="radio" name="numberDifficulty" value="hard"> Difficile <span>4 secondes</span></label></div>
-<div class="columns" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
-<div class="group"><label><input type="checkbox" id="numberToJapanese" checked> Chiffres → japonais</label><small>Ex. 8246 → 八千二百四十六 ou はっせんにひゃくよんじゅうろく</small></div>
-<div class="group"><label><input type="checkbox" id="japaneseToNumber" checked> Kanji → chiffres</label><small>Ex. 八百三十七 → 837</small></div>
-</div>
-<div class="controls"><button class="btn" type="button" id="startNumberGame">Commencer le jeu des nombres</button></div>
-<div class="game" id="numberGamePlay" style="margin-top:22px"><div class="stats"><span id="numberCounter">Question 1/10</span><span id="numberScore">Réussites au premier essai : 0</span></div><div class="progress"><span id="numberProgressBar"></span></div><div class="timer" id="numberTimerDisplay">Mode facile : pas de limite de temps</div><div class="timer-track"><span id="numberTimerBar"></span></div><div class="kanji" id="numberPrompt">8246</div><p class="hint" id="numberHint">Écris ce nombre en kanji ou en hiragana.</p><form id="numberAnswerForm" novalidate><label for="numberAnswerInput" id="numberAnswerLabel">Ta réponse</label><p><input class="answer" id="numberAnswerInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Kanji, hiragana ou chiffres"></p><div class="controls" style="justify-content:center"><button class="btn" type="submit">Valider</button><button class="btn secondary" type="button" id="numberSkipBtn">Passer</button><button class="btn secondary" type="button" id="numberFinishBtn">Terminer</button></div></form><p class="message" id="numberMessage" aria-live="polite"></p></div>
-<div class="results" id="numberResults" style="margin-top:18px"><h3>Résultat du jeu des nombres</h3><p id="numberSummary"></p><div id="numberResultRows"></div><div class="controls"><button class="btn" type="button" id="numberReplayBtn">Rejouer</button><button class="btn secondary" type="button" id="numberBackBtn">Retour à la sélection</button></div></div>
-</section>
-<section class="card" id="selection"><h2>1. Choisis les kanji à réviser</h2><p class="muted">Il n’existe pas de liste officielle unique et figée de kanji N5 ; ce jeu rassemble un ensemble courant de kanji généralement étudiés à ce niveau. Saisis le sens en français (les accents sont facultatifs). Les lectures affichées servent de repère : un kanji peut se lire de plusieurs façons selon le mot.</p><div class="difficulty"><strong>Difficulté</strong><label><input type="radio" name="difficulty" value="easy" checked> Facile <span>Sans chrono</span></label><label><input type="radio" name="difficulty" value="medium"> Moyen <span>7 secondes</span></label><label><input type="radio" name="difficulty" value="hard"> Difficile <span>4 secondes</span></label></div><div class="controls"><button class="btn secondary" type="button" onclick="setAll(true)">Tout sélectionner</button><button class="btn secondary" type="button" onclick="setAll(false)">Tout désélectionner</button></div><div class="columns" id="kanjiGroups"></div><div class="controls"><button class="btn" type="button" onclick="startQuiz()">Commencer le quiz</button></div><p class="muted" id="selectionMsg" aria-live="polite"></p></section>
-<section class="card game" id="game" aria-live="polite"><div class="stats"><span id="counter">Kanji 1/1</span><span id="score">Réussites au premier essai : 0</span></div><div class="progress"><span id="progressBar"></span></div><div class="timer" id="timerDisplay">Mode facile : pas de limite de temps</div><div class="timer-track" aria-hidden="true"><span id="timerBar"></span></div><div class="kanji" id="kanjiPrompt">日</div><p class="hint" id="kanjiHint">Écris le sens principal en français.</p><form id="answerForm" novalidate><label for="answerInput">Quel est le sens de ce kanji ?</label><p><input class="answer" id="answerInput" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Ex. : soleil, jour"></p><div class="controls" style="justify-content:center"><button class="btn" type="submit">Valider</button><button class="btn secondary" type="button" id="skipBtn">Passer</button><button class="btn secondary" type="button" onclick="finishQuiz()">Terminer</button></div></form><p class="message" id="message" aria-live="polite"></p><p class="muted">Tu peux proposer un synonyme. En cas d’erreur, réessaie ou passe le kanji.</p></section>
-<section class="card results" id="results"><h2>Résultat de la session</h2><p id="summary"></p><div id="resultRows"></div><div class="controls"><button class="btn" onclick="restartSame()">Rejouer la même sélection</button><button class="btn secondary" onclick="backToSelection()">Modifier la sélection</button></div></section>
-</main><footer class="footer">Petit entraînement personnel aux kanji courants du JLPT N5.</footer>
-<script>
-// Mini-jeu de conversion des nombres japonais (1 à 99 999).
-const numberDigitsKanji=['','一','二','三','四','五','六','七','八','九'];
-const numberDigitsHira=['','いち','に','さん','よん','ご','ろく','なな','はち','きゅう'];
-function kanjiUnder10000(n){if(!n)return '';let out='';const units=[1000,100,10],kanjiUnits=['千','百','十'];for(let i=0;i<units.length;i++){const u=units[i],d=Math.floor(n/u);if(d){if(d!==1)out+=numberDigitsKanji[d];out+=kanjiUnits[i];n%=u}}if(n)out+=numberDigitsKanji[n];return out}
-function hiraUnder10000(n){if(!n)return '';let out='';const thousands=Math.floor(n/1000);n%=1000;const hundreds=Math.floor(n/100);n%=100;const tens=Math.floor(n/10);n%=10;
-if(thousands){out+=({1:'せん',2:'にせん',3:'さんぜん',4:'よんせん',5:'ごせん',6:'ろくせん',7:'ななせん',8:'はっせん',9:'きゅうせん'})[thousands]}
-if(hundreds){out+=({1:'ひゃく',2:'にひゃく',3:'さんびゃく',4:'よんひゃく',5:'ごひゃく',6:'ろっぴゃく',7:'ななひゃく',8:'はっぴゃく',9:'きゅうひゃく'})[hundreds]}
-if(tens){out+=({1:'じゅう',2:'にじゅう',3:'さんじゅう',4:'よんじゅう',5:'ごじゅう',6:'ろくじゅう',7:'ななじゅう',8:'はちじゅう',9:'きゅうじゅう'})[tens]}
-if(n)out+=numberDigitsHira[n];return out}
-function numberToKanji(n){if(n===0)return '零';if(n>=10000){const man=Math.floor(n/10000),rest=n%10000;return kanjiUnder10000(man)+'万'+kanjiUnder10000(rest)}return kanjiUnder10000(n)}
-function numberToHiragana(n){if(n===0)return 'れい';if(n>=10000){const man=Math.floor(n/10000),rest=n%10000;return hiraUnder10000(man)+'まん'+hiraUnder10000(rest)}return hiraUnder10000(n)}
-function parseJapaneseNumberKanji(s){const str=s.replace(/[\s　,，]/g,'');if(str==='零'||str==='〇')return 0;const digit={'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9};let total=0,section=0,num=0;for(const ch of str){if(ch in digit){num=digit[ch]}else if(ch==='十'){section+=(num||1)*10;num=0}else if(ch==='百'){section+=(num||1)*100;num=0}else if(ch==='千'){section+=(num||1)*1000;num=0}else if(ch==='万'){total+=(section+num||1)*10000;section=0;num=0}else return NaN}return total+section+num}
-function parseJapaneseNumberHiragana(s){const str=s.replace(/[\s　,，]/g,'');const dict={'れい':0,'ぜろ':0,'いち':1,'に':2,'さん':3,'よん':4,'し':4,'ご':5,'ろく':6,'なな':7,'しち':7,'はち':8,'きゅう':9,'く':9};let total=0,rest=str;if(rest.includes('まん')){const parts=rest.split('まん');if(parts.length!==2)return NaN;const left=parts[0]===''?1:parseJapaneseUnder10000(parts[0],dict);if(!Number.isFinite(left))return NaN;total+=left*10000;rest=parts[1]}const v=parseJapaneseUnder10000(rest,dict);return Number.isFinite(v)?total+v:NaN}
-function parseJapaneseUnder10000(str,dict){if(str==='')return 0;let total=0,buffer='';const units=[['せん',1000],['ぜん',1000],['ひゃく',100],['びゃく',100],['ぴゃく',100],['じゅう',10]];while(str){let matched=false;for(const [u,m] of units){const ix=str.indexOf(u);if(ix===0){const d=buffer===''?1:dict[buffer];if(d===undefined)return NaN;total+=d*m;buffer='';str=str.slice(u.length);matched=true;break}}if(matched)continue;let found=Object.keys(dict).sort((a,b)=>b.length-a.length).find(k=>str.startsWith(k));if(!found)return NaN;buffer+=found;str=str.slice(found.length);if(buffer.length>8)return NaN}if(buffer){const d=dict[buffer];if(d===undefined)return NaN;total+=d}return total}
-function parseNumberAnswer(s){const clean=s.trim().replace(/[\s　,，]/g,'');if(/^\d+$/.test(clean))return Number(clean);const k=parseJapaneseNumberKanji(clean);if(Number.isFinite(k)&&clean)return k;return parseJapaneseNumberHiragana(clean)}
-let numberDeck=[],numberIndex=0,numberCurrent=null,numberFirst=0,numberAttempts={},numberMissed={},numberActive=false,numberDifficulty='easy',numberDuration=0,numberTimeLeft=0,numberTimerInterval=null,numberAnswered={},numberEpoch=0;
-const numberNorm=s=>s.normalize('NFC').replace(/[\s　,，]/g,'').toLowerCase();
-function stopNumberTimer(){if(numberTimerInterval!==null){clearInterval(numberTimerInterval);numberTimerInterval=null}}
-function updateNumberTimer(){const d=document.getElementById('numberTimerDisplay'),b=document.getElementById('numberTimerBar');if(numberDifficulty==='easy'){d.textContent='Mode facile : pas de limite de temps';b.style.width='100%';b.classList.remove('urgent');return}d.textContent=`Temps restant : ${Math.max(0,Math.ceil(numberTimeLeft))} s`;b.style.width=`${Math.max(0,numberTimeLeft/numberDuration*100)}%`;b.classList.toggle('urgent',numberTimeLeft<=2)}
-function startNumberTimer(){stopNumberTimer();if(numberDifficulty==='easy'){numberTimeLeft=0;updateNumberTimer();return}numberTimeLeft=numberDuration;updateNumberTimer();let last=Date.now();numberTimerInterval=setInterval(()=>{const now=Date.now();numberTimeLeft-=(now-last)/1000;last=now;if(numberTimeLeft<=0){numberTimeLeft=0;updateNumberTimer();stopNumberTimer();numberExpired()}else updateNumberTimer()},100)}
-function numberExpired(){if(!numberActive||!numberCurrent)return;numberMissed[numberCurrent.id]=true;const m=document.getElementById('numberMessage');m.textContent=`Temps écoulé ! Réponse : ${numberCurrent.answer}.`;m.className='message bad';document.getElementById('numberAnswerInput').disabled=true;document.querySelector('#numberAnswerForm button[type="submit"]').disabled=true;document.getElementById('numberSkipBtn').disabled=true;const epoch=numberEpoch;setTimeout(()=>{if(numberActive&&epoch===numberEpoch){numberIndex++;showNumberQuestion()}},1300)}
-function startNumberGame(){const toJ=document.getElementById('numberToJapanese').checked,toN=document.getElementById('japaneseToNumber').checked;if(!toJ&&!toN){document.getElementById('numberMessage').textContent='Choisis au moins un sens de conversion.';document.getElementById('numberGamePlay').style.display='block';return}numberDifficulty=document.querySelector('input[name="numberDifficulty"]:checked').value;numberDuration=numberDifficulty==='medium'?7:(numberDifficulty==='hard'?4:0);numberDeck=[];for(let i=0;i<10;i++){const n=1+Math.floor(Math.random()*99999);const direction=(toJ&&toN)?(Math.random()<.5?'toJ':'toN'):(toJ?'toJ':'toN');const kanji=numberToKanji(n),hira=numberToHiragana(n),promptForm=direction==='toN'?(Math.random()<.5?'kanji':'hira'):'digits';numberDeck.push({id:i+'-'+n+'-'+direction,n,direction,kanji,hira,promptForm,answer:direction==='toJ'?`${kanji} ou ${hira}`:String(n)})}numberDeck=shuffle(numberDeck);numberIndex=0;numberFirst=0;numberAttempts={};numberMissed={};numberAnswered={};numberActive=true;numberEpoch++;document.getElementById('numberResults').style.display='none';document.getElementById('numberGamePlay').style.display='block';document.getElementById('numberGamePlay').scrollIntoView({behavior:'smooth',block:'start'});showNumberQuestion()}
-function showNumberQuestion(){if(numberIndex>=numberDeck.length){finishNumberGame();return}numberCurrent=numberDeck[numberIndex];document.getElementById('numberCounter').textContent=`Question ${numberIndex+1}/${numberDeck.length}`;document.getElementById('numberScore').textContent=`Réussites au premier essai : ${numberFirst}`;document.getElementById('numberProgressBar').style.width=`${numberIndex/numberDeck.length*100}%`;document.getElementById('numberPrompt').textContent=numberCurrent.direction==='toJ'?numberCurrent.n.toLocaleString('fr-FR').replace(/ /g,' '):numberCurrent.kanji;document.getElementById('numberHint').textContent=numberCurrent.direction==='toJ'?'Écris ce nombre en kanji japonais ou en hiragana.':'Convertis ce nombre japonais en chiffres arabes.';document.getElementById('numberAnswerLabel').textContent=numberCurrent.direction==='toJ'?'Réponse en kanji ou hiragana':'Réponse en chiffres';document.getElementById('numberAnswerInput').placeholder=numberCurrent.direction==='toJ'?'Ex. : 八百三十七 ou はっぴゃくさんじゅうなな':'Ex. : 837';document.getElementById('numberMessage').textContent='';document.getElementById('numberMessage').className='message';document.getElementById('numberAnswerInput').value='';document.getElementById('numberAnswerInput').disabled=false;document.querySelector('#numberAnswerForm button[type="submit"]').disabled=false;document.getElementById('numberSkipBtn').disabled=false;document.getElementById('numberAnswerInput').focus();startNumberTimer()}
-function validateNumberAnswer(){if(!numberActive||!numberCurrent)return;const input=document.getElementById('numberAnswerInput'),v=input.value.trim(),m=document.getElementById('numberMessage');if(!v){m.textContent='Saisis une réponse avant de valider.';m.className='message bad';input.focus();return}numberAttempts[numberCurrent.id]=(numberAttempts[numberCurrent.id]||0)+1;const parsed=parseNumberAnswer(v),correct=numberCurrent.direction==='toJ'?(numberNorm(v)===numberNorm(numberCurrent.kanji)||numberNorm(v)===numberNorm(numberCurrent.hira)||parsed===numberCurrent.n):(numberNorm(v)===numberNorm(numberCurrent.hira)||numberNorm(v)===numberNorm(numberCurrent.kanji)||parsed===numberCurrent.n);if(correct){stopNumberTimer();if(!numberAnswered[numberCurrent.id]){if(numberAttempts[numberCurrent.id]===1)numberFirst++;numberAnswered[numberCurrent.id]=true}m.textContent=`Bien joué ! ${numberCurrent.n} = ${numberCurrent.kanji} (${numberCurrent.hira}).`;m.className='message good';input.disabled=true;document.querySelector('#numberAnswerForm button[type="submit"]').disabled=true;document.getElementById('numberSkipBtn').disabled=true;const epoch=numberEpoch;setTimeout(()=>{if(numberActive&&epoch===numberEpoch){numberIndex++;showNumberQuestion()}},1000)}else{m.textContent='Pas encore — vérifie les unités (dix, cent, mille, man).';m.className='message bad';input.select()}}
-document.getElementById('numberAnswerForm').addEventListener('submit',e=>{e.preventDefault();validateNumberAnswer()});document.getElementById('startNumberGame').addEventListener('click',startNumberGame);document.getElementById('numberSkipBtn').addEventListener('click',()=>{if(!numberActive)return;stopNumberTimer();numberMissed[numberCurrent.id]=true;document.getElementById('numberMessage').textContent=`Réponse : ${numberCurrent.answer}`;document.getElementById('numberMessage').className='message';document.getElementById('numberAnswerInput').disabled=true;document.querySelector('#numberAnswerForm button[type="submit"]').disabled=true;document.getElementById('numberSkipBtn').disabled=true;const epoch=numberEpoch;setTimeout(()=>{if(numberActive&&epoch===numberEpoch){numberIndex++;showNumberQuestion()}},850)});document.getElementById('numberFinishBtn').addEventListener('click',finishNumberGame);function finishNumberGame(){if(!numberActive)return;stopNumberTimer();numberActive=false;numberEpoch++;document.getElementById('numberGamePlay').style.display='none';document.getElementById('numberResults').style.display='block';document.getElementById('numberSummary').textContent=`Tu as travaillé ${numberDeck.length} nombres et obtenu ${numberFirst} réussite(s) au premier essai.`;const box=document.getElementById('numberResultRows');box.innerHTML='';numberDeck.forEach(q=>{const row=document.createElement('div');row.className='result-row';const left=document.createElement('span');left.innerHTML=`<strong>${q.direction==='toJ'?q.n:(q.promptForm==='hira'?q.hira:q.kanji)}</strong> <span class="muted">→ ${q.direction==='toJ'?q.kanji+' / '+q.hira:q.n}</span>`;const right=document.createElement('span');right.className='tag';right.textContent=numberMissed[q.id]?'À revoir':(numberAnswered[q.id]?`${numberAttempts[q.id]||0} tentative(s)`:'Non répondu');row.append(left,right);box.appendChild(row)});document.getElementById('numberProgressBar').style.width='100%';document.getElementById('numberResults').scrollIntoView({behavior:'smooth',block:'start'})}document.getElementById('numberReplayBtn').addEventListener('click',startNumberGame);document.getElementById('numberBackBtn').addEventListener('click',()=>{document.getElementById('numberResults').style.display='none';document.getElementById('selection').scrollIntoView({behavior:'smooth',block:'start'})});
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/kanji-qcm.css" />
+    <link rel="stylesheet" href="assets/css/game.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
 
-const groups=[
-{name:'Nombres',items:[
-['一','un','ichi, itsu',['1','premier']],['二','deux','ni',['2']],['三','trois','san',['3']],['四','quatre','shi, yon',['4']],['五','cinq','go',['5']],['六','six','roku',['6']],['七','sept','shichi, nana',['7']],['八','huit','hachi',['8']],['九','neuf','kyuu, ku',['9']],['十','dix','juu',['10']],['百','cent','hyaku',[]],['千','mille','sen',[]],['万','dix mille','man',['10000']],['円','yen, cercle','en',['yens']]]},
-{name:'Temps et calendrier',items:[
-['日','soleil, jour','nichi, jitsu, hi, ka',['soleil','journée']],['月','lune, mois','getsu, gatsu, tsuki',['lune','mois']],['火','feu','ka, hi',[]],['水','eau','sui, mizu',[]],['木','arbre, bois','moku, boku, ki',['arbre']],['金','or, argent','kin, kane',['argent','or']],['土','terre, sol','do, tsuchi',['terre','sol']],['曜','jour de la semaine','you',['jour']],['年','année','nen, toshi',['an']],['時','heure','ji, toki',['heure']],['分','minute, part','fun, bun, wakaru',['minute','part']],['半','moitié','han',['demi']],['今','maintenant','kon, ima',['actuellement']],['毎','chaque','mai',[]],['週','semaine','shuu',[]],['午','midi','go',['midi']],['前','avant, devant','zen, mae',['avant','devant']],['後','après, derrière','go, kou, ato, ushiro',['après','derrière']],['間','intervalle, entre','kan, ken, aida',['entre','intervalle']],['何','quoi, quel','ka, nani, nan',['quoi','quel']]]},
-{name:'Personnes et famille',items:[
-['人','personne','jin, nin, hito',['humain']],['子','enfant','shi, su, ko',['enfant']],['女','femme','jo, nyo, onna',['féminin']],['男','homme','dan, nan, otoko',['masculin']],['父','père','fu, chichi',['papa']],['母','mère','bo, haha',['maman']],['友','ami','yuu, tomo',['amie']],['名','nom','mei, myou, na',['nom']],['先','avant, précédent','sen, saki',['précédent']],['生','vie, naissance','sei, shou, i(きる), u(まれる)',['vie','naissance']],['学','étude, apprendre','gaku, mana(bu)',['étudier']],['校','école','kou',['école']]]},
-{name:'Lieux, directions et nature',items:[
-['山','montagne','san, yama',[]],['川','rivière','sen, kawa',[]],['田','rizière','den, ta',['champ']],['天','ciel','ten, ame',['ciel']],['気','énergie, humeur','ki, ke',['esprit']],['雨','pluie','u, ame',['pluie']],['電','électricité','den',['électricité']],['車','voiture, véhicule','sha, kuruma',['voiture']],['国','pays','koku, kuni',['nation']],['外','extérieur, dehors','gai, soto',['dehors']],['京','capitale','kyou, kei',['capitale']],['道','route, chemin','dou, michi',['route']],['東','est','tou, higashi',['est']],['西','ouest','sei, sai, nishi',['ouest']],['南','sud','nan, minami',['sud']],['北','nord','hoku, kita',['nord']],['口','bouche, ouverture','kou, kuchi',['bouche']],['目','œil','moku, me',['œil']],['耳','oreille','ji, mimi',['oreille']],['手','main','shu, te',['main']],['足','pied, jambe','soku, ashi',['pied','jambe']],['花','fleur','ka, hana',['fleur']],['魚','poisson','gyo, sakana',['poisson']],['空','ciel, vide','kuu, sora',['ciel']],['石','pierre','seki, ishi',['pierre']]]},
-{name:'Adjectifs, verbes et notions',items:[
-['大','grand','dai, tai, oo(きい)',['grand']],['小','petit','shou, chii(sai), ko',['petit']],['高','haut, cher','kou, taka(i)',['haut','cher']],['安','bon marché, paisible','an, yasu(i)',['bon marche','paisible']],['新','nouveau','shin, atara(shii)',['nouveau']],['古','ancien, vieux','ko, furu(i)',['vieux','ancien']],['長','long, chef','chou, naga(i)',['long']],['白','blanc','haku, shiro(i)',['blanc']],['赤','rouge','seki, aka(i)',['rouge']],['青','bleu','sei, ao(i)',['bleu']],['多','nombreux, beaucoup','ta, oo(i)',['beaucoup']],['少','peu','shou, suku(nai), suko(shi)',['peu']],['入','entrer','nyuu, hai(ru), i(reru)',['entrée']],['出','sortir','shutsu, de(ru), da(su)',['sortie']],['見','voir, regarder','ken, mi(ru)',['voir']],['行','aller','kou, gyou, i(ku)',['aller']],['来','venir','rai, ku(ru)',['venir']],['食','manger','shoku, ta(beru)',['manger']],['飲','boire','in, no(mu)',['boire']],['聞','entendre, écouter, demander','bun, mon, ki(ku)',['écouter','entendre']],['読','lire','doku, yo(mu)',['lire']],['書','écrire','sho, ka(ku)',['écrire']],['話','parler, histoire','wa, hana(su)',['parler']],['言','dire, mot','gen, gon, i(u), koto',['dire','mot']],['立','se tenir debout','ritsu, ta(tsu)',['debout']],['休','repos, se reposer','kyuu, yasu(mu)',['repos']],['本','livre, origine','hon, moto',['livre']],['語','langue, mot','go, kata(ru)',['langue']],['文','phrase, texte','bun, mon, fumi',['texte']],['字','caractère, lettre','ji, aza',['lettre']],['何','quoi, quel','nani, nan',['quoi','quel']]]}
-];
-const root=document.getElementById('kanjiGroups');groups.forEach((g,i)=>{const d=document.createElement('div');d.className='group';d.innerHTML=`<label><input type="checkbox" class="groupCheck" data-group="${i}" checked> ${g.name}</label><small>${g.items.map(x=>x[0]).join(' ')}</small>`;root.appendChild(d)});
-let deck=[],originalDeck=[],index=0,current=null,attempts={},firstTryCorrect=0,answeredFirst={},timedOut={},active=false,timerInterval=null,timeLeft=0,timerDuration=0,difficulty='easy';
-function stopTimer(){if(timerInterval!==null){clearInterval(timerInterval);timerInterval=null}}function updateTimer(){const d=document.getElementById('timerDisplay'),b=document.getElementById('timerBar');if(difficulty==='easy'){d.textContent='Mode facile : pas de limite de temps';b.style.width='100%';b.classList.remove('urgent');return}d.textContent=`Temps restant : ${Math.max(0,Math.ceil(timeLeft))} s`;b.style.width=`${Math.max(0,timeLeft/timerDuration*100)}%`;b.classList.toggle('urgent',timeLeft<=2)}function startTimer(){stopTimer();if(difficulty==='easy'){timeLeft=0;updateTimer();return}timeLeft=timerDuration;updateTimer();let last=Date.now();timerInterval=setInterval(()=>{const now=Date.now();timeLeft-=(now-last)/1000;last=now;if(timeLeft<=0){timeLeft=0;updateTimer();stopTimer();timeExpired()}else updateTimer()},100)}
-function timeExpired(){if(!active||!current)return;timedOut[current.kanji]=true;const m=document.getElementById('message');m.textContent=`Temps écoulé ! Sens : « ${current.meaning} ». Lectures courantes : ${current.readings}.`;m.className='message bad';document.getElementById('answerInput').disabled=true;document.querySelector('#answerForm button[type="submit"]').disabled=true;document.getElementById('skipBtn').disabled=true;setTimeout(()=>{if(active){index++;showCurrent()}},1300)}
-const norm=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9\s-]/g,' ').replace(/\s+/g,' ').trim();function acceptedAnswers(k){const answers=[k.meaning,...k.aliases];/* Accepte aussi les lectures romanisées affichées, en plus du sens français. */k.readings.split(',').map(r=>r.trim()).filter(Boolean).forEach(r=>{answers.push(r);/* Les notations comme oo(きい) donnent aussi la lecture assemblée ookii. */answers.push(r.replace(/\(([^)]*)\)/g,'$1'));answers.push(r.replace(/\([^)]*\)/g,''));});return answers}function isCorrect(value,k){const v=norm(value);return acceptedAnswers(k).some(a=>norm(a)===v)}
-function setAll(v){document.querySelectorAll('.groupCheck').forEach(c=>c.checked=v)}function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function startQuiz(){difficulty=document.querySelector('input[name="difficulty"]:checked').value;timerDuration=difficulty==='medium'?7:(difficulty==='hard'?4:0);const selected=[...document.querySelectorAll('.groupCheck:checked')].flatMap(c=>groups[+c.dataset.group].items);if(!selected.length){document.getElementById('selectionMsg').textContent='Sélectionne au moins une catégorie.';return}originalDeck=shuffle(selected.map(([kanji,meaning,readings,aliases])=>({kanji,meaning,readings,aliases})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};firstTryCorrect=0;active=true;document.getElementById('selectionMsg').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent()}
-function showCurrent(){if(index>=deck.length){finishQuiz();return}current=deck[index];document.getElementById('kanjiPrompt').textContent=current.kanji;document.getElementById('counter').textContent=`Kanji ${index+1}/${deck.length}`;document.getElementById('score').textContent=`Réussites au premier essai : ${firstTryCorrect}`;document.getElementById('progressBar').style.width=`${index/deck.length*100}%`;const m=document.getElementById('message');m.textContent='';m.className='message';const input=document.getElementById('answerInput');input.value='';input.disabled=false;document.querySelector('#answerForm button[type="submit"]').disabled=false;document.getElementById('skipBtn').disabled=false;input.focus();startTimer()}
-document.getElementById('answerForm').addEventListener('submit',e=>{e.preventDefault();validateAnswer()});function validateAnswer(){if(!active||!current)return;const input=document.getElementById('answerInput'),value=input.value,m=document.getElementById('message');if(!norm(value)){m.textContent='Écris un sens en français avant de valider.';m.className='message bad';input.focus();return}attempts[current.kanji]=(attempts[current.kanji]||0)+1;if(isCorrect(value,current)){stopTimer();if(!answeredFirst[current.kanji]){if(attempts[current.kanji]===1)firstTryCorrect++;answeredFirst[current.kanji]=true}m.textContent=`Bien joué ! ${current.kanji} : ${current.meaning}. Lectures courantes : ${current.readings}.`;m.className='message good';input.disabled=true;document.querySelector('#answerForm button[type="submit"]').disabled=true;document.getElementById('skipBtn').disabled=true;setTimeout(()=>{index++;showCurrent()},1100)}else{m.textContent='Pas encore — pense au sens du kanji et réessaie.';m.className='message bad';input.select()}}
-document.getElementById('skipBtn').addEventListener('click',()=>{if(!active)return;stopTimer();const m=document.getElementById('message');m.textContent=`Mis de côté : ${current.kanji} — ${current.meaning}. Lectures : ${current.readings}.`;m.className='message';timedOut[current.kanji]=true;index++;setTimeout(showCurrent,900)});
-function finishQuiz(){if(!active)return;stopTimer();active=false;document.getElementById('game').style.display='none';document.getElementById('results').style.display='block';document.getElementById('summary').textContent=`Tu as travaillé ${originalDeck.length} kanji et obtenu ${firstTryCorrect} réussite(s) au premier essai. Les kanji à plusieurs tentatives ou passés sont à revoir.`;const box=document.getElementById('resultRows');box.innerHTML='';originalDeck.map(k=>({...k,tries:attempts[k.kanji]||0,gotIt:!!answeredFirst[k.kanji],timedOut:!!timedOut[k.kanji]})).sort((a,b)=>(b.tries-a.tries)||a.kanji.localeCompare(b.kanji)).forEach(k=>{const row=document.createElement('div');row.className='result-row';const left=document.createElement('span');left.innerHTML=`<strong style="font-size:1.3rem">${k.kanji}</strong> <span class="muted">${k.meaning} · ${k.readings}</span>`;const right=document.createElement('span');right.className='tag';right.textContent=k.timedOut?'Passé / temps écoulé':(k.gotIt?`${k.tries} tentative(s)`:'Non répondu');row.append(left,right);box.appendChild(row)});document.getElementById('progressBar').style.width='100%';document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'})}function restartSame(){stopTimer();document.getElementById('results').style.display='none';deck=shuffle([...originalDeck]);index=0;attempts={};answeredFirst={};timedOut={};firstTryCorrect=0;active=true;document.getElementById('game').style.display='block';showCurrent()}function backToSelection(){document.getElementById('results').style.display='none';document.getElementById('selection').scrollIntoView({behavior:'smooth',block:'start'})}
-</script></body></html>
+    <title>Japonais — cours et exercices</title>
+    <script src="assets/js/site-config.js" defer></script>
+    <script src="assets/js/navigation.js" defer></script>
+  </head>
+  <body data-page="game">
+    <main>
+      <section class="card" id="numberGame">
+        <h2>Mini-jeu : les nombres japonais</h2>
+        <p class="muted">
+          Entraîne-toi à convertir les nombres dans les deux sens. Quand un
+          nombre s’affiche en chiffres, réponds en kanji japonais ou en
+          hiragana. Quand il s’affiche en kanji, réponds avec les chiffres
+          arabes. Les nombres vont de 1 à 99 999.
+        </p>
+        <div class="difficulty">
+          <strong>Difficulté</strong
+          ><label
+            ><input type="radio" name="numberDifficulty" value="easy" checked />
+            Facile <span>1 à 99</span></label
+          ><label
+            ><input type="radio" name="numberDifficulty" value="medium" /> Moyen
+            <span>1 à 9 999</span></label
+          ><label
+            ><input type="radio" name="numberDifficulty" value="hard" />
+            Difficile <span>1 à 99 999</span></label
+          >
+        </div>
+        <div
+          class="columns"
+          style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
+          <div class="group">
+            <label
+              ><input type="checkbox" id="numberToJapanese" checked /> Chiffres
+              → japonais</label
+            ><small>Ex. 246 → 二百四十六 ou にひゃくよんじゅうろく</small>
+          </div>
+          <div class="group">
+            <label
+              ><input type="checkbox" id="japaneseToNumber" checked /> Kanji →
+              chiffres</label
+            ><small>Ex. 八百三十七 → 837</small>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="btn" type="button" id="startNumberGame">
+            Commencer le jeu des nombres
+          </button>
+        </div>
+        <div class="game" id="numberGamePlay" style="margin-top: 22px">
+          <div class="stats">
+            <span id="numberCounter">Question 1/10</span
+            ><span id="numberScore">Réussites au premier essai : 0</span>
+          </div>
+          <div class="progress"><span id="numberProgressBar"></span></div>
+          <div class="timer" id="numberTimerDisplay">
+            Mode facile : pas de limite de temps
+          </div>
+          <div class="timer-track"><span id="numberTimerBar"></span></div>
+          <div class="kanji" id="numberPrompt">8246</div>
+          <p class="hint" id="numberHint">
+            Écris ce nombre en kanji ou en hiragana.
+          </p>
+          <form id="numberAnswerForm" novalidate>
+            <label for="numberAnswerInput" id="numberAnswerLabel"
+              >Ta réponse</label
+            >
+            <p>
+              <input
+                class="answer"
+                id="numberAnswerInput"
+                autocomplete="off"
+                autocapitalize="none"
+                spellcheck="false"
+                placeholder="Kanji, hiragana ou chiffres" />
+            </p>
+            <div class="controls" style="justify-content: center">
+              <button class="btn" type="submit">Valider</button
+              ><button class="btn secondary" type="button" id="numberSkipBtn">
+                Passer</button
+              ><button class="btn secondary" type="button" id="numberFinishBtn">
+                Terminer
+              </button>
+            </div>
+          </form>
+          <p class="message" id="numberMessage" aria-live="polite"></p>
+        </div>
+        <div class="results" id="numberResults" style="margin-top: 18px">
+          <h3>Résultat du jeu des nombres</h3>
+          <p id="numberSummary"></p>
+          <div class="review-toolbar">
+            <label for="numberResultSort"
+              >Trier les résultats
+              <select id="numberResultSort">
+                <option value="errors">Erreurs d’abord</option>
+                <option value="attempts">Plus de tentatives</option>
+                <option value="success">Réussites d’abord</option>
+                <option value="original">Ordre de la session</option>
+              </select></label
+            >
+          </div>
+          <div class="controls">
+            <button class="btn" type="button" id="numberReplayMissedBtn">
+              Rejouer les erreurs</button
+            ><button class="btn" type="button" id="numberReplaySelectedBtn">
+              Rejouer la sélection cochée</button
+            ><button class="btn secondary" type="button" id="numberReplayBtn">
+              Rejouer toute cette session</button
+            ><button class="btn secondary" type="button" id="numberBackBtn">
+              Retour au jeu des nombres
+            </button>
+          </div>
+          <p class="review-selection-count" id="numberSelectionCount"></p>
+          <p class="muted" id="numberSelectionMessage" aria-live="polite">
+            Coche ou décoche les nombres pour personnaliser la prochaine
+            session.
+          </p>
+          <div id="numberResultRows"></div>
+        </div>
+      </section>
+      <section class="card" id="selection">
+        <h2>1. Choisis les kanji à réviser</h2>
+        <p class="muted">
+          Il n’existe pas de liste officielle unique et figée de kanji N5 ; ce
+          jeu rassemble un ensemble courant de kanji généralement étudiés à ce
+          niveau. Saisis le sens en français (les accents sont facultatifs). Les
+          lectures affichées servent de repère : un kanji peut se lire de
+          plusieurs façons selon le mot.
+        </p>
+        <div class="difficulty">
+          <strong>Difficulté</strong
+          ><label
+            ><input type="radio" name="difficulty" value="easy" checked />
+            Facile <span>Sans chrono</span></label
+          ><label
+            ><input type="radio" name="difficulty" value="medium" /> Moyen
+            <span>7 secondes</span></label
+          ><label
+            ><input type="radio" name="difficulty" value="hard" /> Difficile
+            <span>4 secondes</span></label
+          >
+        </div>
+        <div class="controls">
+          <button class="btn secondary" type="button" onclick="setAll(true)">
+            Tout sélectionner</button
+          ><button class="btn secondary" type="button" onclick="setAll(false)">
+            Tout désélectionner
+          </button>
+        </div>
+        <div class="columns" id="kanjiGroups"></div>
+        <div class="controls">
+          <button class="btn" type="button" onclick="startQuiz()">
+            Commencer le quiz
+          </button>
+        </div>
+        <p class="muted" id="selectionMsg" aria-live="polite"></p>
+      </section>
+      <section class="card game" id="game" aria-live="polite">
+        <div class="stats">
+          <span id="counter">Kanji 1/1</span
+          ><span id="score">Réussites au premier essai : 0</span>
+        </div>
+        <div class="progress"><span id="progressBar"></span></div>
+        <div class="timer" id="timerDisplay">
+          Mode facile : pas de limite de temps
+        </div>
+        <div class="timer-track" aria-hidden="true">
+          <span id="timerBar"></span>
+        </div>
+        <div class="kanji" id="kanjiPrompt">日</div>
+        <p class="hint" id="kanjiHint">Écris le sens principal en français.</p>
+        <form id="answerForm" novalidate>
+          <label for="answerInput">Quel est le sens de ce kanji ?</label>
+          <p>
+            <input
+              class="answer"
+              id="answerInput"
+              autocomplete="off"
+              autocapitalize="none"
+              spellcheck="false"
+              placeholder="Ex. : soleil, jour" />
+          </p>
+          <div class="controls" style="justify-content: center">
+            <button class="btn" type="submit">Valider</button
+            ><button class="btn secondary" type="button" id="skipBtn">
+              Passer</button
+            ><button class="btn secondary" type="button" onclick="finishQuiz()">
+              Terminer
+            </button>
+          </div>
+        </form>
+        <p class="message" id="message" aria-live="polite"></p>
+        <p class="muted">
+          Tu peux proposer un synonyme. En cas d’erreur, réessaie ou passe le
+          kanji.
+        </p>
+      </section>
+      <section class="card results" id="results">
+        <h2>Résultat de la session</h2>
+        <p id="summary"></p>
+        <div class="review-toolbar">
+          <label for="resultSort"
+            >Trier les résultats
+            <select id="resultSort" onchange="renderResults()">
+              <option value="errors">Erreurs d’abord</option>
+              <option value="attempts">Plus de tentatives</option>
+              <option value="success">Réussites d’abord</option>
+              <option value="original">Ordre de la session</option>
+            </select></label
+          >
+        </div>
+        <div class="controls">
+          <button
+            class="btn"
+            id="replayMissedBtn"
+            type="button"
+            onclick="replayMissed()">
+            Rejouer les erreurs</button
+          ><button
+            class="btn"
+            id="replaySelectedBtn"
+            type="button"
+            onclick="replaySelected()">
+            Rejouer la sélection cochée</button
+          ><button class="btn secondary" type="button" onclick="restartSame()">
+            Rejouer toute cette session</button
+          ><button
+            class="btn secondary"
+            type="button"
+            onclick="backToSelection()">
+            Modifier la sélection
+          </button>
+        </div>
+        <p class="review-selection-count" id="reviewSelectionCount"></p>
+        <p class="muted" id="reviewSelectionMessage" aria-live="polite">
+          Coche ou décoche les kanji pour personnaliser la prochaine session.
+        </p>
+        <div id="resultRows"></div>
+      </section>
+    </main>
+    <footer></footer>
+
+    <script src="assets/js/kanji-qcm.js"></script>
+    <script src="assets/js/kanji-game.js"></script>
+    <script src="assets/js/number-range-difficulty.js"></script>
+  </body>
+</html>
