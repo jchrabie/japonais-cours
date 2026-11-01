@@ -123,6 +123,13 @@
 
   async function boot() {
     try {
+      const initialQuery = new URLSearchParams(window.location.search).get("q");
+      if (initialQuery) {
+        for (const id of ["adjSearch", "nounSearch", "verbSearch"]) {
+          const input = $(id);
+          if (input) input.value = initialQuery;
+        }
+      }
       ensureStyles();
       await loadScript("assets/js/vocabulary-data.js", () => Boolean(window.JAPONAIS_VOCABULARY));
       await loadScript("assets/js/course-catalog.js", () => Boolean(window.JAPONAIS_COURSES));

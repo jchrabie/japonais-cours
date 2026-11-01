@@ -1,129 +1,52 @@
 <!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <link rel="stylesheet" href="assets/css/common.css" />
-    <link rel="stylesheet" href="assets/css/content.css" />
-    <link rel="stylesheet" href="assets/css/header.css" />
-    <title>Japonais — mes cours et glossaires</title>
-  </head>
-  <body
-    data-page-title="🇯🇵 Japonais — cours &amp; glossaires"
-    data-page-subtitle="Fiches de révision simples • japonais, romaji et traduction française">
-    <main>
-      <section class="card" id="mini-jeu">
-        <h2>Choisir un mini-jeu</h2>
-        <p>
-          Entraîne-toi à ton rythme : chaque jeu propose plusieurs niveaux de
-          difficulté.
-        </p>
-        <div class="game-grid">
-          <a class="game-link" href="hiragana.html"
-            ><strong>あ Hiragana</strong
-            ><span>Reconnaître les kana et leurs lectures.</span
-            ><span>Facile · Moyen · Difficile →</span></a
-          >
-          <a class="game-link" href="katakana.html"
-            ><strong>ア Katakana</strong
-            ><span
-              >Apprendre les caractères utilisés notamment pour les mots
-              étrangers.</span
-            ><span>Facile · Moyen · Difficile →</span></a
-          >
-          <a class="game-link" href="kanji.html"
-            ><strong
-              ><ruby>
-                漢字
-                <rt>かんじ</rt>
-              </ruby>
-              Kanji N5</strong
-            ><span>Réviser les kanji et convertir les nombres japonais.</span
-            ><span>Kanji · Nombres →</span></a
-          >
-        </div>
-      </section>
-      <section class="card" id="glossaires">
-        <h2>Choisir un glossaire</h2>
-        <p>
-          Chaque glossaire dispose maintenant de sa propre page avec une
-          recherche dédiée.
-        </p>
-        <div class="game-grid">
-          <a class="game-link" href="adjectifs.html"
-            ><strong>📘 Adjectifs</strong
-            ><span
-              >Adjectifs en い et en な, avec leur type et leur
-              traduction.</span
-            ><span>Rechercher et filtrer →</span></a
-          ><a class="game-link" href="noms.html"
-            ><strong>📚 Noms</strong
-            ><span>Personnes, lieux, nourriture et vocabulaire courant.</span
-            ><span>Rechercher un nom →</span></a
-          ><a class="game-link" href="verbes.html"
-            ><strong>🔤 Verbes</strong
-            ><span>Verbes japonais et formes polies.</span
-            ><span>Rechercher un verbe →</span></a
-          >
-        </div>
-      </section>
-      <section class="card" id="cours">
-        <h2>Choisir un cours</h2>
-        <p>
-          Les cours sont désormais sur des pages dédiées, pour garder une
-          navigation courte et claire.
-        </p>
-        <div class="game-grid">
-          <a class="game-link" href="cours1.html"
-            ><strong>📘 Cours 1 — です・だ</strong
-            ><span
-              >Formes affirmatives et négatives, registre poli et
-              familier.</span
-            ><span>Ouvrir le cours →</span></a
-          >
-          <a class="game-link" href="cours2.html"
-            ><strong>📘 Cours 2 — adjectifs et particules</strong
-            ><span>い / な, すき・きらい, は・が・を.</span
-            ><span>Ouvrir le cours →</span></a
-          >
-          <a class="game-link" href="cours3.html"
-            ><strong>📘 Cours 3 — の, adjectifs et couleurs</strong
-            ><span
-              >Assembler les phrases, exprimer la possession et compter en
-              japonais.</span
-            ><span>Ouvrir le cours →</span></a
-          >
-        </div>
-      </section>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="assets/css/common.css" />
+  <link rel="stylesheet" href="assets/css/content.css" />
+  <link rel="stylesheet" href="assets/css/header.css" />  <link rel="stylesheet" href="assets/css/navigation-redesign.css" />
+  <title>Manabi no Michi — 学びの道</title>
+  <script src="assets/js/site-config.js" defer></script>
+  <script src="assets/js/navigation.js" defer></script>
+    <link rel="stylesheet" href="assets/css/system-theme.css" />
+</head>
+<body data-page="index">
+<main class="home-main">
+  <section class="home-intro">
+    <p class="eyebrow">日本語を学ぼう · APPRENDRE LE JAPONAIS</p>
+    <h2>Un mot après l’autre,<br><span>un pas après l’autre.</span></h2>
+    <p>Retrouve tes mots, entraîne ta mémoire et progresse dans la langue japonaise à ton rythme.</p>
+    <a class="home-primary-link" href="vocabulaire-jeux.html">Explorer le vocabulaire <span aria-hidden="true">↗</span></a>
+    <div class="home-japanese-decoration" aria-hidden="true">ことば</div>
+  </section>
 
-      <p class="small">
-        Astuce : enregistre ce fichier et partage-le comme une page web
-        autonome. Il s’ouvre dans un navigateur sans compte ChatGPT ni connexion
-        nécessaire.
-      </p>
-    </main>
-    <footer>
-      Fiche de révision personnelle — à compléter au fil des cours.
-    </footer>
-    <script>
-      function filterTable(inputId, tableId, selectId) {
-        const q = (
-          document.getElementById(inputId).value || ""
-        ).toLocaleLowerCase();
-        const type = selectId
-          ? document.getElementById(selectId).value || ""
-          : "";
-        const rows = document.querySelectorAll("#" + tableId + " tbody tr");
-        rows.forEach((row) => {
-          const text = row.innerText.toLocaleLowerCase();
-          const matchesText = text.includes(q);
-          const matchesType =
-            !type || row.cells[row.cells.length - 1].innerText.includes(type);
-          row.style.display = matchesText && matchesType ? "" : "none";
-        });
-      }
-    </script>
-    <script src="assets/js/site-config.js"></script>
-    <script src="assets/js/navigation.js"></script>
-  </body>
+  <section class="home-section">
+    <div class="home-section-heading">
+      <div><p class="eyebrow">TON PARCOURS</p><h2>Choisis ta prochaine étape</h2></div>
+      <span class="home-section-note">04 espaces pour progresser</span>
+    </div>
+    <div class="home-category-grid">
+      <a class="home-category home-category-vocab" href="vocabulaire-jeux.html">
+        <span class="home-category-number">01 / MOTS</span><span class="home-category-icon" aria-hidden="true">言</span>
+        <h3>Vocabulaire</h3><p>Explore les adjectifs, les noms et les verbes. Retrouve les mots dans les glossaires et mémorise-les avec le jeu.</p><span class="home-category-cta">Découvrir le vocabulaire <b>↗</b></span>
+      </a>
+      <a class="home-category home-category-writing" href="ecriture.html">
+        <span class="home-category-number">02 / ÉCRITURE</span><span class="home-category-icon" aria-hidden="true">あ</span>
+        <h3>Écriture japonaise</h3><p>Reconnais les hiragana, les katakana et les kanji, et entraîne-toi à les mémoriser.</p><span class="home-category-cta">Explorer l’écriture <b>↗</b></span>
+      </a>
+      <a class="home-category home-category-time" href="nombres-temps.html">
+        <span class="home-category-number">03 / REPÈRES</span><span class="home-category-icon" aria-hidden="true">時</span>
+        <h3>Nombres et temps</h3><p>Apprends à lire les nombres et à exprimer l’heure en japonais.</p><span class="home-category-cta">S’entraîner <b>↗</b></span>
+      </a>
+      <a class="home-category home-category-grammar" href="grammaire-jeux.html">
+        <span class="home-category-number">04 / PHRASES</span><span class="home-category-icon" aria-hidden="true">文</span>
+        <h3>Grammaire</h3><p>Construis des phrases et choisis les bonnes particules pour t’exprimer avec justesse.</p><span class="home-category-cta">Travailler la grammaire <b>↗</b></span>
+      </a>
+    </div>
+  </section>
+  <section class="home-resource"><div><p class="eyebrow">POUR ALLER PLUS LOIN</p><h2>Les ressources utiles</h2><p>Dictionnaires, grammaire, écoute et outils pour continuer à apprendre.</p></div><a href="liens-utiles.html">Voir les ressources <span aria-hidden="true">↗</span></a></section>
+</main>
+<footer></footer>
+</body>
 </html>

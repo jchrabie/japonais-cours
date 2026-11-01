@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="assets/css/common.css" />
+    <link rel="stylesheet" href="assets/css/game.css" />
+    <link rel="stylesheet" href="assets/css/header.css" />
+    <link rel="stylesheet" href="assets/css/question-words-game.css" />
+    <title>Jeu des mots interrogatifs · Manabi no Michi</title>
+    <script src="assets/js/site-config.js" defer></script>
+    <script src="assets/js/navigation.js" defer></script>
+    <script src="assets/js/question-words-game.js" defer></script>
+      <link rel="stylesheet" href="assets/css/system-theme.css" />
+  </head>
+  <body data-page="mots-interrogatifs">
+    <main>
+<section class="grammar-game-section" id="questionWordsSection" aria-labelledby="questionWordsTitle">
+        <section class="card question-words-card" id="questionWordsGame">
+          <div class="qwg-intro">
+            <p class="eyebrow">JEU 3 · 疑問詞 · MOTS INTERROGATIFS</p>
+            <h2 id="questionWordsTitle">Compléter avec le bon mot interrogatif</h2>
+            <p>Complète la phrase avec le mot interrogatif qui convient. Choisis parmi les quatre propositions, puis valide ta réponse.</p>
+            <div class="qwg-settings">
+              <label for="qwg-count">Nombre de questions
+                <select id="qwg-count">
+                  <option value="10" selected>10 questions</option>
+                  <option value="all">Toutes les questions</option>
+                </select>
+              </label>
+              <label for="qwg-course">Cours à réviser
+                <select id="qwg-course">
+                  <option value="all">Tous les cours disponibles</option>
+                  <option value="5">Cours 5</option>
+                </select>
+              </label>
+              <label for="qwg-script">Affichage
+                <select id="qwg-script">
+                  <option value="kana">Kana</option>
+                  <option value="kanji">Kanji et kana</option>
+                </select>
+              </label>
+            </div>
+            <div class="qwg-legend">
+              <span>なに / なん · quoi ?</span><span>どこ · où ?</span><span>いくら · combien (prix) ?</span>
+              <span>いくつ · combien (quantité) ?</span><span>どれ / どの · lequel ?</span><span>どれぐらい · environ combien ?</span>
+            </div>
+            <button class="btn" id="qwg-start" type="button">Commencer →</button>
+            <p class="qwg-status" id="qwg-setup-status" role="status" aria-live="polite"></p>
+          </div>
+          <section class="qwg-session" id="qwg-session" hidden aria-live="polite">
+            <div class="qwg-session-head"><span id="qwg-counter">Question 1 / 10</span><span id="qwg-score">0 bonne réponse</span></div>
+            <div class="qwg-progress"><span id="qwg-progress-fill"></span></div>
+            <p class="qwg-course-label" id="qwg-course-label"></p>
+            <p class="qwg-translation" id="qwg-translation"></p>
+            <div class="qwg-sentence" id="qwg-sentence" aria-label="Phrase japonaise à compléter"></div>
+            <fieldset class="qwg-choices" id="qwg-choices"><legend>Choisis le bon mot interrogatif</legend></fieldset>
+            <div class="qwg-actions">
+              <button class="btn secondary" id="qwg-skip" type="button">Passer</button>
+            </div>
+            <div class="qwg-feedback" id="qwg-feedback" role="status" aria-live="polite"></div>
+            <button class="btn" id="qwg-next" type="button" hidden>Question suivante →</button>
+          </section>
+          <section class="qwg-results" id="qwg-results" hidden>
+            <p class="eyebrow">SESSION TERMINÉE</p><h3>Ton bilan</h3><p id="qwg-summary"></p>
+            <div class="qwg-result-list" id="qwg-result-list"></div>
+            <div class="qwg-actions">
+              <button class="btn" id="qwg-replay-errors" type="button">Rejouer mes erreurs</button>
+              <button class="btn secondary" id="qwg-restart" type="button">Recommencer</button>
+            </div>
+          </section>
+        </section>
+      </section>
+    </main>
+    <footer></footer>
+  </body>
+</html>

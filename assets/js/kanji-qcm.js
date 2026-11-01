@@ -2,8 +2,14 @@
 (() => {
   "use strict";
 
-  if (typeof groups === "undefined" || typeof showCurrent !== "function" || typeof validateAnswer !== "function") {
-    console.error("Le QCM Kanji n’a pas trouvé les éléments attendus dans kanji.html.");
+  if (
+    typeof groups === "undefined" ||
+    typeof showCurrent !== "function" ||
+    typeof validateAnswer !== "function"
+  ) {
+    console.error(
+      "Le QCM Kanji n’a pas trouvé les éléments attendus dans kanji.html."
+    );
     return;
   }
 
@@ -16,8 +22,17 @@
   const submitButton = form?.querySelector('button[type="submit"]');
   const skipButton = document.getElementById("skipBtn");
 
-  if (!form || !input || !controls || !message || !submitButton || !skipButton) {
-    console.error("Le QCM Kanji n’a pas trouvé les contrôles attendus dans kanji.html.");
+  if (
+    !form ||
+    !input ||
+    !controls ||
+    !message ||
+    !submitButton ||
+    !skipButton
+  ) {
+    console.error(
+      "Le QCM Kanji n’a pas trouvé les contrôles attendus dans kanji.html."
+    );
     return;
   }
 
@@ -34,10 +49,13 @@
   form.insertBefore(choicesContainer, controls);
   if (inputLabel) inputLabel.hidden = true;
   if (inputParagraph) inputParagraph.hidden = true;
+  submitButton.hidden = true;
   input.disabled = true;
   input.required = false;
   const hint = document.getElementById("kanjiHint");
-  if (hint) hint.textContent = "Choisis le sens qui correspond le mieux au kanji parmi les quatre propositions.";
+  if (hint)
+    hint.textContent =
+      "Choisis le sens qui correspond le mieux au kanji parmi les quatre propositions.";
 
   let qcmOptions = [];
   let qcmSelectedKey = null;
@@ -48,10 +66,11 @@
   const distractorUsage = new Map();
 
   const normalizeMeaning = (value) => norm(String(value ?? ""));
-  const splitMeanings = (value) => String(value ?? "")
-    .split(/[,;\/／]/u)
-    .map((part) => part.trim())
-    .filter(Boolean);
+  const splitMeanings = (value) =>
+    String(value ?? "")
+      .split(/[,;\/／]/u)
+      .map((part) => part.trim())
+      .filter(Boolean);
 
   const allEntries = [];
   const entryGroups = new Map();
@@ -60,7 +79,14 @@
     group.items.forEach(([kanji, meaning, readings, aliases = []]) => {
       if (seenKanji.has(kanji)) return;
       seenKanji.add(kanji);
-      const entry = { kanji, meaning, readings, aliases, groupIndex, groupName: group.name };
+      const entry = {
+        kanji,
+        meaning,
+        readings,
+        aliases,
+        groupIndex,
+        groupName: group.name,
+      };
       allEntries.push(entry);
       entryGroups.set(kanji, groupIndex);
     });
@@ -101,8 +127,12 @@
   function disableChoices(correctKey = null) {
     for (const button of choicesContainer.querySelectorAll("button")) {
       button.disabled = true;
-      if (button.dataset.choiceKey === correctKey) button.classList.add("is-correct");
-      if (button.dataset.choiceKey === qcmSelectedKey && button.dataset.choiceKey !== correctKey) {
+      if (button.dataset.choiceKey === correctKey)
+        button.classList.add("is-correct");
+      if (
+        button.dataset.choiceKey === qcmSelectedKey &&
+        button.dataset.choiceKey !== correctKey
+      ) {
         button.classList.add("is-wrong");
       }
     }
@@ -111,11 +141,15 @@
   }
 
   function targetAnswerVariants(entry) {
-    return new Set([
-      entry.meaning,
-      ...(Array.isArray(entry.aliases) ? entry.aliases : []),
-      ...splitMeanings(entry.meaning)
-    ].map(normalizeMeaning).filter(Boolean));
+    return new Set(
+      [
+        entry.meaning,
+        ...(Array.isArray(entry.aliases) ? entry.aliases : []),
+        ...splitMeanings(entry.meaning),
+      ]
+        .map(normalizeMeaning)
+        .filter(Boolean)
+    );
   }
 
   function buildOptions(target) {
@@ -124,15 +158,24 @@
     const labelKey = (entry) => normalizeMeaning(entry.meaning);
     const candidates = allEntries.filter((entry) => {
       if (entry.kanji === target.kanji) return false;
-      const candidateParts = [entry.meaning, ...splitMeanings(entry.meaning), ...(entry.aliases || [])]
-        .map(normalizeMeaning).filter(Boolean);
+      const candidateParts = [
+        entry.meaning,
+        ...splitMeanings(entry.meaning),
+        ...(entry.aliases || []),
+      ]
+        .map(normalizeMeaning)
+        .filter(Boolean);
       if (candidateParts.some((part) => accepted.has(part))) return false;
       return Boolean(labelKey(entry));
     });
 
     // Préférence aux mots de la même famille, puis élargissement au reste du catalogue.
-    const sameGroup = candidates.filter((entry) => entry.groupIndex === targetGroup);
-    const otherGroups = candidates.filter((entry) => entry.groupIndex !== targetGroup);
+    const sameGroup = candidates.filter(
+      (entry) => entry.groupIndex === targetGroup
+    );
+    const otherGroups = candidates.filter(
+      (entry) => entry.groupIndex !== targetGroup
+    );
     const selectedDistractors = [];
     const usedLabels = new Set([normalizeMeaning(target.meaning)]);
 
@@ -161,31 +204,56 @@
 
     // Le catalogue global contient largement plus de quatre sens ; cette garde évite un QCM incomplet si le contenu évolue.
     const options = [
-      { key: `correct:${normalizeMeaning(target.kanji)}:${normalizeMeaning(target.meaning)}`, label: target.meaning, correct: true },
-      ...selectedDistractors
+      {
+        key: `correct:${normalizeMeaning(target.kanji)}:${normalizeMeaning(
+          target.meaning
+        )}`,
+        label: target.meaning,
+        correct: true,
+      },
+      ...selectedDistractors,
     ];
     while (options.length < 4) {
       const fallback = allEntries.find((entry) => {
         const key = labelKey(entry);
-        return entry.kanji !== target.kanji && key && !usedLabels.has(key) && !accepted.has(key);
+        return (
+          entry.kanji !== target.kanji &&
+          key &&
+          !usedLabels.has(key) &&
+          !accepted.has(key)
+        );
       });
       if (!fallback) break;
       const key = labelKey(fallback);
       usedLabels.add(key);
-      selectedDistractors.push({ key, label: fallback.meaning, correct: false });
+      selectedDistractors.push({
+        key,
+        label: fallback.meaning,
+        correct: false,
+      });
       options.push(selectedDistractors[selectedDistractors.length - 1]);
     }
 
     // Les options incorrectes vues dans une même session sont moins souvent réutilisées.
     for (const option of options) {
-      if (!option.correct) distractorUsage.set(normalizeMeaning(option.label), (distractorUsage.get(normalizeMeaning(option.label)) || 0) + 1);
+      if (!option.correct)
+        distractorUsage.set(
+          normalizeMeaning(option.label),
+          (distractorUsage.get(normalizeMeaning(option.label)) || 0) + 1
+        );
     }
     for (let i = options.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
       [options[i], options[j]] = [options[j], options[i]];
     }
-    const setKey = options.map((option) => normalizeMeaning(option.label)).sort().join("|");
-    if (setKey === [...previousOptionSet].sort().join("|") && options.length >= 4) {
+    const setKey = options
+      .map((option) => normalizeMeaning(option.label))
+      .sort()
+      .join("|");
+    if (
+      setKey === [...previousOptionSet].sort().join("|") &&
+      options.length >= 4
+    ) {
       const possible = candidates.find((entry) => {
         const key = labelKey(entry);
         return key && !usedLabels.has(key);
@@ -193,12 +261,24 @@
       const replaceIndex = options.findIndex((option) => !option.correct);
       if (possible && replaceIndex >= 0) {
         const oldKey = normalizeMeaning(options[replaceIndex].label);
-        options[replaceIndex] = { key: labelKey(possible), label: possible.meaning, correct: false };
-        distractorUsage.set(oldKey, Math.max(0, (distractorUsage.get(oldKey) || 1) - 1));
-        distractorUsage.set(labelKey(possible), (distractorUsage.get(labelKey(possible)) || 0) + 1);
+        options[replaceIndex] = {
+          key: labelKey(possible),
+          label: possible.meaning,
+          correct: false,
+        };
+        distractorUsage.set(
+          oldKey,
+          Math.max(0, (distractorUsage.get(oldKey) || 1) - 1)
+        );
+        distractorUsage.set(
+          labelKey(possible),
+          (distractorUsage.get(labelKey(possible)) || 0) + 1
+        );
       }
     }
-    previousOptionSet = new Set(options.map((option) => normalizeMeaning(option.label)));
+    previousOptionSet = new Set(
+      options.map((option) => normalizeMeaning(option.label))
+    );
     return options;
   }
 
@@ -230,9 +310,16 @@
         }
         message.textContent = "";
         message.className = "message";
+        // Le choix est vérifié immédiatement : aucune saisie ni validation séparée.
+        validateAnswer();
       });
       button.addEventListener("keydown", (event) => {
-        if (!["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(event.key)) return;
+        if (
+          !["ArrowRight", "ArrowDown", "ArrowLeft", "ArrowUp"].includes(
+            event.key
+          )
+        )
+          return;
         event.preventDefault();
         const list = [...choicesContainer.querySelectorAll("button")];
         const currentIndex = list.indexOf(button);
@@ -255,9 +342,15 @@
     qcmResolved = false;
     qcmSelectedKey = null;
     document.getElementById("kanjiPrompt").textContent = current.kanji;
-    document.getElementById("counter").textContent = `Kanji ${index + 1}/${deck.length}`;
-    document.getElementById("score").textContent = `Réussites au premier essai : ${firstTryCorrect}`;
-    document.getElementById("progressBar").style.width = `${(index / deck.length) * 100}%`;
+    document.getElementById("counter").textContent = `Kanji ${index + 1}/${
+      deck.length
+    }`;
+    document.getElementById(
+      "score"
+    ).textContent = `Réussites au premier essai : ${firstTryCorrect}`;
+    document.getElementById("progressBar").style.width = `${
+      (index / deck.length) * 100
+    }%`;
     message.textContent = "";
     message.className = "message";
     renderChoices();
@@ -284,13 +377,15 @@
       message.textContent = `Bien joué ! ${current.kanji} : ${current.meaning}. Lectures courantes : ${current.readings}.`;
       message.className = "message good";
       disableChoices(selected.key);
-      scheduleNext(1000);
+      scheduleNext(2000);
       return;
     }
-    message.textContent = "Pas encore. Les propositions peuvent se ressembler : essaie un autre choix.";
+    message.textContent =
+      "Pas encore. Les propositions peuvent se ressembler : essaie un autre choix.";
     message.className = "message bad";
-    const wrongButton = [...choicesContainer.querySelectorAll("button")]
-      .find((button) => button.dataset.choiceKey === selected.key);
+    const wrongButton = [...choicesContainer.querySelectorAll("button")].find(
+      (button) => button.dataset.choiceKey === selected.key
+    );
     if (wrongButton) wrongButton.classList.add("is-wrong");
   };
 
@@ -306,17 +401,21 @@
     scheduleNext(1300);
   };
 
-  skipButton.addEventListener("click", (event) => {
-    if (!active || !current || qcmResolved) return;
-    event.stopImmediatePropagation();
-    stopTimer();
-    skipped[current.kanji] = true;
-    qcmResolved = true;
-    message.textContent = `Mis de côté : ${current.kanji} — ${current.meaning}. Lectures : ${current.readings}.`;
-    message.className = "message";
-    disableChoices(null);
-    scheduleNext(700);
-  }, true);
+  skipButton.addEventListener(
+    "click",
+    (event) => {
+      if (!active || !current || qcmResolved) return;
+      event.stopImmediatePropagation();
+      stopTimer();
+      skipped[current.kanji] = true;
+      qcmResolved = true;
+      message.textContent = `Mis de côté : ${current.kanji} — ${current.meaning}. Lectures : ${current.readings}.`;
+      message.className = "message";
+      disableChoices(null);
+      scheduleNext(700);
+    },
+    true
+  );
 
   startQuiz = function startKanjiQcmQuiz() {
     clearAdvanceTimeout();
@@ -337,11 +436,11 @@
     originalFinishQuiz();
   };
 
-  // Rendre le submit natif accessible tout en gardant le fonctionnement du quiz historique.
-  submitButton.textContent = "Valider";
+  // Le champ de saisie et le bouton de validation restent uniquement comme
+  // éléments de compatibilité avec le moteur historique ; ils ne sont pas affichés.
   const style = document.createElement("style");
   style.textContent = `
-    #answerForm > label, #answerForm > p { display: none !important; }
+    #answerForm > label, #answerForm > p, #answerForm button[type="submit"] { display: none !important; }
   `;
   document.head.appendChild(style);
 })();

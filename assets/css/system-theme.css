@@ -1,0 +1,370 @@
+/*
+ * Thème sombre automatique : suit les préférences d'apparence du système.
+ * Aucun réglage manuel n'est nécessaire ; le thème clair reste inchangé
+ * lorsque le système est configuré en mode clair.
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --ink: #eeeae2;
+    --muted: #b5b8b0;
+    --line: #414b45;
+    --paper: #202923;
+    --bg: #151c18;
+    --accent: #d39a72;
+    --accent-dark: #e5b18d;
+    --soft: #303d35;
+    --good: #7bc69a;
+    --bad: #e28a85;
+
+  body {
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+  }
+
+  main,
+  footer {
+    color: var(--ink);
+  }
+
+  .card,
+  .game-link,
+  .resource-card,
+  .group,
+  .grammar-radio-group,
+  .grammar-choice,
+  .qwg-choice,
+  .qwg-result-item,
+  .particle-bank-wrap,
+  .particle-token,
+  .particle-chip,
+  .difficulty,
+  .note,
+  main details {
+    background-color: var(--paper) !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
+  }
+
+  .game-link span,
+  .game-link strong,
+  .resource-card *,
+  .muted,
+  .small,
+  .grammar-help,
+  .particle-instruction,
+  .particle-status,
+  .qwg-course-label {
+    color: var(--muted);
+  }
+
+  a {
+    color: var(--accent-dark);
+  }
+
+  input:not([type="radio"]):not([type="checkbox"]),
+  textarea,
+  select,
+  .controls input,
+  .controls select,
+  .grammar-options select,
+  .sort-label select,
+  .particle-settings select,
+  .qwg-settings select,
+  .answer {
+    background-color: #18211c !important;
+    color: var(--ink) !important;
+    border-color: #59645c !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #9ba49b;
+  }
+
+  button.btn.secondary,
+  .controls .btn.secondary {
+    background: #354139 !important;
+    color: var(--ink) !important;
+    border-color: #59645c !important;
+  }
+
+  header,
+  #site-header {
+    background: #202923 !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
+  }
+
+  header h1,
+  #site-header .site-heading h1,
+  #site-header .site-heading p,
+  #site-header .site-vocabulary-search > label {
+    color: var(--ink) !important;
+  }
+
+  nav a,
+  nav summary,
+  #site-header nav a,
+  #site-header nav summary {
+    background: #29352e !important;
+    color: var(--ink) !important;
+    border-color: #4a574e !important;
+  }
+
+  #site-header .global-search-field {
+    background: #18211c !important;
+    border-color: #59645c !important;
+  }
+
+  #site-header .global-search-field input {
+    background: transparent !important;
+    color: var(--ink) !important;
+  }
+
+  #site-header .global-search-clear {
+    background: #354139 !important;
+    color: var(--ink) !important;
+  }
+
+  th {
+    background: #303b34 !important;
+    color: var(--ink) !important;
+  }
+
+  td,
+  th {
+    border-color: var(--line) !important;
+  }
+
+  .example,
+  .qwg-sentence,
+  .particle-sentence,
+  .particle-slot,
+  .particle-legend span,
+  .qwg-legend span,
+  .pill,
+  .progress,
+  .particle-progress,
+  .qwg-progress {
+    background-color: #29352e !important;
+    color: var(--ink) !important;
+    border-color: #59645c !important;
+  }
+
+  .particle-slot.filled,
+  .particle-slot.correct,
+  .qwg-choice.is-correct,
+  .qwg-feedback.success {
+    background: #234333 !important;
+    color: #bce8ca !important;
+    border-color: #4f9b6b !important;
+  }
+
+  .particle-slot.incorrect,
+  .qwg-choice.is-incorrect,
+  .qwg-feedback.error {
+    background: #4a2929 !important;
+    color: #ffd0ca !important;
+    border-color: #a75b54 !important;
+  }
+
+  .qwg-choice.is-selected {
+    background: #263f48 !important;
+    color: #d5f0f4 !important;
+    border-color: #5d9cab !important;
+  }
+
+  .message,
+  .feedback {
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline-color: #e5b18d;
+  }
+
+  }
+}
+
+/* Mode nuit forcé depuis le bouton flottant (indépendant du système). */
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --ink: #eeeae2;
+    --muted: #b5b8b0;
+    --line: #414b45;
+    --paper: #202923;
+    --bg: #151c18;
+    --accent: #d39a72;
+    --accent-dark: #e5b18d;
+    --soft: #303d35;
+    --good: #7bc69a;
+    --bad: #e28a85;
+
+  body {
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+  }
+
+  main,
+  footer {
+    color: var(--ink);
+  }
+
+  .card,
+  .game-link,
+  .resource-card,
+  .group,
+  .grammar-radio-group,
+  .grammar-choice,
+  .qwg-choice,
+  .qwg-result-item,
+  .particle-bank-wrap,
+  .particle-token,
+  .particle-chip,
+  .difficulty,
+  .note,
+  main details {
+    background-color: var(--paper) !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
+  }
+
+  .game-link span,
+  .game-link strong,
+  .resource-card *,
+  .muted,
+  .small,
+  .grammar-help,
+  .particle-instruction,
+  .particle-status,
+  .qwg-course-label {
+    color: var(--muted);
+  }
+
+  a {
+    color: var(--accent-dark);
+  }
+
+  input:not([type="radio"]):not([type="checkbox"]),
+  textarea,
+  select,
+  .controls input,
+  .controls select,
+  .grammar-options select,
+  .sort-label select,
+  .particle-settings select,
+  .qwg-settings select,
+  .answer {
+    background-color: #18211c !important;
+    color: var(--ink) !important;
+    border-color: #59645c !important;
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: #9ba49b;
+  }
+
+  button.btn.secondary,
+  .controls .btn.secondary {
+    background: #354139 !important;
+    color: var(--ink) !important;
+    border-color: #59645c !important;
+  }
+
+  header,
+  #site-header {
+    background: #202923 !important;
+    color: var(--ink) !important;
+    border-color: var(--line) !important;
+  }
+
+  header h1,
+  #site-header .site-heading h1,
+  #site-header .site-heading p,
+  #site-header .site-vocabulary-search > label {
+    color: var(--ink) !important;
+  }
+
+  nav a,
+  nav summary,
+  #site-header nav a,
+  #site-header nav summary {
+    background: #29352e !important;
+    color: var(--ink) !important;
+    border-color: #4a574e !important;
+  }
+
+  #site-header .global-search-field {
+    background: #18211c !important;
+    border-color: #59645c !important;
+  }
+
+  #site-header .global-search-field input {
+    background: transparent !important;
+    color: var(--ink) !important;
+  }
+
+  #site-header .global-search-clear {
+    background: #354139 !important;
+    color: var(--ink) !important;
+  }
+
+  th {
+    background: #303b34 !important;
+    color: var(--ink) !important;
+  }
+
+  td,
+  th {
+    border-color: var(--line) !important;
+  }
+
+  .example,
+  .qwg-sentence,
+  .particle-sentence,
+  .particle-slot,
+  .particle-legend span,
+  .qwg-legend span,
+  .pill,
+  .progress,
+  .particle-progress,
+  .qwg-progress {
+    background-color: #29352e !important;
+    color: var(--ink) !important;
+    border-color: #59645c !important;
+  }
+
+  .particle-slot.filled,
+  .particle-slot.correct,
+  .qwg-choice.is-correct,
+  .qwg-feedback.success {
+    background: #234333 !important;
+    color: #bce8ca !important;
+    border-color: #4f9b6b !important;
+  }
+
+  .particle-slot.incorrect,
+  .qwg-choice.is-incorrect,
+  .qwg-feedback.error {
+    background: #4a2929 !important;
+    color: #ffd0ca !important;
+    border-color: #a75b54 !important;
+  }
+
+  .qwg-choice.is-selected {
+    background: #263f48 !important;
+    color: #d5f0f4 !important;
+    border-color: #5d9cab !important;
+  }
+
+  .message,
+  .feedback {
+    color: var(--ink);
+  }
+
+  :focus-visible {
+    outline-color: #e5b18d;
+  }
+}

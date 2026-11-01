@@ -11,128 +11,16 @@
     <title>Japonais — cours et exercices</title>
     <script src="assets/js/site-config.js" defer></script>
     <script src="assets/js/navigation.js" defer></script>
-  </head>
+      <link rel="stylesheet" href="assets/css/system-theme.css" />
+</head>
   <body data-page="game">
     <main>
-      <section class="card" id="numberGame">
-        <h2>Mini-jeu : les nombres japonais</h2>
-        <p class="muted">
-          Entraîne-toi à convertir les nombres dans les deux sens. Quand un
-          nombre s’affiche en chiffres, réponds en kanji japonais ou en
-          hiragana. Quand il s’affiche en kanji, réponds avec les chiffres
-          arabes. Les nombres vont de 1 à 99 999.
-        </p>
-        <div class="difficulty">
-          <strong>Difficulté</strong
-          ><label
-            ><input type="radio" name="numberDifficulty" value="easy" checked />
-            Facile <span>1 à 99</span></label
-          ><label
-            ><input type="radio" name="numberDifficulty" value="medium" /> Moyen
-            <span>1 à 9 999</span></label
-          ><label
-            ><input type="radio" name="numberDifficulty" value="hard" />
-            Difficile <span>1 à 99 999</span></label
-          >
-        </div>
-        <div
-          class="columns"
-          style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr))">
-          <div class="group">
-            <label
-              ><input type="checkbox" id="numberToJapanese" checked /> Chiffres
-              → japonais</label
-            ><small>Ex. 246 → 二百四十六 ou にひゃくよんじゅうろく</small>
-          </div>
-          <div class="group">
-            <label
-              ><input type="checkbox" id="japaneseToNumber" checked /> Kanji →
-              chiffres</label
-            ><small>Ex. 八百三十七 → 837</small>
-          </div>
-        </div>
-        <div class="controls">
-          <button class="btn" type="button" id="startNumberGame">
-            Commencer le jeu des nombres
-          </button>
-        </div>
-        <div class="game" id="numberGamePlay" style="margin-top: 22px">
-          <div class="stats">
-            <span id="numberCounter">Question 1/10</span
-            ><span id="numberScore">Réussites au premier essai : 0</span>
-          </div>
-          <div class="progress"><span id="numberProgressBar"></span></div>
-          <div class="timer" id="numberTimerDisplay">
-            Mode facile : pas de limite de temps
-          </div>
-          <div class="timer-track"><span id="numberTimerBar"></span></div>
-          <div class="kanji" id="numberPrompt">8246</div>
-          <p class="hint" id="numberHint">
-            Écris ce nombre en kanji ou en hiragana.
-          </p>
-          <form id="numberAnswerForm" novalidate>
-            <label for="numberAnswerInput" id="numberAnswerLabel"
-              >Ta réponse</label
-            >
-            <p>
-              <input
-                class="answer"
-                id="numberAnswerInput"
-                autocomplete="off"
-                autocapitalize="none"
-                spellcheck="false"
-                placeholder="Kanji, hiragana ou chiffres" />
-            </p>
-            <div class="controls" style="justify-content: center">
-              <button class="btn" type="submit">Valider</button
-              ><button class="btn secondary" type="button" id="numberSkipBtn">
-                Passer</button
-              ><button class="btn secondary" type="button" id="numberFinishBtn">
-                Terminer
-              </button>
-            </div>
-          </form>
-          <p class="message" id="numberMessage" aria-live="polite"></p>
-        </div>
-        <div class="results" id="numberResults" style="margin-top: 18px">
-          <h3>Résultat du jeu des nombres</h3>
-          <p id="numberSummary"></p>
-          <div class="review-toolbar">
-            <label for="numberResultSort"
-              >Trier les résultats
-              <select id="numberResultSort">
-                <option value="errors">Erreurs d’abord</option>
-                <option value="attempts">Plus de tentatives</option>
-                <option value="success">Réussites d’abord</option>
-                <option value="original">Ordre de la session</option>
-              </select></label
-            >
-          </div>
-          <div class="controls">
-            <button class="btn" type="button" id="numberReplayMissedBtn">
-              Rejouer les erreurs</button
-            ><button class="btn" type="button" id="numberReplaySelectedBtn">
-              Rejouer la sélection cochée</button
-            ><button class="btn secondary" type="button" id="numberReplayBtn">
-              Rejouer toute cette session</button
-            ><button class="btn secondary" type="button" id="numberBackBtn">
-              Retour au jeu des nombres
-            </button>
-          </div>
-          <p class="review-selection-count" id="numberSelectionCount"></p>
-          <p class="muted" id="numberSelectionMessage" aria-live="polite">
-            Coche ou décoche les nombres pour personnaliser la prochaine
-            session.
-          </p>
-          <div id="numberResultRows"></div>
-        </div>
-      </section>
       <section class="card" id="selection">
         <h2>1. Choisis les kanji à réviser</h2>
         <p class="muted">
           Il n’existe pas de liste officielle unique et figée de kanji N5 ; ce
           jeu rassemble un ensemble courant de kanji généralement étudiés à ce
-          niveau. Saisis le sens en français (les accents sont facultatifs). Les
+          niveau. Choisis le sens correct parmi quatre propositions. Les
           lectures affichées servent de repère : un kanji peut se lire de
           plusieurs façons selon le mot.
         </p>
@@ -177,9 +65,13 @@
           <span id="timerBar"></span>
         </div>
         <div class="kanji" id="kanjiPrompt">日</div>
-        <p class="hint" id="kanjiHint">Écris le sens principal en français.</p>
+        <p class="hint" id="kanjiHint">
+          Choisis le sens principal parmi les quatre propositions.
+        </p>
         <form id="answerForm" novalidate>
-          <label for="answerInput">Quel est le sens de ce kanji ?</label>
+          <label for="answerInput"
+            >Choisis le sens de ce kanji parmi les propositions.</label
+          >
           <p>
             <input
               class="answer"
@@ -187,10 +79,10 @@
               autocomplete="off"
               autocapitalize="none"
               spellcheck="false"
-              placeholder="Ex. : soleil, jour" />
+              placeholder="Saisie désactivée : sélectionne une proposition" />
           </p>
           <div class="controls" style="justify-content: center">
-            <button class="btn" type="submit">Valider</button
+            <button class="btn" type="submit" hidden>Valider</button
             ><button class="btn secondary" type="button" id="skipBtn">
               Passer</button
             ><button class="btn secondary" type="button" onclick="finishQuiz()">
@@ -200,8 +92,8 @@
         </form>
         <p class="message" id="message" aria-live="polite"></p>
         <p class="muted">
-          Tu peux proposer un synonyme. En cas d’erreur, réessaie ou passe le
-          kanji.
+          Sélectionne directement une proposition. En cas d’erreur, choisis-en
+          une autre ou passe le kanji.
         </p>
       </section>
       <section class="card results" id="results">
@@ -249,8 +141,7 @@
     </main>
     <footer></footer>
 
-    <script src="assets/js/kanji-qcm.js"></script>
     <script src="assets/js/kanji-game.js"></script>
-    <script src="assets/js/number-range-difficulty.js"></script>
+    <script src="assets/js/kanji-qcm.js"></script>
   </body>
 </html>

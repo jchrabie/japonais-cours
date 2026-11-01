@@ -1,0 +1,65 @@
+.clock-game {
+  text-align: center;
+}
+.clock-face {
+  width: min(100%, 290px);
+  margin: 10px auto 14px;
+}
+.clock-face svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.clock-ring {
+  fill: var(--bg);
+  stroke: #9eb4bf;
+  stroke-width: 3;
+}
+.clock-tick {
+  stroke: #607987;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+.clock-tick.major {
+  stroke-width: 4;
+}
+.clock-number {
+  fill: var(--ink);
+  font: 600 15px system-ui, sans-serif;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+.clock-hour-hand {
+  stroke: #263442;
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+.clock-minute-hand {
+  stroke: var(--accent-dark);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+.clock-center {
+  fill: var(--coral);
+}
+.clock-controls {
+  justify-content: center;
+}
+.clock-choice {
+  justify-content: center;
+  min-height: 58px;
+  font-size: 1.08rem;
+}
+.clock-choice .kanji-qcm-label {
+  text-align: center;
+  width: 100%;
+}
+.clock-digital {
+  color: var(--muted);
+  font-weight: 650;
+}
+@media (max-width: 560px) {
+  .clock-face {
+    width: min(78vw, 260px);
+  }
+}

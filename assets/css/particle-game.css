@@ -1,0 +1,232 @@
+.particle-main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.particle-intro,
+.particle-session,
+.particle-results {
+  margin-block: 1rem;
+}
+.eyebrow {
+  letter-spacing: 0.14em;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--accent, #b94b24);
+}
+.particle-intro h2,
+.particle-results h2 {
+  margin-top: 0.25rem;
+}
+.particle-settings {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.4rem 0;
+}
+.particle-settings label {
+  display: grid;
+  gap: 0.4rem;
+  font-weight: 650;
+}
+.particle-settings select {
+  min-height: 2.7rem;
+  padding: 0.5rem;
+  border: 1px solid #c9bba5;
+  border-radius: 10px;
+  background: #fffdf8;
+  color: inherit;
+}
+.particle-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0 1.3rem;
+}
+.particle-legend span {
+  background: #f4ead8;
+  border: 1px solid #e3d3b9;
+  border-radius: 99px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.88rem;
+}
+.particle-game-card .particle-status,
+.particle-game-card .particle-instruction {
+  color: #665b4d;
+}
+.particle-session-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: 750;
+}
+.particle-progress {
+  height: 8px;
+  background: #eee4d5;
+  border-radius: 99px;
+  overflow: hidden;
+  margin: 0.8rem 0 1.4rem;
+}
+.particle-progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: #b94b24;
+  transition: width 0.2s;
+}
+.particle-course-label {
+  font-size: 0.82rem;
+  color: #806e58;
+  font-weight: 700;
+}
+.particle-translation {
+  font-size: 1.15rem;
+  margin: 0.4rem 0 1.2rem;
+}
+.particle-sentence {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  line-height: 2.4;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  padding: 1rem;
+  background: #fbf7ef;
+  border: 1px solid #eadcc8;
+  border-radius: 14px;
+  min-height: 100px;
+}
+.particle-slot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.2rem;
+  min-height: 2.5rem;
+  padding: 0.2rem 0.45rem;
+  border: 2px dashed #c28a5e;
+  border-radius: 9px;
+  background: #fffaf2;
+  color: #8d4a25;
+  font-size: 1.05rem;
+  font-weight: 800;
+  vertical-align: middle;
+}
+.particle-slot.is-over {
+  background: #f7e5d5;
+  border-color: #b94b24;
+}
+.particle-slot.filled {
+  border-style: solid;
+  background: #f4e8d8;
+  color: #542d1b;
+}
+.particle-slot.correct {
+  border-color: #32815a;
+  background: #e8f4eb;
+  color: #205c3b;
+}
+.particle-slot.incorrect {
+  border-color: #b84b3d;
+  background: #fae9e6;
+  color: #8b3027;
+}
+.particle-bank-wrap {
+  margin: 1.3rem 0;
+}
+.particle-bank-wrap h3 {
+  font-size: 1rem;
+}
+.particle-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  min-height: 54px;
+  padding: 0.8rem;
+  border: 1px dashed #d4c4ad;
+  border-radius: 12px;
+  background: #fffdf9;
+}
+.particle-chip {
+  border: 1px solid #b98b62;
+  border-radius: 10px;
+  background: #fff;
+  color: #512f20;
+  padding: 0.45rem 0.85rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  cursor: grab;
+  touch-action: manipulation;
+  user-select: none;
+}
+.particle-game-card .particle-chip:focus-visible,
+.particle-game-card .particle-slot:focus-visible {
+  outline: 3px solid #236c83;
+  outline-offset: 3px;
+}
+.particle-chip.selected {
+  outline: 3px solid #236c83;
+  background: #e6f2f5;
+}
+.particle-chip.used {
+  opacity: 0.35;
+  cursor: default;
+}
+.particle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+.particle-feedback {
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  margin: 0.8rem 0;
+  min-height: 1rem;
+}
+.particle-feedback.success {
+  background: #e8f4eb;
+  color: #205c3b;
+}
+.particle-feedback.error {
+  background: #fae9e6;
+  color: #8b3027;
+}
+.particle-feedback small {
+  display: block;
+  margin-top: 0.35rem;
+}
+.particle-result-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 1rem 0;
+}
+.particle-result-item {
+  padding: 0.75rem;
+  border: 1px solid #e4d8c6;
+  border-radius: 10px;
+  background: var(--bg);
+}
+.particle-result-item strong {
+  display: block;
+}
+.particle-result-item .bad {
+  color: #a43b30;
+}
+.particle-result-item .good {
+  color: #28704a;
+}
+@media (max-width: 560px) {
+  .particle-main {
+    padding: 0.5rem;
+  }
+  .particle-session-head {
+    font-size: 0.9rem;
+  }
+  .particle-game-card .particle-actions .btn {
+    flex: 1 1 42%;
+  }
+  .particle-sentence {
+    gap: 0.3rem;
+    padding: 0.7rem;
+  }
+}

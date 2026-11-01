@@ -29,151 +29,47 @@
     "verbes-012": "します",
     "verbes-013": "よやくします",
     "verbes-014": "りょうりします",
-    "verbes-015": "りょこうします"
+    "verbes-015": "りょこうします",
+    "verbes-016": "おきます",
+    "verbes-017": "あけます",
+    "verbes-018": "しめます",
+    "verbes-019": "おしえます",
+    "verbes-020": "かんがえます",
+    "verbes-021": "こたえます",
+    "verbes-022": "はじめます",
+    "verbes-023": "やめます",
+    "verbes-024": "つけます",
+    "verbes-025": "きめます",
+    "verbes-026": "かります",
+    "verbes-027": "おります",
+    "verbes-028": "あげます",
+    "verbes-029": "にげます",
+    "verbes-030": "つかれます",
+    "verbes-031": "かきます",
+    "verbes-032": "はなします",
+    "verbes-033": "ききます",
+    "verbes-034": "およぎます",
+    "verbes-035": "あるきます",
+    "verbes-036": "たちます",
+    "verbes-037": "しにます",
+    "verbes-038": "とびます",
+    "verbes-039": "まちます",
+    "verbes-040": "あそびます",
+    "verbes-041": "あつまります",
+    "verbes-042": "かえります",
+    "verbes-043": "なります",
+    "verbes-044": "いります",
+    "verbes-045": "とります",
+    "verbes-046": "はいります",
+    "verbes-047": "いそぎます",
+    "verbes-048": "ぬぎます",
+    "verbes-049": "さがします",
+    "verbes-050": "はらいます",
+    "verbes-051": "とまります",
+    "verbes-052": "わかります"
   };
 
   const form = (entry, script) => script === "kana" ? entry.kana : entry.kanji;
-
-  const kanaToRomaji = (value) => {
-    const pairs = {
-      "きゃ":"kya","きゅ":"kyu","きょ":"kyo","しゃ":"sha","しゅ":"shu","しょ":"sho",
-      "ちゃ":"cha","ちゅ":"chu","ちょ":"cho","にゃ":"nya","にゅ":"nyu","にょ":"nyo",
-      "ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo","みゃ":"mya","みゅ":"myu","みょ":"myo",
-      "りゃ":"rya","りゅ":"ryu","りょ":"ryo","ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo",
-      "じゃ":"ja","じゅ":"ju","じょ":"jo","びゃ":"bya","びゅ":"byu","びょ":"byo",
-      "ぴゃ":"pya","ぴゅ":"pyu","ぴょ":"pyo","てぃ":"ti","でぃ":"di","ふぁ":"fa","ふぃ":"fi","ふぇ":"fe","ふぉ":"fo",
-      "あ":"a","い":"i","う":"u","え":"e","お":"o","か":"ka","き":"ki","く":"ku","け":"ke","こ":"ko",
-      "さ":"sa","し":"shi","す":"su","せ":"se","そ":"so","た":"ta","ち":"chi","つ":"tsu","て":"te","と":"to",
-      "な":"na","に":"ni","ぬ":"nu","ね":"ne","の":"no","は":"ha","ひ":"hi","ふ":"fu","へ":"he","ほ":"ho",
-      "ま":"ma","み":"mi","む":"mu","め":"me","も":"mo","や":"ya","ゆ":"yu","よ":"yo",
-      "ら":"ra","り":"ri","る":"ru","れ":"re","ろ":"ro","わ":"wa","を":"o","ん":"n",
-      "が":"ga","ぎ":"gi","ぐ":"gu","げ":"ge","ご":"go","ざ":"za","じ":"ji","ず":"zu","ぜ":"ze","ぞ":"zo",
-      "だ":"da","ぢ":"ji","づ":"zu","で":"de","ど":"do","ば":"ba","び":"bi","ぶ":"bu","べ":"be","ぼ":"bo",
-      "ぱ":"pa","ぴ":"pi","ぷ":"pu","ぺ":"pe","ぽ":"po","ぁ":"a","ぃ":"i","ぅ":"u","ぇ":"e","ぉ":"o",
-      "ゃ":"ya","ゅ":"yu","ょ":"yo","っ":""
-    };
-    const input = String(value || "").replace(/[ァ-ヶ]/g, (char) =>
-      String.fromCharCode(char.charCodeAt(0) - 0x60));
-    let output = "";
-    for (let i = 0; i < input.length; i++) {
-      const char = input[i];
-      if (char === "っ") {
-        const next = input.slice(i + 1).match(/^(きゃ|きゅ|きょ|しゃ|しゅ|しょ|ちゃ|ちゅ|ちょ|[ぁ-ん])/u)?.[0];
-        const roman = next ? pairs[next] || pairs[next[0]] : "";
-        output += roman ? roman[0] : "";
-        continue;
-      }
-      const pair = input.slice(i, i + 2);
-      if (pairs[pair]) { output += pairs[pair]; i++; continue; }
-      if (char === "ー") {
-        const lastVowel = output.match(/[aeiou](?!.*[aeiou])/u)?.[0];
-        output += lastVowel || "";
-        continue;
-      }
-      output += pairs[char] ?? char;
-    }
-    return output;
-  };
-
-  const japaneseEntries = [...adj, ...noms, ...verbes]
-    .filter((entry) => entry.kanji && entry.kana && /[一-龯々]/u.test(entry.kanji));
-
-  // Construit des associations lecture/kanji segment par segment. Les kana
-  // déjà présents dans l'orthographe restent du texte normal et ne reçoivent
-  // jamais de furigana.
-  function rubySegments(spelling, reading) {
-    const tokens = spelling.match(/[一-龯々]+|[ぁ-ゖァ-ヶー]+|[^一-龯々ぁ-ゖァ-ヶー]+/gu) || [];
-    const segments = [];
-    let readingIndex = 0;
-    for (let tokenIndex = 0; tokenIndex < tokens.length; tokenIndex++) {
-      const token = tokens[tokenIndex];
-      if (!/[一-龯々]/u.test(token)) {
-        // Les kana de l'orthographe servent d'ancrage dans la lecture.
-        const anchor = token.match(/[ぁ-ゖァ-ヶー]+/u)?.[0];
-        if (anchor) {
-          const found = reading.indexOf(anchor, readingIndex);
-          if (found !== -1) readingIndex = found + anchor.length;
-        }
-        continue;
-      }
-
-      let nextKana = "";
-      for (let next = tokenIndex + 1; next < tokens.length; next++) {
-        const anchor = tokens[next].match(/[ぁ-ゖァ-ヶー]+/u)?.[0];
-        if (anchor) { nextKana = anchor; break; }
-      }
-
-      if (nextKana) {
-        const found = reading.indexOf(nextKana, readingIndex);
-        if (found !== -1) {
-          const segmentReading = reading.slice(readingIndex, found);
-          if (segmentReading) segments.push({ text: token, reading: segmentReading });
-          readingIndex = found;
-        } else {
-          // Repli pour les lectures irrégulières : ne pas annoter l'orthographe entière.
-          segments.push({ text: token, reading: "" });
-        }
-      } else {
-        const segmentReading = reading.slice(readingIndex);
-        if (segmentReading) segments.push({ text: token, reading: segmentReading });
-        readingIndex = reading.length;
-      }
-    }
-    return segments.filter((segment) => segment.reading);
-  }
-
-  const rubyEntries = [];
-  for (const entry of japaneseEntries) {
-    rubyEntries.push(...rubySegments(entry.kanji, entry.kana));
-    // Dans les formes négatives, la terminaison い devient くない :
-    // le radical en kanji conserve donc sa lecture.
-    if ((entry.typeAdjectif || "").startsWith("い") && entry.kanji.endsWith("い") && entry.kana.endsWith("い")) {
-      rubyEntries.push({
-        text: entry.kanji.slice(0, -1),
-        reading: entry.kana.slice(0, -1)
-      });
-    }
-  }
-  const uniqueRubyEntries = [...new Map(
-    rubyEntries.filter((entry) => /^[一-龯々]+$/u.test(entry.text) && /^[ぁ-ゖァ-ヶー]+$/u.test(entry.reading))
-      .map((entry) => [`${entry.text}|${entry.reading}`, entry])
-  ).values()].sort((a, b) => b.text.length - a.text.length);
-
-  function renderJapanese(element, value) {
-    const text = String(value ?? "");
-    element.replaceChildren();
-    if (displayScript !== "kanji") {
-      element.textContent = text;
-      return;
-    }
-    let index = 0;
-    while (index < text.length) {
-      // Un furigana ne peut porter que sur une séquence de kanji contigus.
-      // Les okurigana (hiragana attachés au mot) restent toujours hors de ruby.
-      const match = uniqueRubyEntries.find((entry) =>
-        text.startsWith(entry.text, index)
-        && /^[一-龯々]+$/u.test(entry.text)
-      );
-      if (!match) {
-        element.append(document.createTextNode(text[index]));
-        index++;
-        continue;
-      }
-      const ruby = document.createElement("ruby");
-      ruby.append(document.createTextNode(match.text));
-      const rt = document.createElement("rt");
-      rt.textContent = match.reading;
-      ruby.append(rt);
-      element.append(ruby);
-      index += match.text.length;
-    }
-  }
-
-  function displayedJapanese(build, script, register) {
-    const sourceScript = script === "romaji" ? "kana" : script;
-    const value = build(sourceScript, register);
-    return script === "romaji" ? kanaToRomaji(value) : value;
-  }
   const noun = (id, script) => form(N(id), script);
   const adjective = (id, script) => form(A(id), script);
   const adjectiveBeforeNoun = (adjId, nounId, script) => {
@@ -182,11 +78,18 @@
     return `${form(entry, script)}${isNa ? "な" : ""}${noun(nounId, script)}`;
   };
   const particle = (key) => ({ topic: "は", subjectOfLike: "が", object: "を", possessive: "の" })[key];
+  const nan = (script) => script === "kana" ? "なん" : "何";
+  const questionWord = (id, script) => form(N(id), script);
   const verb = (id, script, register) => {
     const entry = V(id);
     if (register !== "polite") return form(entry, script);
     if (script === "kana") return politeKana[id] || entry.kana;
     return (entry.formePolie || "").split(" (")[0] || entry.kanji;
+  };
+  const negativePoliteVerb = (id, script) => {
+    const entry = V(id);
+    const polite = script === "kana" ? (entry.kanaPolie || politeKana[id]) : (entry.formePolie || "").split(" (")[0];
+    return polite ? polite.replace(/ます$/u, "ません") : form(entry, script);
   };
   const displaySukiOrKirai = (liked, script) => adjective(liked ? "adj-015" : "adj-016", script);
   const sukiNegative = (script, register, politeEnding = "じゃないです") =>
@@ -215,7 +118,7 @@
     return {
       id,
       french,
-      japanese(script, register) { return displayedJapanese(build, script, register); }
+      japanese(script, register) { return build(script, register); }
     };
   }
 
@@ -428,7 +331,111 @@
     makeSentence("course3-hero-reads-old-book", "Le héros lit un vieux livre.", (s, r) => `${noun("noms-089", s)}は${adjectiveBeforeNoun("adj-037", "noms-005", s)}${particle("object")}${verb("verbes-003", s, "casual")}`),
     makeSentence("course3-happy-drinks-orange", "Happy boit une boisson à l’orange.", (s, r) => `${noun("noms-104", s)}は${noun("noms-107", s)}の${noun("noms-082", s)}${particle("object")}${verb("verbes-002", s, "casual")}`),
     makeSentence("course3-naruto-buys-green-car", "Naruto achète une voiture verte.", (s, r) => `${noun("noms-115", s)}は${noun("noms-106", s)}の${noun("noms-015", s)}${particle("object")}${verb("verbes-005", s, "casual")}`),
-    makeSentence("course3-sakura-cuts-hair-question", "Sakura coupe-t-elle les cheveux longs ?", (s, r) => `${noun("noms-116", s)}は${adjectiveBeforeNoun("adj-070", "noms-080", s)}${particle("object")}${verb("verbes-011", s, "casual")}か`)
+    makeSentence("course3-sakura-cuts-hair-question", "Sakura coupe-t-elle les cheveux longs ?", (s, r) => `${noun("noms-116", s)}は${adjectiveBeforeNoun("adj-070", "noms-080", s)}${particle("object")}${verb("verbes-011", s, "casual")}か`) ,
+    makeSentence("c4-nani-yomimasu", "Que lis-tu ?", (s, r) => `${noun("noms-042", s)}を${verb("verbes-003", s, r)}か`),
+    makeSentence("c4-nan-no-eiga", "De quel genre de film s’agit-il ?", (s, r) => `${nan(s)}の${noun("noms-013", s)}ですか`),
+    makeSentence("c4-nani-sagashimasu", "Que cherches-tu ?", (s, r) => `${noun("noms-042", s)}を${verb("verbes-049", s, r)}か`),
+    makeSentence("c4-nani-kaimasu", "Qu’achètes-tu ?", (s, r) => `${noun("noms-042", s)}を${verb("verbes-005", s, r)}か`),
+    makeSentence("c4-doko-eki", "Où est la gare ?", (s, r) => `${noun("noms-011", s)}は${questionWord("noms-148", s)}ですか`),
+    makeSentence("c4-dore-gurai-eki", "À quelle distance / combien de temps se trouve la gare ?", (s, r) => `${noun("noms-011", s)}は${questionWord("noms-152", s)}ですか`),
+    makeSentence("c4-ikura-harau", "Combien paies-tu ?", (s, r) => `${questionWord("noms-150", s)}を${verb("verbes-050", s, r)}か`),
+    makeSentence("c4-nedan-ikura", "Quel est le prix ?", (s, r) => `${noun("noms-156", s)}は${questionWord("noms-150", s)}ですか`),
+    makeSentence("c4-ikutsu-taberu", "Combien en manges-tu ?", (s, r) => `${questionWord("noms-151", s)}${verb("verbes-001", s, r)}か`),
+    makeSentence("c4-hoteru-dore-gurai", "Combien de temps dure le séjour à l’hôtel ?", (s, r) => `${noun("noms-084", s)}は${questionWord("noms-152", s)}ですか`),
+    makeSentence("c4-resutoran-nan-no", "Quel type de restaurant cherches-tu ?", (s, r) => `${nan(s)}の${noun("noms-155", s)}を${verb("verbes-049", s, r)}か`),
+    makeSentence("c4-nani-ga-suki", "Qu’est-ce que tu aimes ?", (s, r) => `${noun("noms-042", s)}が${displaySukiOrKirai(true, s)}ですか`),
+    makeSentence("c4-nani-desu", "Qu’est-ce que c’est ?", (s, r) => `${nan(s)}ですか`),
+    makeSentence("c4-dore-kaimasu", "Lequel achètes-tu ?", (s, r) => `${questionWord("noms-149", s)}を${verb("verbes-005", s, r)}か`),
+    makeSentence("c4-ikura-desu", "Combien ça coûte ?", (s, r) => `${questionWord("noms-150", s)}ですか`),
+    makeSentence("c4-ikutsu-desu", "Combien y en a-t-il ?", (s, r) => `${questionWord("noms-151", s)}ですか`),
+    makeSentence("c4-hanasu-masu", "Je parle japonais.", (s, r) => `${noun("noms-043", s)}は${noun("noms-008", s)}を${verb("verbes-032", s, r)}`),
+    makeSentence("c4-kaku-masu", "J’écris un livre.", (s, r) => `${noun("noms-043", s)}は${noun("noms-005", s)}を${verb("verbes-031", s, r)}`),
+    makeSentence("c4-mimasen-anime", "Je ne regarde pas d’animé.", (s, r) => `${noun("noms-043", s)}は${noun("noms-035", s)}を${r === "polite" ? negativePoliteVerb("verbes-004", s) : (s === "kana" ? "みない" : "見ない")}`),
+    makeSentence("c4-nomimasen-mizu", "Je ne bois pas d’eau.", (s, r) => `${noun("noms-043", s)}は${noun("noms-037", s)}を${r === "polite" ? negativePoliteVerb("verbes-002", s) : (s === "kana" ? "のまない" : "飲まない")}`),
+    makeSentence("c4-akemasu-doa", "J’ouvre la porte.", (s, r) => `${noun("noms-043", s)}は${noun("noms-161", s)}を${verb("verbes-017", s, r)}`),
+    makeSentence("c4-shimemasu-doa", "Je ferme la porte.", (s, r) => `${noun("noms-043", s)}は${noun("noms-161", s)}を${verb("verbes-018", s, r)}`),
+    makeSentence("c4-oshieru-nihongo", "J’enseigne le japonais.", (s, r) => `${noun("noms-043", s)}は${noun("noms-008", s)}を${verb("verbes-019", s, r)}`),
+    makeSentence("c4-matsu-train", "J’attends le train.", (s, r) => `${noun("noms-043", s)}は${noun("noms-067", s)}を${verb("verbes-039", s, r)}`),
+    makeSentence("c4-hairu-chikatetsu", "J’entre dans le métro.", (s, r) => `${noun("noms-043", s)}は${noun("noms-154", s)}に${verb("verbes-046", s, r)}`),
+    makeSentence("c4-tomaru-hoteru", "Je séjourne à l’hôtel.", (s, r) => `${noun("noms-043", s)}は${noun("noms-084", s)}に${verb("verbes-051", s, r)}`),
+    makeSentence("c4-kangaeru-book", "Je réfléchis à un livre.", (s, r) => `${noun("noms-043", s)}は${noun("noms-005", s)}を${verb("verbes-020", s, r)}`),
+    makeSentence("c4-oyogu-sakana", "Le poisson nage.", (s, r) => `${noun("noms-048", s)}は${verb("verbes-034", s, r)}`),
+    makeSentence("c4-kaeru-eki", "Je rentre de la gare.", (s, r) => `${noun("noms-043", s)}は${noun("noms-011", s)}から${verb("verbes-042", s, r)}`),
+    makeSentence("c4-nugu-kutsu", "J’enlève mes chaussures.", (s, r) => `${noun("noms-043", s)}は${noun("noms-102", s)}を${verb("verbes-048", s, r)}`),
+    makeSentence("c4-nihonjin-anime", "Les Japonais regardent des animés.", (s, r) => `${noun("noms-001", s)}は${noun("noms-035", s)}を${verb("verbes-004", s, r)}`),
+    makeSentence("c4-train-ticket-search", "Je cherche un billet de train.", (s, r) => `${noun("noms-043", s)}は${noun("noms-067", s)}の${noun("noms-160", s)}を${verb("verbes-049", s, r)}`),
+    makeSentence("c4-cook-fish", "Je cuisine du poisson délicieux.", (s, r) => `${noun("noms-043", s)}は${adjectiveBeforeNoun("adj-024", "noms-048", s)}を${verb("verbes-014", s, r)}`),
+    makeSentence("c4-get-up", "Je me lève.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-016", s, r)}`),
+    makeSentence("c4-sleep", "Je dors.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-010", s, r)}`),
+    makeSentence("c4-walk", "Je marche.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-035", s, r)}`),
+    makeSentence("c4-answer", "Je réponds.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-021", s, r)}`),
+    makeSentence("c4-decide", "Je décide.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-025", s, r)}`),
+    makeSentence("c4-begin", "Je commence.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-022", s, r)}`),
+    makeSentence("c4-play", "Je joue.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-040", s, r)}`),
+    makeSentence("c4-hurry", "Je me dépêche.", (s, r) => `${noun("noms-043", s)}は${verb("verbes-047", s, r)}`),
+    makeSentence("c4-take-ticket", "Je prends un billet.", (s, r) => `${noun("noms-043", s)}は${noun("noms-160", s)}を${verb("verbes-045", s, r)}`),
+    makeSentence("c4-borrow-book", "J’emprunte un livre.", (s, r) => `${noun("noms-043", s)}は${noun("noms-005", s)}を${verb("verbes-026", s, r)}`),
+    makeSentence("c4-give-book", "Je donne un livre.", (s, r) => `${noun("noms-043", s)}は${noun("noms-005", s)}を${verb("verbes-028", s, r)}`),
+    makeSentence("c4-enter-building", "J’entre dans le bâtiment.", (s, r) => `${noun("noms-043", s)}は${noun("noms-153", s)}に${verb("verbes-046", s, r)}`),
+    makeSentence("c4-how-many-anime", "Combien d’animés regardes-tu ?", (s, r) => `${questionWord("noms-151", s)}${noun("noms-035", s)}を${verb("verbes-004", s, r)}か`),
+    makeSentence("c4-wakaru", "Je comprends le japonais.", (s, r) => `${noun("noms-043", s)}は${noun("noms-008", s)}が${verb("verbes-052", s, r)}`),
+    makeSentence("c4-wakaru-negative", "Je ne comprends pas le japonais.", (s, r) => `${noun("noms-043", s)}は${noun("noms-008", s)}が${r === "polite" ? negativePoliteVerb("verbes-052", s) : (s === "kana" ? "わからない" : "分からない")}`),
+    makeSentence("c5-kosoado-01", "Je lis ce livre (près de moi).", (s) => s === "kana" ? "わたしはこのほんをよむ。" : "私はこの本を読む。"),
+    makeSentence("c5-kosoado-02", "Tu bois cette eau (près de toi).", (s) => s === "kana" ? "あなたはそのみずをのむ。" : "あなたはその水を飲む。"),
+    makeSentence("c5-kosoado-03", "Cette personne (loin de nous) chante une chanson.", (s) => s === "kana" ? "あのひとはうたをうたう。" : "あの人は歌を歌う。"),
+    makeSentence("c5-kosoado-04", "L’enfant mange cette friandise (près de moi).", (s) => s === "kana" ? "こどもはこのおかしをたべる。" : "子供はこのお菓子を食べる。"),
+    makeSentence("c5-kosoado-05", "J’écris cette lettre (près de toi).", (s) => s === "kana" ? "わたしはそのてがみをかく。" : "私はその手紙を書く。"),
+    makeSentence("c5-kosoado-06", "Ce chat (loin de nous) mange du poisson.", (s) => s === "kana" ? "あのねこはさかなをたべる。" : "あの猫は魚を食べる。"),
+    makeSentence("c5-kosoado-07", "Tu connais cette gare (près de moi).", (s) => s === "kana" ? "あなたはこのえきをしる。" : "あなたはこの駅を知る。"),
+    makeSentence("c5-kosoado-08", "J’écoute cette chanson (près de toi).", (s) => s === "kana" ? "わたしはそのうたをきく。" : "私はその歌を聞く。"),
+    makeSentence("c5-kosoado-09", "Cette personne (loin de nous) lit ce livre (près de moi).", (s) => s === "kana" ? "あのひとはこのほんをよむ。" : "あの人はこの本を読む。"),
+    makeSentence("c5-kosoado-10", "L’enfant boit cette eau (près de toi).", (s) => s === "kana" ? "こどもはそのみずをのむ。" : "子供はその水を飲む。"),
+    makeSentence("c5-kosoado-11", "Je regarde cet oiseau (loin de nous).", (s) => s === "kana" ? "わたしはあのとりをみる。" : "私はあの鳥を見る。"),
+    makeSentence("c5-kosoado-12", "Tu bois ce thé (près de moi).", (s) => s === "kana" ? "あなたはこのおちゃをのむ。" : "あなたはこのお茶を飲む。"),
+    makeSentence("c5-kosoado-13", "Cette personne (loin de nous) écrit cette lettre (près de toi).", (s) => s === "kana" ? "あのひとはそのてがみをかく。" : "あの人はその手紙を書く。"),
+    makeSentence("c5-kosoado-14", "Je mange ce poisson (près de moi).", (s) => s === "kana" ? "わたしはこのさかなをたべる。" : "私はこの魚を食べる。"),
+    makeSentence("c5-kosoado-15", "L’enfant écoute cette chanson (loin de nous).", (s) => s === "kana" ? "こどもはあのうたをきく。" : "子供はあの歌を聞く。"),
+    makeSentence("c5-kosoado-16", "Tu manges cette friandise (près de toi).", (s) => s === "kana" ? "あなたはそのおかしをたべる。" : "あなたはそのお菓子を食べる。"),
+    makeSentence("c5-kosoado-17", "Je connais cette ville (près de moi).", (s) => s === "kana" ? "わたしはこのまちをしる。" : "私はこの町を知る。"),
+    makeSentence("c5-kosoado-18", "Ce chat (loin de nous) mange ce poisson (près de toi).", (s) => s === "kana" ? "あのねこはそのさかなをたべる。" : "あの猫はその魚を食べる。"),
+    makeSentence("c5-kosoado-19", "Tu lis cette lettre (loin de nous).", (s) => s === "kana" ? "あなたはあのてがみをよむ。" : "あなたはあの手紙を読む。"),
+    makeSentence("c5-kosoado-20", "Je regarde cette étoile (loin de nous).", (s) => s === "kana" ? "わたしはあのほしをみる。" : "私はあの星を見る。"),
+    makeSentence("c5-kosoado-21", "L’enfant regarde ce nuage (près de moi).", (s) => s === "kana" ? "こどもはこのくもをみる。" : "子供はこの雲を見る。"),
+    makeSentence("c5-kosoado-22", "Cette personne (loin de nous) connaît cette gare (près de toi).", (s) => s === "kana" ? "あのひとはそのえきをしる。" : "あの人はその駅を知る。"),
+    makeSentence("c5-kosoado-23", "Je tiens ce parapluie (près de moi).", (s) => s === "kana" ? "わたしはこのかさをもつ。" : "私はこの傘を持つ。"),
+    makeSentence("c5-kosoado-24", "Tu marches dans cette forêt (loin de nous).", (s) => s === "kana" ? "あなたはあのもりをあるく。" : "あなたはあの森を歩く。"),
+    makeSentence("c5-kosoado-25", "L’enfant regarde cette fleur (près de toi).", (s) => s === "kana" ? "こどもはそのはなをみる。" : "子供はその花を見る。"),
+    makeSentence("c5-kosoado-26", "Je chante cette chanson (près de moi).", (s) => s === "kana" ? "わたしはこのうたをうたう。" : "私はこの歌を歌う。"),
+    makeSentence("c5-kosoado-27", "Cette personne (loin de nous) boit ce thé (près de toi).", (s) => s === "kana" ? "あのひとはそのおちゃをのむ。" : "あの人はそのお茶を飲む。"),
+    makeSentence("c5-kosoado-28", "Tu manges cet œuf (près de moi).", (s) => s === "kana" ? "あなたはこのたまごをたべる。" : "あなたはこの卵を食べる。"),
+    makeSentence("c5-kosoado-29", "Je lis ce livre (loin de nous).", (s) => s === "kana" ? "わたしはあのほんをよむ。" : "私はあの本を読む。"),
+    makeSentence("c5-kosoado-30", "L’enfant boit cette eau (près de moi).", (s) => s === "kana" ? "こどもはこのみずをのむ。" : "子供はこの水を飲む。"),
+    makeSentence("c5-nani-nan", "Qu’est-ce que c’est ?", (s) => s === "kana" ? "それはなんですか。" : "それは何ですか。"),
+    makeSentence("c5-doko-hotel", "Où se trouve l’hôtel ?", (s) => s === "kana" ? "ホテルはどこにありますか。" : "ホテルはどこにありますか。"),
+    makeSentence("c5-dore-choice", "Lequel achètes-tu ?", (s) => s === "kana" ? "どれをかいますか。" : "どれを買いますか。"),
+    makeSentence("c5-dore-gurai-duration", "Combien de temps cela prend-il environ ?", (s) => s === "kana" ? "どれぐらいかかりますか。" : "どれぐらいかかりますか。"),
+    makeSentence("c5-gozen-seven", "Il est sept heures du matin.", (s) => s === "kana" ? "ごぜんしちじです。" : "午前七時です。"),
+    makeSentence("c5-gozen-seven-okiru", "Je me lève à sept heures du matin.", (s) => s === "kana" ? "ごぜんしちじにおきます。" : "午前七時に起きます。"),
+    makeSentence("c5-gogo-seven-cook", "Je cuisine à sept heures du soir.", (s) => s === "kana" ? "ごごしちじにりょうりします。" : "午後七時に料理します。"),
+    makeSentence("c5-eleven-oh-two", "Il est onze heures deux du matin.", (s) => s === "kana" ? "ごぜんじゅういちじにふんです。" : "午前十一時二分です。"),
+    makeSentence("c5-six-oh-two", "Il est six heures deux du matin.", (s) => s === "kana" ? "ごぜんろくじにふんです。" : "午前六時二分です。"),
+    makeSentence("c5-six-forty-three", "Il est six heures quarante-trois.", (s) => s === "kana" ? "ろくじよんじゅうさんぷんです。" : "六時四十三分です。"),
+    makeSentence("c5-gogo-ten", "Il est dix heures du soir.", (s) => s === "kana" ? "ごごじゅうじです。" : "午後十時です。"),
+    makeSentence("c5-eki-doko", "Où est la gare ?", (s) => s === "kana" ? "えきはどこですか。" : "駅はどこですか。"),
+    makeSentence("c5-toire-doko", "Où sont les toilettes ?", (s) => s === "kana" ? "トイレはどこですか。" : "トイレはどこですか。"),
+    makeSentence("c5-konbini-doko", "Où est le konbini ?", (s) => s === "kana" ? "コンビニはどこですか。" : "コンビニはどこですか。"),
+    makeSentence("c5-doko-ikeba", "Où devrais-je aller ?", (s) => s === "kana" ? "どこにいけばいいですか。" : "どこに行けばいいですか。"),
+    makeSentence("c5-bus-tei-doko", "Où est l’arrêt de bus ?", (s) => s === "kana" ? "バスていはどこですか。" : "バス停はどこですか。"),
+    makeSentence("c5-kore-ikura", "Combien coûte ceci ?", (s) => s === "kana" ? "これはいくらですか。" : "これはいくらですか。"),
+    makeSentence("c5-kippu-ikura", "Combien coûte le ticket ?", (s) => s === "kana" ? "きっぷはいくらですか。" : "切符はいくらですか。"),
+    makeSentence("c5-zenbu-ikura", "Combien ça coûte en tout ?", (s) => s === "kana" ? "ぜんぶでいくらですか。" : "全部でいくらですか。"),
+    makeSentence("c5-ikutsu-kaimasu", "Vous en achetez combien ?", (s) => s === "kana" ? "いくつかいますか。" : "いくつ買いますか。"),
+    makeSentence("c5-ikutsu-tabemasu", "Tu en manges combien ?", (s) => s === "kana" ? "いくつたべますか。" : "いくつ食べますか。"),
+    makeSentence("c5-aruite-doregurai", "C’est à combien de minutes à pied ?", (s) => s === "kana" ? "あるいてどれぐらいですか。" : "歩いてどれぐらいですか。"),
+    makeSentence("c5-chikatetsu-doregurai", "C’est à combien en métro ?", (s) => s === "kana" ? "ちかてつでどれぐらいですか。" : "地下鉄でどれぐらいですか。"),
+    makeSentence("c5-konbini-doregurai", "Le konbini est à environ combien ?", (s) => s === "kana" ? "コンビニはどれぐらいですか。" : "コンビニはどれぐらいですか。"),
+    makeSentence("c5-gofun-gurai", "C’est environ cinq minutes.", (s) => s === "kana" ? "ごふんぐらいです。" : "五分ぐらいです。"),
+    makeSentence("c5-tooi-desuka", "Est-ce loin ?", (s) => s === "kana" ? "とおいですか。" : "遠いですか。")
   ];
 
   const particles = [
@@ -513,6 +520,7 @@
   }
 
   const state = { deck: [], index: 0, results: [], resolved: false, attempts: 0 };
+  let autoAdvanceTimer = null;
   let mode = "fr-ja";
   let displayScript = "kana";
   let questionRegister = "polite";
@@ -550,46 +558,22 @@
   );
 
   function sentenceSimilarity(left, right) {
-    const a = normalizeFrench(left.french);
-    const b = normalizeFrench(right.french);
-    const leftTokens = frenchTokens(a);
-    const rightTokens = frenchTokens(b);
+    const leftTokens = frenchTokens(left.french);
+    const rightTokens = frenchTokens(right.french);
     let score = 0;
-
-    // Le recouvrement lexical compte, mais les mots partagés ne suffisent pas.
     leftTokens.forEach((token) => {
-      if (rightTokens.has(token)) score += token.length > 5 ? 7 : token.length > 3 ? 5 : 2;
+      if (rightTokens.has(token)) score += token.length > 3 ? 10 : 4;
     });
-
-    const features = (text, original) => ({
-      negation: /\b(ne|n|pas|plus|jamais|aucun|aucune)\b/u.test(text),
-      question: /\?\s*$/u.test(original),
-      person: /\b(je|j|tu|il|elle|nous|vous|ils|elles)\b/u.test(text) ? "pronoun"
-        : /^(le|la|les|un|une|des|du|de la|de l)\b/u.test(text) ? "noun-subject" : "implicit",
-      verb: /\b(achete|achète|acheter)\b/u.test(text) ? "buy"
-        : /\b(mange|manger)\b/u.test(text) ? "eat"
-        : /\b(bois|boit|buvons|boire)\b/u.test(text) ? "drink"
-        : /\b(lis|lit|lire)\b/u.test(text) ? "read"
-        : /\b(regarde|regarder)\b/u.test(text) ? "watch"
-        : /\b(aime|adore|adorent|deteste|aimer)\b/u.test(text) ? "like"
-        : /\b(est|sont|suis|es|être)\b/u.test(text) ? "be"
-        : /\b(va|vais|aller)\b/u.test(text) ? "go" : "other",
-      objectMarker: /\b(un|une|le|la|les|du|de la|des|de l)\b/u.test(text),
-      relative: /\b(qui|que|dont)\b/u.test(text),
-      length: text.split(/\s+/u).filter(Boolean).length,
-      adjectives: ["grand","petit","cher","chere","neuf","vieil","vieux","beau","belle","rouge","bleu","bleue","interessant","interessante","difficile","calme","bizarre","delicieux","delicieuse","rose","noir","noire"].filter((word) => new RegExp(`\\b${word}\\b`, "u").test(text))
-    });
-    const fa = features(a, left.french);
-    const fb = features(b, right.french);
-    if (fa.verb === fb.verb) score += 15;
-    if (fa.negation === fb.negation) score += 9;
-    if (fa.question === fb.question) score += 7;
-    if (fa.person === fb.person) score += 6;
-    if (fa.objectMarker === fb.objectMarker) score += 4;
-    if (fa.relative === fb.relative) score += 3;
-    score += Math.max(0, 6 - Math.abs(fa.length - fb.length) * 2);
-    if (fa.adjectives.length && fb.adjectives.length) score += 5;
-    if (fa.adjectives.some((word) => fb.adjectives.includes(word))) score += 10;
+    // Garde ensemble les phrases qui travaillent une opposition sémantique proche.
+    const relation = (text) => {
+      const normalized = normalizeFrench(text);
+      if (normalized.includes("deteste") || normalized.includes("n aime pas")) return "dislike";
+      if (normalized.includes("adore") || normalized.includes("aime")) return "like";
+      if (normalized.includes("interessant") || normalized.includes("bizarre") || normalized.includes("calme")) return "adjective";
+      if (normalized.includes("question") || normalized.endsWith(" ?")) return "question";
+      return "";
+    };
+    if (relation(left.french) && relation(left.french) === relation(right.french)) score += 8;
     return score;
   }
 
@@ -648,8 +632,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "grammar-choice";
-      if (mode === "fr-ja" || mode === "particles") renderJapanese(button, option.label);
-      else button.textContent = option.label;
+      button.textContent = option.label;
       button.dataset.choiceKey = option.key;
       button.setAttribute("aria-pressed", "false");
       button.addEventListener("click", () => {
@@ -661,6 +644,7 @@
           choice.classList.remove("is-wrong");
           choice.setAttribute("aria-pressed", String(isSelected));
         }
+        validateChoice();
       });
       container.appendChild(button);
     });
@@ -740,7 +724,8 @@
 
   function showAnswerModeForPrompt(question) {
     $("choiceArea").hidden = false;
-    $("choiceValidateButton").hidden = false;
+    // Each QCM choice is evaluated immediately when selected.
+    $("choiceValidateButton").hidden = true;
     $("choiceValidateButton").disabled = false;
 
     if (mode === "fr-ja") {
@@ -748,17 +733,18 @@
       $("promptHelp").textContent = "Choisis la phrase japonaise correcte parmi les quatre propositions. Les formes polies et familières alternent automatiquement.";
       renderSentenceChoices(question);
     } else if (mode === "ja-fr") {
-      renderJapanese($("promptText"), question.japanese(displayScript, questionRegister));
+      $("promptText").textContent = question.japanese(displayScript, questionRegister);
       $("promptHelp").textContent = "Choisis la traduction française qui correspond à cette phrase.";
       renderSentenceChoices(question);
     } else {
-      renderJapanese($("promptText"), displayedJapanese(question.build, displayScript, questionRegister).replace("□", "＿＿"));
+      $("promptText").textContent = question.build(displayScript, questionRegister).replace("□", "＿＿");
       $("promptHelp").textContent = "Choisis la bonne particule parmi は, が, を, か et の.";
       renderParticleChoices(question);
     }
   }
 
   function showCurrent() {
+    clearTimeout(autoAdvanceTimer);
     const question = state.deck[state.index];
     if (!question) return showResults();
     state.resolved = false;
@@ -775,7 +761,8 @@
     $("feedback").className = "message";
     $("nextButton").hidden = true;
     $("skipButton").hidden = false;
-    $("choiceValidateButton").hidden = false;
+    // Each QCM choice is evaluated immediately when selected.
+    $("choiceValidateButton").hidden = true;
     $("choiceValidateButton").disabled = false;
     showAnswerModeForPrompt(question);
   }
@@ -798,6 +785,12 @@
     $("feedback").className = `message ${correct ? "good" : "bad"}`;
     $("nextButton").hidden = false;
     $("skipButton").hidden = true;
+    if (correct) {
+      clearTimeout(autoAdvanceTimer);
+      autoAdvanceTimer = setTimeout(() => {
+        if (state.resolved && state.results[state.results.length - 1]?.correct) nextQuestion();
+      }, 4000);
+    }
     $("choiceValidateButton").hidden = true;
     for (const button of $("choiceArea").querySelectorAll("button")) {
       button.disabled = true;
@@ -848,6 +841,7 @@
   }
 
   function nextQuestion() {
+    clearTimeout(autoAdvanceTimer);
     state.index += 1;
     if (state.index >= state.deck.length) showResults();
     else showCurrent();
@@ -903,7 +897,7 @@
       const detail = document.createElement("div");
       detail.className = "grammar-result-detail";
       if (result.mode === "particles") {
-        const completed = displayedJapanese(result.question.build, result.script, result.register).replace("□", result.script === "romaji" ? ({ "は":"wa", "が":"ga", "を":"o", "か":"ka", "の":"no" })[result.question.answer] : result.question.answer);
+        const completed = result.question.build(result.script, result.register).replace("□", result.question.answer);
         detail.textContent = `${completed} · Ta réponse : ${result.userAnswer} · Bonne particule : ${result.question.answer} · ${result.question.hint}`;
       } else if (result.mode === "fr-ja") {
         detail.textContent = `Ta réponse : ${result.userAnswer} · Phrase japonaise : ${result.question.japanese(result.script, result.register)}`;
