@@ -1006,7 +1006,7 @@ function validateAnswer() {
     setTimeout(() => {
       index++;
       showCurrent();
-    }, 1100);
+    }, 1000);
   } else {
     m.textContent = "Pas encore — pense au sens du kanji et réessaie.";
     m.className = "message bad";

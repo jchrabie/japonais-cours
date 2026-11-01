@@ -1,133 +1,103 @@
-/* Source de vérité pour les titres, sous-titres, menus et navigation. */
+/* Source de vérité pour les titres, sous-titres et navigation de Manabi no Michi. */
 window.JAPONAIS_SITE = {
-  footer: "Fiche de révision personnelle — à compléter au fil des cours.",
+  brand: "Manabi no Michi",
+  footerLead: "Manabi no Michi est la propriété de ",
+  footerLinkLabel: "Kanaeru",
+  footerLinkUrl: "https://www.kanaeru.fr/dashboard/",
+  footerNotice: "Toute reproduction, copie ou duplication non autorisée, totale ou partielle, est interdite et pourra faire l’objet de poursuites judiciaires.",
   groups: [
     {
-      label: "📘 Cours",
-      items: [
-        { label: "Cours 1 — bases et présentation", href: "cours1.html" },
-        {
-          label: "Cours 2 — adjectifs, goûts et particules",
-          href: "cours2.html",
-        },
-        {
-          label: "Cours 3 — phrases, の, couleurs et nombres",
-          href: "cours3.html",
-        },
-      ],
-    },
-    {
-      label: "📚 Glossaires",
+      label: "📚 Vocabulaire",
       items: [
         { label: "Adjectifs", href: "adjectifs.html" },
         { label: "Noms", href: "noms.html" },
-        { label: "Verbes", href: "verbes.html" },
-      ],
+        { label: "Verbes", href: "verbes.html" }
+      ]
     },
     {
-      label: "🎮 Mini-jeux",
+      label: "🎮 Jeux",
       items: [
         { label: "Hiragana", href: "hiragana.html" },
         { label: "Katakana", href: "katakana.html" },
         { label: "Kanji & nombres", href: "kanji.html" },
         { label: "Vocabulaire", href: "vocabulaire.html" },
-        { label: "Grammaire & particules", href: "grammaire.html" },
-      ],
-    },
+        { label: "Grammaire", href: "grammaire.html" },
+        { label: "Jeu des particules (glisser-déposer)", href: "particules.html" }
+      ]
+    }
   ],
-  quickLinks: [{ label: "🔗 Liens utiles", href: "liens-utiles.html" }],
+  quickLinks: [
+    { label: "🔗 Liens utiles", href: "liens-utiles.html" }
+  ],
   pages: {
     index: {
-      title: "🇯🇵 Japonais — cours & glossaires",
-      documentTitle: "Japonais — cours & glossaires",
-      subtitle:
-        "Fiches de révision simples • japonais, romaji et traduction française",
+      title: "Manabi no Michi · 学びの道",
+      documentTitle: "Manabi no Michi — 学びの道",
+      subtitle: "Le chemin de l’apprentissage du japonais, un pas après l’autre."
     },
-    cours1: {
-      title: "📘 Cours 1 — bases du japonais et présentation",
-      documentTitle: "Cours 1 — bases et présentation • Japonais",
-      subtitle:
-        "Se présenter, comprendre は et l’ordre des mots, puis réviser les adjectifs en autonomie.",
-      courseId: 1,
-    },
-    cours2: {
-      title: "📘 Cours 2 — adjectifs, goûts, verbes et particules",
-      documentTitle: "Cours 2 — adjectifs et particules • Japonais",
-      subtitle:
-        "Adjectifs en い / な, 好き・嫌い, が et を, verbes et couleurs.",
-      courseId: 2,
-    },
-    cours3: {
-      title: "📘 Cours 3 — phrases avec は・を・の",
-      documentTitle: "Cours 3 — particule の, adjectifs et nombres • Japonais",
-      subtitle:
-        "Phrases avec は・を, adjectifs, possession et couleurs avec の, puis compter en japonais (autonomie 3).",
-      courseId: 3,
+    cours4: {
+      title: "📘 Cours 4 — nombres, forme ます et mots interrogatifs",
+      documentTitle: "Cours 4 — Manabi no Michi",
+      subtitle: "Compter en japonais, conjuguer les verbes au registre poli et poser des questions.",
+      courseId: 4
     },
     adjectifs: {
-      title: "🇯🇵 Glossaire japonais — Adjectifs",
-      documentTitle: "Glossaire japonais — Adjectifs",
-      subtitle:
-        "Retrouve les adjectifs par kanji, kana, romaji ou traduction, filtre par type et par cours.",
-      activeGroup: "Glossaires",
-      vocabularyCategory: "adj",
+      title: "📘 Glossaire japonais — Adjectifs",
+      documentTitle: "Adjectifs · Manabi no Michi",
+      subtitle: "Retrouve les adjectifs par kanji, kana, romaji ou traduction, et filtre par type.",
+      vocabularyCategory: "adj"
     },
     noms: {
-      title: "🇯🇵 Glossaire japonais — Noms",
-      documentTitle: "Glossaire japonais — Noms",
-      subtitle:
-        "Retrouve les noms japonais par écriture, lecture, romaji ou traduction.",
-      activeGroup: "Glossaires",
-      vocabularyCategory: "noms",
+      title: "📚 Glossaire japonais — Noms",
+      documentTitle: "Noms · Manabi no Michi",
+      subtitle: "Retrouve les noms japonais par écriture, lecture, romaji ou traduction.",
+      vocabularyCategory: "noms"
     },
     verbes: {
-      title: "🇯🇵 Glossaire japonais — Verbes",
-      documentTitle: "Glossaire japonais — Verbes",
-      subtitle:
-        "Retrouve les verbes, leur lecture, leur sens et leur forme polie.",
-      activeGroup: "Glossaires",
-      vocabularyCategory: "verbes",
+      title: "🔤 Glossaire japonais — Verbes",
+      documentTitle: "Verbes · Manabi no Michi",
+      subtitle: "Retrouve les verbes, leur lecture, leur sens et leur forme polie.",
+      vocabularyCategory: "verbes"
     },
     hiragana: {
       title: "ひらがな — Mini-jeu Hiragana",
-      documentTitle: "Mini-jeu Hiragana • Japonais",
-      subtitle:
-        "Reconnais les caractères, écris leur lecture en romaji et repère ceux à retravailler.",
-      localLink: { href: "#selection", label: "Choisir les kana" },
+      documentTitle: "Hiragana · Manabi no Michi",
+      subtitle: "Reconnais les caractères, écris leur lecture en romaji et repère ceux à retravailler.",
+      localLink: { href: "#selection", label: "Choisir les kana" }
     },
     katakana: {
       title: "カタカナ — Mini-jeu Katakana",
-      documentTitle: "Mini-jeu Katakana • Japonais",
-      subtitle:
-        "Reconnais les katakana, écris leur lecture en romaji et repère ceux à retravailler.",
-      localLink: { href: "#selection", label: "Choisir les kana" },
+      documentTitle: "Katakana · Manabi no Michi",
+      subtitle: "Reconnais les katakana, écris leur lecture en romaji et repère ceux à retravailler.",
+      localLink: { href: "#selection", label: "Choisir les kana" }
     },
     kanji: {
       title: "漢字 — Mini-jeu Kanji JLPT N5",
-      documentTitle: "Mini-jeu Kanji JLPT N5 • Japonais",
-      subtitle:
-        "Reconnais les kanji débutants : écris leur sens en français, puis découvre des lectures courantes.",
-      localLink: { href: "#selection", label: "Choisir les kanji" },
+      documentTitle: "Kanji & nombres · Manabi no Michi",
+      subtitle: "Reconnais les kanji débutants et entraîne-toi à lire les nombres japonais.",
+      localLink: { href: "#selection", label: "Choisir les kanji" }
     },
     vocabulaire: {
       title: "語彙 — Jeu de vocabulaire",
-      documentTitle: "Jeu de vocabulaire • Japonais",
-      subtitle:
-        "Révise uniquement les mots présents dans tes glossaires, en QCM et dans les deux sens.",
-      localLink: { href: "#setup", label: "Configurer la session" },
+      documentTitle: "Jeu de vocabulaire · Manabi no Michi",
+      subtitle: "Révise les mots présents dans les glossaires, en QCM et dans les deux sens.",
+      localLink: { href: "#setup", label: "Configurer la session" }
+    },
+    particules: {
+      title: "は・が・を — Jeu des particules",
+      documentTitle: "Jeu des particules · Manabi no Michi",
+      subtitle: "Place plusieurs particules dans une même phrase, par glisser-déposer ou au toucher."
     },
     grammaire: {
       title: "文法 — Grammaire et jeu des particules",
-      documentTitle: "Grammaire japonaise • Japonais",
-      subtitle:
-        "Travaille les phrases affirmatives et négatives, et maîtrise は・が・を・か・の.",
-      localLink: { href: "#setup", label: "Choisir un exercice" },
+      documentTitle: "Grammaire · Manabi no Michi",
+      subtitle: "Travaille les phrases affirmatives et négatives, et maîtrise は・が・を・か・の.",
+      localLink: { href: "#setup", label: "Choisir un exercice" }
     },
     "liens-utiles": {
       title: "🔗 Liens utiles pour apprendre le japonais",
-      documentTitle: "Liens utiles • Japonais",
-      subtitle:
-        "Dictionnaires, grammaire, écoute et entraînement : des ressources pour compléter les cours.",
-    },
-  },
+      documentTitle: "Liens utiles · Manabi no Michi",
+      subtitle: "Dictionnaires, grammaire, écoute et ressources pour continuer à progresser."
+    }
+  }
 };

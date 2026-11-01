@@ -134,8 +134,27 @@
     else main.appendChild(section);
   }
 
-  const footer = document.querySelector("footer");
-  if (footer) footer.textContent = config.footer;
+  let footer = document.querySelector("footer");
+  if (!footer) { footer = document.createElement("footer"); body.appendChild(footer); }
+  footer.classList.add("site-legal-footer");
+  footer.replaceChildren();
+  const ownership = document.createElement("p");
+  ownership.append(document.createTextNode(config.footerLead || `${config.brand || "Manabi no Michi"} est la propriété de `));
+  const ownerLink = document.createElement("a");
+  ownerLink.href = config.footerLinkUrl || "https://www.kanaeru.fr/dashboard/";
+  ownerLink.textContent = config.footerLinkLabel || "Kanaeru";
+  ownerLink.target = "_blank";
+  ownerLink.rel = "noopener noreferrer";
+  ownership.append(ownerLink, document.createTextNode("."));
+  const notice = document.createElement("p");
+  notice.textContent = config.footerNotice || "Toute reproduction ou duplication non autorisée est interdite.";
+  footer.append(ownership, notice);
+  if (!document.querySelector('link[href$="legal-footer.css"]')) {
+    const legalStyles = document.createElement("link");
+    legalStyles.rel = "stylesheet";
+    legalStyles.href = "assets/css/legal-footer.css";
+    document.head.appendChild(legalStyles);
+  }
 
   const menus = Array.from(nav.querySelectorAll("details"));
   const closeMenus = (except = null) => menus.forEach((menu) => { if (menu !== except) menu.open = false; });

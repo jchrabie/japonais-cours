@@ -36,17 +36,3 @@
 .grammar-choice.is-selected{border-color:var(--accent);background:var(--soft);box-shadow:0 0 0 2px rgba(22,139,145,.12)}
 .grammar-choice:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 #choiceValidateButton[hidden]{display:none!important}
-
-/* Furigana : vraie annotation ruby au-dessus des kanji. */
-.grammar-prompt ruby,
-.grammar-choice ruby {
-  ruby-position: over;
-  ruby-align: center;
-}
-.grammar-prompt rt,
-.grammar-choice rt {
-  font-size: 0.48em;
-  line-height: 1;
-  color: var(--muted);
-  font-weight: 500;
-}

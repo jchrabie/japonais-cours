@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="assets/css/game.css" />
     <link rel="stylesheet" href="assets/css/header.css" />
     <link rel="stylesheet" href="assets/css/grammar-exercise.css" />
+    <link rel="stylesheet" href="assets/css/particle-game.css" />
     <link rel="stylesheet" href="assets/css/course-filters.css" />
     <title>Grammaire japonaise et jeu des particules</title>
     <script src="assets/js/site-config.js" defer></script>
@@ -16,6 +17,7 @@
     <script src="assets/js/course-picker.js" defer></script>
     <script src="assets/js/progress-tracker.js" defer></script>
     <script src="assets/js/grammar-exercise.js" defer></script>
+    <script src="assets/js/particle-game.js" defer></script>
   </head>
   <body data-page="game">
     <main>
@@ -23,8 +25,13 @@
         <h2>Grammaire japonaise : construire, comprendre et relier les noms</h2>
         <p>
           Entraîne-toi à traduire des phrases et à comprendre le japonais. Les
-          exercices réutilisent les mots des glossaires et couvrent les notions
-          vues en cours.
+          exercices réutilisent les mots des glossaires et couvrent les
+          adjectifs en い / な, 好き・嫌い, les formes négatives les questions
+          en か et la possession / appartenance avec の. Toutes les questions se
+          font en choix multiples pour éviter les erreurs de saisie. 好き
+          signifie « aimer » ; 好きじゃない, 好きじゃないです et
+          好きじゃありません expriment « ne pas aimer » ; 嫌い signifie «
+          détester », 大好き « adorer » et 大嫌い « détester vraiment ».
         </p>
         <div class="grammar-options">
           <fieldset class="grammar-radio-group">
@@ -48,17 +55,12 @@
               ><input
                 type="radio"
                 name="writingMode"
-                value="romaji"
-                checked /><span>Romaji (alphabet latin)</span></label
-            >
-            <label class="grammar-radio"
-              ><input type="radio" name="writingMode" value="kana" /><span
-                >Kana (hiragana / katakana)</span
-              ></label
+                value="kana"
+                checked /><span>Kana (hiragana / katakana)</span></label
             >
             <label class="grammar-radio"
               ><input type="radio" name="writingMode" value="kanji" /><span
-                >Japonais avec kanji et furigana</span
+                >Écriture du glossaire (kanji et kana)</span
               ></label
             >
           </fieldset>
@@ -93,35 +95,55 @@
       </section>
 
       <section class="card particle-game-card" id="particleSetup">
-        <h2>🎮 Jeu des particules : は・が・を・か・の</h2>
-        <p>
-          Un jeu indépendant des exercices de traduction : complète des phrases
-          japonaises en choisissant la bonne particule. Chaque réponse est
-          suivie d’une explication, puis tu peux consulter ton bilan et rejouer
-          tes erreurs.
-        </p>
-        <p class="grammar-note">
-          Les particules entraînées sont <strong>は</strong> (thème),
-          <strong>が</strong> (notamment avec 好き・嫌い),
-          <strong>を</strong> (objet) et <strong>か</strong> (question) et
-          <strong>の</strong> (possession, appartenance, type et couleur).
-        </p>
-        <div class="grammar-course-filters particle-course-filters">
-          <div id="particleVocabularyCourses" class="course-picker-mount"></div>
-          <div id="particleConceptCourses" class="course-picker-mount"></div>
-          <p class="course-filter-note">
-            Les mots et les notions se filtrent indépendamment.
-          </p>
+        <div class="particle-embedded">
+          <section class="particle-intro" id="particle-setup">
+            <p class="eyebrow">文法 · GRAMMAIRE</p>
+            <h2>Jeu des particules</h2>
+            <p>Complète chaque phrase en plaçant <strong>toutes</strong> les particules manquantes. Une phrase peut contenir plusieurs trous : fais glisser les étiquettes dans les emplacements, ou touche une étiquette puis un emplacement.</p>
+            <div class="particle-settings">
+              <label>Nombre de phrases
+                <select id="question-count"><option value="10">10 phrases</option><option value="20" selected>20 phrases</option><option value="all">Toutes les phrases</option></select>
+              </label>
+              <label>Cours à réviser
+                <select id="course-filter"><option value="all">Tous les cours</option><option value="1">Cours 1</option><option value="2">Cours 2</option><option value="3">Cours 3</option><option value="4">Cours 4</option><option value="5">Cours 5</option></select>
+              </label>
+              <label>Affichage
+                <select id="script-mode"><option value="kana">Kana</option><option value="kanji">Kanji et kana</option><option value="romaji">Romaji</option></select>
+              </label>
+            </div>
+            <div class="particle-legend"><span>は thème</span><span>が sujet / goût</span><span>を objet</span><span>の lien / possession</span><span>か question</span><span>と et / avec</span></div>
+            <button class="btn" id="start-particles" type="button">Commencer →</button>
+            <p id="setup-status" class="particle-status" role="status" aria-live="polite"></p>
+          </section>
+
+          <section class="particle-session" id="particle-session" hidden aria-live="polite">
+            <div class="particle-session-head"><span id="question-counter">Phrase 1 / 20</span><span id="score-counter">0 bonne réponse</span></div>
+            <div class="particle-progress"><span id="progress-fill"></span></div>
+            <p class="particle-course-label" id="course-label"></p>
+            <h3 class="particle-translation" id="translation"></h3>
+            <p class="particle-instruction">Place une particule dans chaque emplacement.</p>
+            <div class="particle-sentence" id="sentence" aria-label="Phrase japonaise à compléter"></div>
+            <div class="particle-bank-wrap"><h3>Particules disponibles</h3><div class="particle-bank" id="particle-bank" aria-label="Particules à placer"></div></div>
+            <div class="particle-actions"><button class="btn secondary" id="reset-answer" type="button">Réinitialiser</button><button class="btn" id="check-answer" type="button" hidden>Vérifier ma réponse</button><button class="btn secondary" id="skip-question" type="button">Passer</button></div>
+            <div class="particle-feedback" id="feedback" role="status" aria-live="polite"></div>
+            <button class="btn" id="next-question" type="button" hidden>Phrase suivante →</button>
+          </section>
+
+          <section class="particle-results" id="particle-results" hidden>
+            <p class="eyebrow">SESSION TERMINÉE</p><h3>Ton bilan</h3><p id="result-summary"></p>
+            <div id="result-list" class="particle-result-list"></div>
+            <div class="particle-actions"><button class="btn" id="replay-errors" type="button">Rejouer mes erreurs</button><button class="btn secondary" id="restart-all" type="button">Recommencer</button></div>
+          </section>
         </div>
-        <p
-          id="particleSetupMessage"
-          class="grammar-help"
-          role="status"
-          aria-live="polite"></p>
-        <div class="controls">
-          <button class="btn secondary" id="particleGameButton" type="button">
-            Lancer le jeu des particules →
-          </button>
+
+        <!-- Compatibilité temporaire avec le contrôleur de grammaire existant :
+             ses points d'entrée sont conservés mais masqués, le nouvel exercice
+             multi-particules est celui affiché et utilisé. -->
+        <div class="particle-legacy-compat" hidden>
+          <div id="particleVocabularyCourses"></div>
+          <div id="particleConceptCourses"></div>
+          <p id="particleSetupMessage"></p>
+          <button id="particleGameButton" type="button">Ancien jeu</button>
         </div>
       </section>
 
