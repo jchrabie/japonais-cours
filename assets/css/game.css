@@ -70,7 +70,7 @@ h2 {
   border: 0;
   border-radius: 10px;
   background: var(--accent);
-  color: white;
+  color: var(--inc);
   padding: 11px 16px;
   cursor: pointer;
   font-weight: 650;
@@ -229,7 +229,7 @@ input:focus-visible {
   border-radius: 9px;
 }
 .result-row.needs-review {
-  background: #fff5f3;
+  background: var(--bg);
 }
 .result-pick {
   display: flex;

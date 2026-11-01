@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="assets/css/common.css"><link rel="stylesheet" href="assets/css/game.css"><link rel="stylesheet" href="assets/css/header.css"><link rel="stylesheet" href="assets/css/system-theme.css"><link rel="stylesheet" href="assets/css/aru-iru-game.css">
+<title>Jeu ある / いる · Manabi no Michi</title>
+<script src="assets/js/site-config.js" defer></script><script src="assets/js/navigation.js" defer></script><script src="assets/js/vocabulary-data.js" defer></script><script src="assets/js/course-catalog.js" defer></script><script src="assets/js/game-timer.js" defer></script>
+<script src="assets/js/aru-iru-game.js" defer></script>
+</head>
+<body data-page="aru-iru">
+<main class="container aru-game">
+<section class="card" id="aruSetup">
+<p class="eyebrow">文法 · COURS 6</p><h1>Mini-jeu ある / いる</h1>
+<p>Choisis la bonne forme et travaille les repères de lieu : 前 (mae), 上 (ue), 左 (hidari), 右 (migi), 下 (shita), 中 (naka), 後ろ (ushiro), 隣 (tonari).</p>
+<div class="aru-settings">
+<label>Nombre de phrases<select id="aruCount"><option value="10">10 phrases</option><option value="all">Toutes les phrases</option></select></label>
+<label>Forme<select id="aruForm"><option value="polite">Polie</option><option value="plain">Neutre</option><option value="mixed">Mélangée</option></select></label>
+<label>Affichage<select id="aruMode"><option value="kana">Kana</option><option value="kanji">Kanji et kana</option><option value="romaji">Romaji</option></select></label>
+</div>
+<button class="btn" id="aruStart">Commencer →</button>
+</section>
+<section class="card" id="aruSession" hidden>
+<div class="aru-head"><span id="aruCounter"></span><span id="aruScore"></span></div><div class="aru-progress"><span id="aruProgress"></span></div>
+<p id="aruFrench" class="aru-french"></p><h2 id="aruSentence"></h2><div id="aruChoices" class="aru-choices"></div>
+<p id="aruFeedback" role="status" aria-live="polite"></p><button class="btn" id="aruNext" hidden>Phrase suivante →</button>
+</section>
+<section class="card" id="aruResults" hidden><h2>Résultat</h2><p id="aruSummary"></p><button class="btn" id="aruReplay">Recommencer</button></section>
+</main></body></html>

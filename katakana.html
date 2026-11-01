@@ -9,6 +9,7 @@
 <title>Japonais — cours et exercices</title>
 <script src="assets/js/site-config.js" defer></script>
 <script src="assets/js/navigation.js" defer></script>
+    <link rel="stylesheet" href="assets/css/system-theme.css" />
 </head>
 <body data-page="game">
 <main>
@@ -22,6 +23,7 @@
 <p class="review-selection-count" id="reviewSelectionCount"></p><p class="muted" id="reviewSelectionMessage" aria-live="polite">Coche ou décoche les caractères pour personnaliser la prochaine session.</p>
 <div id="resultRows"></div></section>
 </main><footer></footer>
+<script src="assets/js/game-timer.js"></script>
 <script>
 const groups=[
 {name:'Voyelles',items:[['ア','a'],['イ','i'],['ウ','u'],['エ','e'],['オ','o']]},
@@ -69,7 +71,7 @@ function isAcceptedAnswer(kana,value,expected){
 }
 function setAll(value){document.querySelectorAll('.groupCheck').forEach(c=>c.checked=value)}
 function selectBasic(){document.querySelectorAll('.groupCheck').forEach((c,i)=>c.checked=i<10)}
-function startQuiz(){difficulty=document.querySelector('input[name="difficulty"]:checked').value;timerDuration=difficulty==='medium'?7:(difficulty==='hard'?4:0);const selected=[...document.querySelectorAll('.groupCheck:checked')].flatMap(c=>groups[+c.dataset.group].items);if(!selected.length){document.getElementById('selectionMsg').textContent='Sélectionne au moins un groupe de caractères.';return}originalDeck=shuffle(selected.map(([kana,romaji])=>({kana,romaji})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};skipped={};reviewSelection=new Set();firstTryCorrect=0;active=true;document.getElementById('selectionMsg').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent()}
+function startQuiz(){difficulty=document.querySelector('input[name="difficulty"]:checked').value;timerDuration=difficulty==='medium'?7:(difficulty==='hard'?4:0);const selected=[...document.querySelectorAll('.groupCheck:checked')].flatMap(c=>groups[+c.dataset.group].items);if(!selected.length){document.getElementById('selectionMsg').textContent='Sélectionne au moins un groupe de caractères.';return}originalDeck=shuffle(selected.map(([kana,romaji])=>({kana,romaji})));deck=[...originalDeck];index=0;attempts={};answeredFirst={};timedOut={};skipped={};reviewSelection=new Set();firstTryCorrect=0;active=true;window.JAPONAIS_GAME_TIMER?.start();document.getElementById('selectionMsg').textContent='';document.getElementById('results').style.display='none';document.getElementById('game').style.display='block';document.getElementById('game').scrollIntoView({behavior:'smooth',block:'start'});showCurrent()}
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function showCurrent(){if(index>=deck.length){finishQuiz();return}current=deck[index];document.getElementById('kanaPrompt').textContent=current.kana;document.getElementById('counter').textContent=`Caractère ${index+1}/${deck.length}`;document.getElementById('score').textContent=`Réussites au premier essai : ${firstTryCorrect}`;document.getElementById('progressBar').style.width=`${index/deck.length*100}%`;const m=document.getElementById('message');m.textContent='';m.className='message';const input=document.getElementById('romajiInput');input.value='';input.disabled=false;document.querySelector('#answerForm button[type="submit"]').disabled=false;document.getElementById('skipBtn').disabled=false;input.focus();startTimer()}
 document.getElementById('answerForm').addEventListener('submit',e=>{e.preventDefault();validateAnswer()});
@@ -136,7 +138,7 @@ function restartSame(){replayDeck(originalDeck)}
 function finishQuiz(){
  if(!active)return;stopTimer();active=false;document.getElementById('game').style.display='none';document.getElementById('results').style.display='block';
  const entries=getReviewEntries();const missed=entries.filter(e=>e.needsReview).length;
- document.getElementById('summary').textContent=`Tu as travaillé ${originalDeck.length} caractères et réussi ${firstTryCorrect} au premier essai. ${missed} caractère(s) sont à revoir : erreur, plusieurs tentatives, passage ou temps écoulé.`;
+ const elapsed=window.JAPONAIS_GAME_TIMER?.stop()||'0 s';document.getElementById('summary').textContent=`Tu as travaillé ${originalDeck.length} caractères et réussi ${firstTryCorrect} au premier essai. ${missed} caractère(s) sont à revoir : erreur, plusieurs tentatives, passage ou temps écoulé. Durée : ${elapsed}.`;
  reviewSelection=new Set(entries.filter(e=>e.needsReview).map(e=>e.key));
  const select=document.getElementById('resultSort');if(select)select.value='errors';renderResults();document.getElementById('progressBar').style.width='100%';document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'});
 }

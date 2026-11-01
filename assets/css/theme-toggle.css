@@ -1,0 +1,40 @@
+/* Bouton flottant de réglage du thème */
+.theme-fab {
+  position: fixed;
+  z-index: 10000;
+  right: max(20px, env(safe-area-inset-right));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(70, 80, 72, .28);
+  border-radius: 50%;
+  background: var(--paper, #fffdf8);
+  color: var(--ink, #26332b);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, .2);
+  cursor: pointer;
+  font: inherit;
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.theme-fab:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.24); }
+.theme-fab:focus-visible { outline: 3px solid var(--accent, #b87850); outline-offset: 4px; }
+.theme-fab-icon { font-size: 25px; line-height: 1; }
+.theme-fab-label {
+  position: absolute;
+  right: 68px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: var(--paper, #fffdf8);
+  color: var(--ink, #26332b);
+  border: 1px solid var(--line, #ddd);
+  box-shadow: 0 3px 12px rgba(0,0,0,.12);
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(4px);
+  transition: opacity .15s ease, transform .15s ease;
+}
+.theme-fab:hover .theme-fab-label, .theme-fab:focus-visible .theme-fab-label { opacity: 1; transform: translateX(0); }
+@media (prefers-reduced-motion: reduce) { .theme-fab, .theme-fab-label { transition: none; } }
