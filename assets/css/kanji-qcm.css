@@ -19,7 +19,8 @@
   font: inherit;
   text-align: left;
   cursor: pointer;
-  transition: border-color .14s ease, background .14s ease, transform .14s ease;
+  transition: border-color 0.14s ease, background 0.14s ease,
+    transform 0.14s ease;
 }
 .kanji-qcm-choice:hover:not(:disabled) {
   border-color: var(--accent, #168b91);
@@ -40,11 +41,14 @@
   color: #14532d;
 }
 .kanji-qcm-choice.is-wrong {
-  border-color: #c64b43;
-  background: #fff0ef;
-  color: #852923;
+  border-color: var(--bad);
+  background: var(--bg);
+  color: #c7344d;
 }
-.kanji-qcm-choice:disabled { cursor: default; opacity: 1; }
+.kanji-qcm-choice:disabled {
+  cursor: default;
+  opacity: 1;
+}
 .kanji-qcm-letter {
   display: inline-grid;
   place-items: center;
@@ -52,12 +56,19 @@
   height: 30px;
   border: 1px solid currentColor;
   border-radius: 8px;
-  font-size: .86rem;
+  font-size: 0.86rem;
   font-weight: 750;
-  opacity: .75;
+  opacity: 0.75;
 }
-.kanji-qcm-label { overflow-wrap: anywhere; }
+.kanji-qcm-label {
+  overflow-wrap: anywhere;
+}
 @media (max-width: 560px) {
-  .kanji-qcm-options { grid-template-columns: minmax(0, 1fr); gap: 8px; }
-  .kanji-qcm-choice { min-height: 54px; }
+  .kanji-qcm-options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .kanji-qcm-choice {
+    min-height: 54px;
+  }
 }

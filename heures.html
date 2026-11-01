@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="assets/css/common.css">
+  <link rel="stylesheet" href="assets/css/game.css">
+  <link rel="stylesheet" href="assets/css/kanji-qcm.css">
+  <link rel="stylesheet" href="assets/css/clock-game.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <title>Heures · Manabi no Michi</title>
+  <script src="assets/js/site-config.js" defer></script>
+  <script src="assets/js/navigation.js" defer></script>
+    <link rel="stylesheet" href="assets/css/system-theme.css" />
+</head>
+<body data-page="heures">
+<main>
+  <section class="card" id="clockSetup">
+    <h2>Jeu des heures</h2>
+    <p class="muted">Lis l'heure indiquée par l'horloge et choisis la bonne réponse japonaise. Une session comporte 10 questions, sans chronomètre.</p>
+    <div class="difficulty">
+      <strong>Écriture des réponses</strong>
+      <label><input type="radio" name="clockMode" value="romaji" checked> Romaji</label>
+      <label><input type="radio" name="clockMode" value="kana"> Kana</label>
+      <label><input type="radio" name="clockMode" value="kanji"> Kanji</label>
+    </div>
+    <div class="difficulty">
+      <strong>Difficulté</strong>
+      <label><input type="radio" name="clockDifficulty" value="easy" checked> Facile <span>Heures pleines</span></label>
+      <label><input type="radio" name="clockDifficulty" value="medium"> Moyen <span>Minutes par 5</span></label>
+      <label><input type="radio" name="clockDifficulty" value="hard"> Difficile <span>Toutes les minutes + 午前 / 午後</span></label>
+    </div>
+    <button class="btn" id="startClockGame" type="button">Commencer</button>
+  </section>
+
+  <section class="card game clock-game" id="clockPlay" aria-live="polite">
+    <div class="stats">
+      <span id="clockCounter">Question 1/10</span>
+      <span id="clockScore">Réussites au premier essai : 0</span>
+    </div>
+    <div class="progress"><span id="clockProgress"></span></div>
+    <p class="hint">Quelle heure indique cette horloge ?</p>
+    <div class="clock-face" id="clockFace" role="img" aria-label="Horloge analogique">
+      <svg viewBox="0 0 240 240" aria-hidden="true">
+        <circle cx="120" cy="120" r="108" class="clock-ring"/>
+        <g id="clockTicks"></g><g id="clockNumbers"></g>
+        <line id="clockHourHand" x1="120" y1="120" x2="120" y2="65" class="clock-hour-hand"/>
+        <line id="clockMinuteHand" x1="120" y1="120" x2="120" y2="35" class="clock-minute-hand"/>
+        <circle cx="120" cy="120" r="5" class="clock-center"/>
+      </svg>
+    </div>
+    <p class="clock-digital" id="clockDigital" aria-hidden="true"></p>
+    <div class="kanji-qcm-options" id="clockChoices"></div>
+    <p class="message" id="clockMessage" aria-live="polite"></p>
+    <div class="controls clock-controls">
+      <button class="btn secondary" id="clockSkip" type="button">Passer</button>
+      <button class="btn secondary" id="clockFinish" type="button">Terminer</button>
+    </div>
+  </section>
+
+  <section class="card results" id="clockResults">
+    <h2>Résultat de la session</h2>
+    <p id="clockSummary"></p>
+    <div class="review-toolbar">
+      <label for="clockResultSort">Trier les résultats
+        <select id="clockResultSort">
+          <option value="errors">Erreurs d'abord</option>
+          <option value="success">Réussites d'abord</option>
+          <option value="original">Ordre de la session</option>
+        </select>
+      </label>
+    </div>
+    <div class="controls">
+      <button class="btn" id="clockReplayMissed" type="button">Rejouer les erreurs</button>
+      <button class="btn" id="clockReplaySelected" type="button">Rejouer la sélection</button>
+      <button class="btn secondary" id="clockReplayAll" type="button">Rejouer toute la session</button>
+      <button class="btn secondary" id="clockBack" type="button">Retour au jeu</button>
+    </div>
+    <p class="review-selection-count" id="clockSelectionCount"></p>
+    <div id="clockResultRows"></div>
+  </section>
+</main>
+<script src="assets/js/clock-game.js"></script>
+</body>
+</html>

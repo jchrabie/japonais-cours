@@ -1,25 +1,30 @@
-# Mise à jour — Cours 3, glossaires et jeux de japonais
+# Manabi no Michi — 学びの道
 
-Cette archive ajoute le **Cours 3** au site `jchrabie/japonais-cours`, en s’appuyant sur `Cours 3 - wa, o, adjectifs et la particule no.pdf`, la vidéo `Rediff Cours jotho 2.mp4` (rediffusion du cours 3, pas un cours 4) et `Cours en autonomie 3 _ Compter en japonais.mp4`.
+Site personnel d’apprentissage du japonais : mini-jeux, glossaires et exercices organisés par thème.
 
-## Ajouts pédagogiques
+## Navigation du site
 
-- **Cours 3** : phrases complètes avec は et を, adjectifs devant le nom, négation d’adjectifs devant un nom, forme dictionnaire des verbes, composés en する, particule の (possession, appartenance, type), couleurs avec の et révision des nombres japonais en autonomie 3.
-- **Glossaires** : ajout des noms, couleurs, personnages, lieux et objets des exemples, des adjectifs utilisés (dont 長い / nagai et 硬い / katai), des verbes 切る / kiru, する / suru, 予約する / yoyaku suru, 料理する / ryouri suru et 旅行する / ryokou suru, ainsi que des nombres et unités numériques rencontrés dans l’autonomie 3. Les tables gardent une colonne « Premier cours » affichant un seul cours.
-- **Jeu de vocabulaire** : utilise la même source de données que les trois glossaires et accepte le filtre Cours 3. Les couleurs comme noms, les personnages, les objets, les verbes composés en する et les nombres / unités sont intégrés ; les propositions restent issues du vocabulaire attribué aux cours sélectionnés.
-- **Jeu de grammaire** : le catalogue passe à 158 phrases utilisant le vocabulaire des cours 1 à 3, en gardant les filtres de vocabulaire et de notions indépendants.
-- **Jeu des particules** : 58 exercices avec の et réinvestissement de は / を. Le QCM propose cinq particules : は, が, を, か et の.
-- **Navigation** : cours 3 ajouté à l’accueil et au menu. Les raccourcis de pratique sont générés une seule fois depuis le catalogue des cours. Le lien vers le jeu des nombres reste dans la fiche du cours 3.
+L’accueil donne accès à quatre grandes catégories :
 
-## Fichiers du patch
+- **Écriture japonaise** : Hiragana, Katakana et Kanji.
+- **Nombres et temps** : jeu des nombres et jeu des heures.
+- **Vocabulaire** : jeu de vocabulaire et glossaires des adjectifs, noms et verbes.
+- **Grammaire** : exercices de phrases et jeu des particules, regroupés sur la page Grammaire.
 
-Le ZIP contient les fichiers modifiés et la nouvelle page `cours3.html`. Il ne remplace pas les feuilles de style communes déjà présentes dans le dépôt (`common.css`, `content.css`, `header.css` et `game.css`).
+La navigation principale reprend ces quatre catégories sur toutes les pages. Les jeux conservent leurs propres pages et leurs fonctionnalités existantes.
 
-## Vérifications
+## Structure
 
-- Contrôle syntaxique de tous les fichiers JavaScript livrés.
-- Contrôle des identifiants des mots et des références entre phrases, particules et catalogue.
-- Vérification des associations au cours 3 pour les entrées nouvellement ajoutées et celles utilisées dans les exercices du cours 3.
-- Test des filtres pour le seul cours 3 et vérification que les liens préfiltrés utilisent `courses=3`, `vocabCourses=3`, `conceptCourses=3`, `particleVocabCourses=3` et `particleConceptCourses=3`.
+- `index.html` : accueil.
+- `ecriture.html`, `nombres-temps.html`, `vocabulaire-jeux.html`, `grammaire-jeux.html` : pages des quatre catégories.
+- `hiragana.html`, `katakana.html`, `kanji.html`, `heures.html`, `vocabulaire.html`, `grammaire.html` : jeux.
+- `adjectifs.html`, `noms.html`, `verbes.html` : glossaires.
+- `assets/css/` et `assets/js/` : styles et scripts partagés.
 
-Les fichiers sont prêts à être copiés à la racine du dépôt en conservant leurs chemins. Le ZIP n’est pas publié automatiquement sur GitHub.
+## Cours locaux
+
+Les pages `cours1.html` à `cours5.html` sont conservées dans le projet local. Elles sont listées dans `.gitignore` et ne sont donc pas destinées à être publiées dans le dépôt.
+
+## Propriété
+
+Manabi no Michi est la propriété de Kanaeru. Toute reproduction, copie ou duplication non autorisée, totale ou partielle, est interdite.
